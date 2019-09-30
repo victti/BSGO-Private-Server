@@ -17,8 +17,8 @@ namespace BSGO_Server
 
         public void StartClient()
         {
-            // We are going to use the index as the character id for debug purpóses and the fake database.
-            character = new Character(index, Database.GetLastGameLocation());
+            // We are going to use the index as the character id for debug purposes and the fake database.
+            character = new Character(index, index, Database.GetLastGameLocation());
 
             socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
             closing = false;

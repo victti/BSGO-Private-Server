@@ -6,6 +6,7 @@ namespace BSGO_Server
 {
     class Character
     {
+        private int index;
         public int characterId;
         public GameLocation GameLocation {
             get
@@ -16,13 +17,15 @@ namespace BSGO_Server
             {
                 lastGameLocation = gameLocation;
                 gameLocation = value;
+                SceneProtocol.GetProtocol().SendLoadNextScene(index);
             }
         }
         private GameLocation gameLocation;
         private GameLocation lastGameLocation = GameLocation.Unknown;
 
-        public Character(int characterId, GameLocation gameLocation)
+        public Character(int index,  int characterId, GameLocation gameLocation)
         {
+            this.index = index;
             this.characterId = characterId;
             this.gameLocation = gameLocation;
         }

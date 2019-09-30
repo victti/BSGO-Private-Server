@@ -156,10 +156,39 @@ namespace BSGO_Server
 
             switch ((Request)msgType)
             {
+                // This case is ran when the player selects his faction. It will send to the client an
+                // empty Avatar Description, so the customization will be set to default, and sends back
+                // the faction, so the game will be sure that the selected faction is real. Also fater that
+                // we change the scene to Avatar.
+                case Request.SelectFaction:
+                    SendNewAvatarDescription(index);
+                    SendFaction(index, (Faction)br.ReadByte());
+                    Server.GetClientByIndex(index).Character.GameLocation = GameLocation.Avatar;
+                    break;
                 default:
                     Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
                     break;
             }
+        }
+
+        private void SendNewAvatarDescription(int index)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+            buffer.Write((ushort)29);
+            buffer.Write(0);
+            buffer.Write(0);
+            buffer.Write((byte)0);
+
+            SendMessageToUser(index, buffer);
+        }
+
+        private void SendFaction(int index, Faction faction)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+            buffer.Write((ushort)24);
+            buffer.Write((byte)faction);
+
+            SendMessageToUser(index, buffer);
         }
     }
 }

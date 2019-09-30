@@ -51,7 +51,7 @@ namespace BSGO_Server
         // It should check if the character does exist or not. If he doesn't, then we should go to the
         // character creation (Starter). There are multiple locations to send such as Space, Room, Story etc.
         // In this case, we have a fake database, in order to keep track of things and set them the way we want.
-        private void SendLoadNextScene(int index)
+        public void SendLoadNextScene(int index)
         {
             BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.LoadNextScene);
@@ -66,6 +66,10 @@ namespace BSGO_Server
                 case GameLocation.Starter:
                     buffer.Write((uint)1); //ColonialBonusGUID
                     buffer.Write((uint)2); //CylonBonusGUID
+                    break;
+                case GameLocation.Avatar:
+                    buffer.Write((ushort)0); // No idea since the game doesn't use this (it does, but for a loop that does nothing).
+                    buffer.Write(false); // No idea since the game doesn't use this.
                     break;
                 case GameLocation.Room:
 

@@ -24,6 +24,10 @@ namespace BSGO_Server
 
             AddCard(colonialBonus);
             AddCard(cylonBonus);
+
+            AvatarCatalogueCard avatarCatalogue = new AvatarCatalogueCard(109873795, CardView.AvatarCatalogue);
+
+            AddCard(avatarCatalogue);
         }
 
         // All cards should be requested using this method. It will return either null or the card.
