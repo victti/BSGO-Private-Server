@@ -165,6 +165,28 @@ namespace BSGO_Server
                     SendFaction(index, (Faction)br.ReadByte());
                     Server.GetClientByIndex(index).Character.GameLocation = GameLocation.Avatar;
                     break;
+                // Since we are not using a real database yet, we can just use the fake database to check if
+                // the name is available or not.
+                case Request.CheckNameAvailability:
+                    SendNameAvailability(index, br.ReadString());
+                    break;
+                case Request.ChooseName:
+                    Server.GetClientByIndex(index).Character.name = br.ReadString();
+                    SendName(index);
+                    break;
+                case Request.CreateAvatar:
+                    Dictionary<AvatarItem, string> items = new Dictionary<AvatarItem, string>();
+
+                    int num = br.ReadLength();
+                    for (int i = 0; i < num; i++)
+                    {
+                        items[(AvatarItem)br.ReadByte()] = br.ReadString();
+                    }
+
+                    Server.GetClientByIndex(index).Character.items = items;
+                    SendAvatar(index);
+                    Server.GetClientByIndex(index).Character.GameLocation = GameLocation.Tutorial;
+                    break;
                 default:
                     Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
                     break;
@@ -187,6 +209,48 @@ namespace BSGO_Server
             BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)24);
             buffer.Write((byte)faction);
+
+            SendMessageToUser(index, buffer);
+        }
+
+        private void SendNameAvailability(int index, string name)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+            if (Database.IsNameAvailable(name))
+            {
+                buffer.Write((ushort)20);
+            } else
+            {
+                buffer.Write((ushort)21);
+            }
+
+            SendMessageToUser(index, buffer);
+        }
+
+        public void SendName(int index)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+            buffer.Write((ushort)23);
+            buffer.Write(Server.GetClientByIndex(index).Character.name);
+
+            SendMessageToUser(index, buffer);
+        }
+
+        public void SendAvatar(int index)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+            buffer.Write((ushort)29);
+
+            Dictionary<AvatarItem, string> items = Server.GetClientByIndex(index).Character.items;
+
+            buffer.Write((ushort)items.Count);
+            foreach (KeyValuePair<AvatarItem, string> item in items)
+            {
+                buffer.Write((byte)item.Key);
+                buffer.Write(item.Value);
+            }
+            buffer.Write((ushort)0);
+            buffer.Write((byte)0);
 
             SendMessageToUser(index, buffer);
         }

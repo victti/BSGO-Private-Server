@@ -12,5 +12,10 @@ namespace BSGO_Server
 
             return GameLocation.Unknown;
         }
+
+        public static bool IsNameAvailable(string name)
+        {
+            return true;
+        }
     }
 }

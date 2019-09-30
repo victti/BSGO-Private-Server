@@ -75,7 +75,15 @@ namespace BSGO_Server
 
                     break;
                 case GameLocation.Space:
-
+                case GameLocation.Story:
+                case GameLocation.BattleSpace:
+                case GameLocation.Tournament:
+                case GameLocation.Tutorial:
+                case GameLocation.Teaser:
+                    // I don't know which values to give so I'm just giving the numbers in order. E.g:
+                    // ColonialBonusGUID was 1 and CylonBonusGUID was 2. So here we have 3 and 4 :) lol
+                    buffer.Write((uint)3); // serverId2
+                    buffer.Write((uint)4); // cardGuid2
                     break;
             }
 

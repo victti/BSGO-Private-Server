@@ -7,6 +7,7 @@ namespace BSGO_Server
     class Character
     {
         private int index;
+        public string name;
         public int characterId;
         public GameLocation GameLocation {
             get
@@ -22,6 +23,7 @@ namespace BSGO_Server
         }
         private GameLocation gameLocation;
         private GameLocation lastGameLocation = GameLocation.Unknown;
+        public Dictionary<AvatarItem, string> items = new Dictionary<AvatarItem, string>();
 
         public Character(int index,  int characterId, GameLocation gameLocation)
         {

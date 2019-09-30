@@ -68,10 +68,8 @@ namespace BSGO_Server
         }
 
         // I'm not too sure about what the game wants here so I'm just sending the current time. It needs
-        // 6 ints (years, months, days, hours, minutes, seconds), a long (serverconnectionTime) and an empty uint(?).
-        // Since my game was modded by me to allow me to see more logs than a common user, this should be
-        // missing an uint for the DebugUtility.
-        // If this errors on the game, message me and I'll make the fix.
+        // 6 ints (years, months, days, hours, minutes, seconds), a long (serverconnectionTime) and your role
+        // on the server. In this case we are going to send a dev role.
         private void SendPlayer(int index)
         {
             BgoProtocolWriter buffer = NewMessage();
@@ -85,7 +83,7 @@ namespace BSGO_Server
             buffer.Write(now.Minute);
             buffer.Write(now.Second);
             buffer.Write((long)now.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
-            buffer.Write((uint)0);
+            buffer.Write((uint)0x10); //0x10 is Dev Role
 
             SendMessageToUser(index, buffer);
         }
