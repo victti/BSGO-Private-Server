@@ -24,6 +24,7 @@ namespace BSGO_Server
         private GameLocation gameLocation;
         private GameLocation lastGameLocation = GameLocation.Unknown;
         public Dictionary<AvatarItem, string> items = new Dictionary<AvatarItem, string>();
+        public uint WorldCardGUID = 100;
 
         public Character(int index,  int characterId, GameLocation gameLocation)
         {

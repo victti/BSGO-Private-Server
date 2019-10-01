@@ -18,8 +18,10 @@ namespace BSGO_Server
             RegisterProtocol(new SceneProtocol());
             RegisterProtocol(new SettingProtocol());
             RegisterProtocol(new CatalogueProtocol());
+            RegisterProtocol(new GameProtocol());
             RegisterProtocol(new PlayerProtocol());
-
+            RegisterProtocol(new ShopProtocol());
+            RegisterProtocol(new CommunityProtocol());
             Log.Add(LogSeverity.SERVERINFO, "Finished Initializing the Protocols");
         }
 
@@ -29,7 +31,7 @@ namespace BSGO_Server
             buffer.ReadUInt16();
             byte protocolID = buffer.ReadByte();
 
-            Log.Add(LogSeverity.INFO, string.Format("Protocol ID: {0} ({1})", protocolID, (Protocol.ProtocolID)protocolID));
+            Log.Add(LogSeverity.INFO, Log.LogDir.In, string.Format("Protocol ID: {0} ({1})", protocolID, (Protocol.ProtocolID)protocolID));
 
             try
             {

@@ -35,8 +35,6 @@ namespace BSGO_Server
                         uint key = br.ReadUInt32();
                         ushort value = br.ReadUInt16();
 
-                        Log.Add(LogSeverity.WARNING, string.Format("Received a card request: Num={0}, Key={1}, Value={2}", num, key, value));
-
                         SendCard(index, value, key);
                     }
 

@@ -254,5 +254,24 @@ namespace BSGO_Server
 
             SendMessageToUser(index, buffer);
         }
+
+        public void SendPlayerShips(int index, ushort shipId, uint shipGuid)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+            buffer.Write((ushort)Reply.AddShip);
+            buffer.Write(shipId);
+            buffer.Write(shipGuid);
+
+            SendMessageToUser(index, buffer);
+        }
+
+        public void SetActivePlayerShip(int index, uint shipId)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+            buffer.Write((ushort)Reply.ActiveShip);
+            buffer.Write(shipId);
+
+            SendMessageToUser(index, buffer);
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
+using System.Numerics;
 using System.Text;
 
 namespace BSGO_Server
@@ -41,6 +43,35 @@ namespace BSGO_Server
             {
                 Write(value[i]);
             }
+        }
+
+        public void Write(Color value)
+        {
+            Write((byte)(value.R * 255f));
+            Write((byte)(value.G * 255f));
+            Write((byte)(value.B * 255f));
+            Write((byte)(value.A * 255f));
+        }
+
+        public void Write(Vector3 value)
+        {
+            Write(value.X);
+            Write(value.Y);
+            Write(value.Z);
+        }
+
+        public void Write(Vector2 value)
+        {
+            Write(value.X);
+            Write(value.Y);
+        }
+
+        public void Write(Quaternion value)
+        {
+            Write(value.X);
+            Write(value.Y);
+            Write(value.Z);
+            Write(value.W);
         }
 
         public byte[] GetBuffer()

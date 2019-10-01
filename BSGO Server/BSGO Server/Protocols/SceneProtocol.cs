@@ -40,6 +40,9 @@ namespace BSGO_Server
                 case Request.QuitLogin:
                     SendLoadNextScene(index);
                     break;
+                case Request.SceneLoaded:
+                    SceneLoaded(index);
+                    break;
                 default:
                     Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
                     break;
@@ -80,14 +83,33 @@ namespace BSGO_Server
                 case GameLocation.Tournament:
                 case GameLocation.Tutorial:
                 case GameLocation.Teaser:
+                    // I'm not sure where to send this, but since we are going to any of these once, shoulnd matter yet.
+                    PlayerProtocol.GetProtocol().SendPlayerShips(index, 100, 100);
+                    PlayerProtocol.GetProtocol().SetActivePlayerShip(index, 100);
                     // I don't know which values to give so I'm just giving the numbers in order. E.g:
                     // ColonialBonusGUID was 1 and CylonBonusGUID was 2. So here we have 3 and 4 :) lol
-                    buffer.Write((uint)3); // serverId2
+                    buffer.Write((uint)3); // sector id
                     buffer.Write((uint)4); // cardGuid2
                     break;
             }
 
             SendMessageToUser(index, buffer);
+        }
+
+        private void SceneLoaded(int index)
+        {
+            switch (Server.GetClientByIndex(index).Character.GameLocation)
+            {
+                // I'm not sure about this one but I did it similar to the server showed on the video on my channel.
+                case GameLocation.Space:
+                case GameLocation.Story:
+                case GameLocation.BattleSpace:
+                case GameLocation.Tournament:
+                case GameLocation.Tutorial:
+                case GameLocation.Teaser:
+                    //PlayerProtocol.GetProtocol().SendUnanchor(index);
+                    break;
+            }
         }
     }
 }

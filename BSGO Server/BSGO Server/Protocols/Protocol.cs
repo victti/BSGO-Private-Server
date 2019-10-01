@@ -60,6 +60,7 @@ namespace BSGO_Server
             if (enabled)
             {
                 Server.SendDataTo(index, bw);
+                DebugMessage(bw);
             }
             else
             {
@@ -89,6 +90,14 @@ namespace BSGO_Server
             {
                 Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to everyone for disabled protocol \"{0}\"", protocolID));
             }
+        }
+
+        private void DebugMessage(BgoProtocolWriter w)
+        {
+            BgoProtocolReader buffer = new BgoProtocolReader(w.GetBuffer());
+            buffer.ReadUInt16();
+            byte protocolId = buffer.ReadByte();
+            Log.Add(LogSeverity.INFO, Log.LogDir.Out, string.Format("Protocol ID: {0} ({1}) - msgType: {2}", protocolId, (ProtocolID)protocolId, buffer.ReadUInt16()));
         }
     }
 }
