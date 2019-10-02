@@ -75,6 +75,14 @@ namespace BSGO_Server
             GUICard idk4 = new GUICard(130920111, CardView.GUI, "", (byte)0, "", 0, "", "", "", new string[0]);
 
             AddCard(idk4);
+
+            GalaxyMapCard galaxyMapCard = new GalaxyMapCard(150576033, CardView.GalaxyMap, new Dictionary<uint, MapStarDesc>(), new int[0], 0);
+
+            AddCard(galaxyMapCard);
+
+            OwnerCard ownerCard = new OwnerCard(1, CardView.Owner, false, 0, 1);
+
+            AddCard(ownerCard);
         }
 
         // All cards should be requested using this method. It will return either null or the card.

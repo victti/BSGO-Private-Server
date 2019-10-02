@@ -22,6 +22,8 @@ namespace BSGO_Server
             RegisterProtocol(new PlayerProtocol());
             RegisterProtocol(new ShopProtocol());
             RegisterProtocol(new CommunityProtocol());
+            RegisterProtocol(new FeedbackProtocol());
+
             Log.Add(LogSeverity.SERVERINFO, "Finished Initializing the Protocols");
         }
 

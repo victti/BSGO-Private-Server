@@ -84,6 +84,7 @@ namespace BSGO_Server
                 case GameLocation.Tutorial:
                 case GameLocation.Teaser:
                     // I'm not sure where to send this, but since we are going to any of these once, shoulnd matter yet.
+                    PlayerProtocol.GetProtocol().SendPlayerId(index);
                     PlayerProtocol.GetProtocol().SendPlayerShips(index, 100, 100);
                     PlayerProtocol.GetProtocol().SetActivePlayerShip(index, 100);
                     // I don't know which values to give so I'm just giving the numbers in order. E.g:
@@ -107,7 +108,7 @@ namespace BSGO_Server
                 case GameLocation.Tournament:
                 case GameLocation.Tutorial:
                 case GameLocation.Teaser:
-                    //PlayerProtocol.GetProtocol().SendUnanchor(index);
+                    PlayerProtocol.GetProtocol().SendUnanchor(index);
                     break;
             }
         }

@@ -31,6 +31,7 @@ namespace BSGO_Server
             {
                 _clients[i] = new Client();
             }
+            _serverSocket.NoDelay = true;
             _serverSocket.Bind(new IPEndPoint(IPAddress.Any, PORT));
             _serverSocket.Listen(10);
             _serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), null);
@@ -43,7 +44,7 @@ namespace BSGO_Server
             Socket socket = _serverSocket.EndAccept(ar);
             _serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), null);
 
-            for (int i = 0; i < MaxPlayers; i++)
+            for (int i = 1; i < MaxPlayers; i++)
             {
                 if (_clients[i].socket == null)
                 {

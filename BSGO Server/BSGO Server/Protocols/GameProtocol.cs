@@ -122,6 +122,7 @@ namespace BSGO_Server
                 // but since we are doing this offline for now, let's keep it still only client.
                 case Request.JumpIn:
                     SendWhoIsPlayer(index);
+                    SetTimeOrigin(index);
                     break;
                 default:
                     Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
@@ -129,7 +130,7 @@ namespace BSGO_Server
             }
         }
 
-        private void SendWhoIsPlayer(int index)
+        public void SendWhoIsPlayer(int index)
         {
             BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.WhoIs);
@@ -137,6 +138,25 @@ namespace BSGO_Server
             buffer.Write((byte)CreatingCause.JumpIn);
             buffer.Write((uint)index); // The OwnerGUID. Since idk what it could be, just using his index
             buffer.Write((uint)Server.GetClientByIndex(index).Character.WorldCardGUID); // The WorldCardGUID which is the spaceship loaded.
+
+            //nothing yet
+            buffer.Write((ushort)0);
+            buffer.Write((ushort)0);
+
+            buffer.Write((uint)index); //player id. Just using his index
+            buffer.Write((uint)0x10); //player role //developer 0x10
+            buffer.Write(true);
+
+            SendMessageToUser(index, buffer);
+        }
+
+        private void SetTimeOrigin(int index)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+            buffer.Write((ushort)Reply.TimeOrigin);
+            buffer.Write((long)DateTime.UtcNow.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
+
+            SendMessageToUser(index, buffer);
         }
     }
 }

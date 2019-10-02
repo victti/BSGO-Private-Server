@@ -185,7 +185,7 @@ namespace BSGO_Server
 
                     Server.GetClientByIndex(index).Character.items = items;
                     SendAvatar(index);
-                    Server.GetClientByIndex(index).Character.GameLocation = GameLocation.Tutorial;
+                    Server.GetClientByIndex(index).Character.GameLocation = GameLocation.Space;
                     break;
                 default:
                     Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
@@ -270,6 +270,25 @@ namespace BSGO_Server
             BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.ActiveShip);
             buffer.Write(shipId);
+
+            SendMessageToUser(index, buffer);
+        }
+
+        public void SendUnanchor(int index)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+            buffer.Write((ushort)Reply.Unanchor);
+            buffer.Write((uint)SpaceEntityType.Player);
+            buffer.Write((byte)0);
+
+            SendMessageToUser(index, buffer);
+        }
+
+        public void SendPlayerId(int index)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+            buffer.Write((ushort)Reply.ID);
+            buffer.Write((uint)index);
 
             SendMessageToUser(index, buffer);
         }
