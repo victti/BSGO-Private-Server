@@ -57,12 +57,14 @@ namespace BSGO_Server
             ShopItemCard mk7ShopItemCard = new ShopItemCard(100, CardView.Price, ShopCategory.Ship, ShopItemType.Ship, 1, new string[0], 0, new Price(), new Price(), new Price(), Faction.Colonial, false);
             CameraCard mk7CameraCard = new CameraCard(100, CardView.Camera, 20, 40, 10, 20, 20);
             WorldCard mk7WorldCard = new WorldCard(100, CardView.World, "HumanT1Merit", 0, 0, new SpotDesc[0], "", 0, 0, true, true, true);
+            ShipLightCard mk7ShipLightCard = new ShipLightCard(100, CardView.ShipLight, 100, 1, new ShipRole[1] { ShipRole.Assault }, ShipRoleDeprecated.Fighter);
 
             AddCard(mk7ShipCard);
             AddCard(mk7GuiCard);
             AddCard(mk7ShopItemCard);
             AddCard(mk7CameraCard);
             AddCard(mk7WorldCard);
+            AddCard(mk7ShipLightCard);
 
             RewardCard idk2 = new RewardCard(49842157, CardView.Reward, 0, AugmentActionType.LootItem, "", 0);
             GlobalCard idk = new GlobalCard(49842157, CardView.Global, 100, 100, 100, 10, idk2, new Dictionary<int, RewardCard>());
@@ -83,6 +85,14 @@ namespace BSGO_Server
             OwnerCard ownerCard = new OwnerCard(1, CardView.Owner, false, 0, 1);
 
             AddCard(ownerCard);
+
+            StickerListCard stickerListCard = new StickerListCard(166885587, CardView.StickerList);
+
+            AddCard(stickerListCard);
+
+            MovementCard movementCard = new MovementCard(100, CardView.Movement);
+
+            AddCard(movementCard);
         }
 
         // All cards should be requested using this method. It will return either null or the card.
