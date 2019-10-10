@@ -14,11 +14,20 @@
 - What's working (only saved in memory, not on a database):
   - Select a faction.
   - Customize the male Colonial character.
-- What comes next:
   - Load into the game.
+- What comes next:
+  - Movement?
+  - Shop?
+  - Show the correct ship slots?
+  - Skills?
 - Known bugs:
   - Can't load the Cylon customization.
   - Can't load the female Colonial customization.
+  - Can't move the spaceship.
+  - There are no sectors on the veil map.
+  - There are no missions, skills, shop items etc.
+  - There's a placeholder on the ranking system.
+  - Chat doesn't work.
   
   
 ### Usage
