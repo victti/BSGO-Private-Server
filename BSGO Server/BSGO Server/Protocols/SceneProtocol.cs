@@ -67,8 +67,8 @@ namespace BSGO_Server
             switch (charIndex.GameLocation)
             {
                 case GameLocation.Starter:
-                    buffer.Write((uint)1); //ColonialBonusGUID
-                    buffer.Write((uint)2); //CylonBonusGUID
+                    buffer.Write((uint)3027); //ColonialBonusGUID
+                    buffer.Write((uint)3127); //CylonBonusGUID
                     break;
                 case GameLocation.Avatar:
                     buffer.Write((ushort)0); // No idea since the game doesn't use this (it does, but for a loop that does nothing).
@@ -85,12 +85,12 @@ namespace BSGO_Server
                 case GameLocation.Teaser:
                     // I'm not sure where to send this, but since we are going to any of these once, shoulnd matter yet.
                     PlayerProtocol.GetProtocol().SendPlayerId(index);
-                    PlayerProtocol.GetProtocol().SendPlayerShips(index, 100, 100);
+                    PlayerProtocol.GetProtocol().SendPlayerShips(index, 100, (uint)22131177);
                     PlayerProtocol.GetProtocol().SetActivePlayerShip(index, 100);
                     // I don't know which values to give so I'm just giving the numbers in order. E.g:
-                    // ColonialBonusGUID was 1 and CylonBonusGUID was 2. So here we have 3 and 4 :) lol
-                    buffer.Write((uint)3); // sector id
-                    buffer.Write((uint)4); // cardGuid2
+                    // ColonialBonusGUID was 3027 and CylonBonusGUID was 3127. So here we have 1327 and 1427 :) lol
+                    buffer.Write((uint)1327); // sector id
+                    buffer.Write((uint)1427); // cardGuid2
                     break;
             }
 

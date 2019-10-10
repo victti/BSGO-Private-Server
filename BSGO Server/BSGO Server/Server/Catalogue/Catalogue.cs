@@ -13,8 +13,8 @@ namespace BSGO_Server
         // This method will generate all "static" cards that the server is going to send to the client.
         public static void SetupCards()
         {
-            RewardCard colonialBonusReward = new RewardCard(1, CardView.Reward, 0, AugmentActionType.None, "", 0);
-            RewardCard cylonBonusReward = new RewardCard(2, CardView.Reward, 0, AugmentActionType.None, "", 0);
+            RewardCard colonialBonusReward = new RewardCard(3027, CardView.Reward, 0, AugmentActionType.None, "", 0);
+            RewardCard cylonBonusReward = new RewardCard(3127, CardView.Reward, 0, AugmentActionType.None, "", 0);
 
             AddCard(colonialBonusReward);
             AddCard(cylonBonusReward);
@@ -34,30 +34,30 @@ namespace BSGO_Server
             Color ambientColor = Color.FromArgb(255, 100, 100, 100);
             Color fogColor = Color.FromArgb(255, 100, 100, 100);
             Color dustColor = Color.FromArgb(255, 100, 100, 100);
-            BackgroundDesc backgroundDesc = new BackgroundDesc("", new Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new Vector3(0, 0, 0));
-            BackgroundDesc starsDesc = new BackgroundDesc("", new Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new Vector3(0, 0, 0));
-            BackgroundDesc starsMult = new BackgroundDesc("", new Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new Vector3(0, 0, 0));
-            BackgroundDesc starsVariance = new BackgroundDesc("", new Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new Vector3(0, 0, 0));
+            BackgroundDesc backgroundDesc = new BackgroundDesc("nebula1", new Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new Vector3(0, 0, 0));
+            BackgroundDesc starsDesc = new BackgroundDesc("stars", new Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new Vector3(0, 0, 0));
+            BackgroundDesc starsMult = new BackgroundDesc("starsmultiply_mid", new Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new Vector3(0, 0, 0));
+            BackgroundDesc starsVariance = new BackgroundDesc("starsvariances", new Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new Vector3(0, 0, 0));
             MovingNebulaDesc[] movingNebulas = new MovingNebulaDesc[0];
             LightDesc[] lightDescs = new LightDesc[0];
             SunDesc[] sunDescs = new SunDesc[0];
             JGlobalFog jGlobalFog = new JGlobalFog(false, Color.FromArgb(0, 0, 0, 0), 0, 0);
             JCameraFx jCameraFx = new JCameraFx(false);
 
-            SectorCard sector4 = new SectorCard(4, CardView.Sector, 1000, 1000, 1000, 4, ambientColor, fogColor, 12, dustColor, 12, backgroundDesc, starsDesc, starsMult, starsVariance, movingNebulas, lightDescs, sunDescs, jGlobalFog, jCameraFx, new string[0]);
-            GUICard sector4GUI = new GUICard(4, CardView.GUI, "sector4", 0, "", 0, "", "", "", new string[0]);
-            RegulationCard sector4Reg = new RegulationCard(4, CardView.Regulation, new ConsumableEffectType[0], new Dictionary<uint, HashSet<ShipAbilitySide>>(), new Dictionary<uint, HashSet<ShipAbilityTarget>>(), TargetBracketMode.Default, true);
+            SectorCard sector4 = new SectorCard(1427, CardView.Sector, 1000, 1000, 1000, 1427, ambientColor, fogColor, 12, dustColor, 12, backgroundDesc, starsDesc, starsMult, starsVariance, movingNebulas, lightDescs, sunDescs, jGlobalFog, jCameraFx, new string[0]);
+            GUICard sector4GUI = new GUICard(1427, CardView.GUI, "sector4", 0, "", 0, "", "", "", new string[0]);
+            RegulationCard sector4Reg = new RegulationCard(1427, CardView.Regulation, new ConsumableEffectType[0], new Dictionary<uint, HashSet<ShipAbilitySide>>(), new Dictionary<uint, HashSet<ShipAbilityTarget>>(), TargetBracketMode.Default, true);
 
             AddCard(sector4);
             AddCard(sector4GUI);
             AddCard(sector4Reg);
 
-            ShipCard mk7ShipCard = new ShipCard(100, CardView.Ship, 100, 2, 2, 1, 100, 0, 9000, 1, new ShipRole[1] { ShipRole.Assault }, ShipRoleDeprecated.Fighter, "ship_gunstar_paperdoll_layouts", new List<ShipSlotCard>(), false, new List<uint>(), -1, new ObjectStats(new Dictionary<ObjectStat, float>()), Faction.Colonial, new List<ShipImmutableSlot>());
-            GUICard mk7GuiCard = new GUICard(100, CardView.GUI, "gui/infojournal/ships/Human11", 0, "", 0, "gui/infojournal/ships/Human11", "gui/infojournal/ships/Human11", "gui/infojournal/ships/Human11", new string[0]);
-            ShopItemCard mk7ShopItemCard = new ShopItemCard(100, CardView.Price, ShopCategory.Ship, ShopItemType.Ship, 1, new string[0], 0, new Price(), new Price(), new Price(), Faction.Colonial, false);
-            CameraCard mk7CameraCard = new CameraCard(100, CardView.Camera, 20, 40, 10, 20, 20);
-            WorldCard mk7WorldCard = new WorldCard(100, CardView.World, "HumanT1Merit", 0, 0, new SpotDesc[0], "", 0, 0, true, true, true);
-            ShipLightCard mk7ShipLightCard = new ShipLightCard(100, CardView.ShipLight, 100, 1, new ShipRole[1] { ShipRole.Assault }, ShipRoleDeprecated.Fighter);
+            ShipCard mk7ShipCard = new ShipCard(22131177, CardView.Ship, 100, 2, 2, 1, 100, 0, 9000, 1, new ShipRole[1] { ShipRole.Assault }, ShipRoleDeprecated.Fighter, "ship_viper_mk7_paperdoll_layouts", new List<ShipSlotCard>(), false, new List<uint>(), -1, new ObjectStats(new Dictionary<ObjectStat, float>()), Faction.Colonial, new List<ShipImmutableSlot>());
+            GUICard mk7GuiCard = new GUICard(22131177, CardView.GUI, "gui/infojournal/ships/Human11", 0, "", 0, "gui/infojournal/ships/Human11", "gui/infojournal/ships/Human11", "gui/infojournal/ships/Human11", new string[0]);
+            ShopItemCard mk7ShopItemCard = new ShopItemCard(22131177, CardView.Price, ShopCategory.Ship, ShopItemType.Ship, 1, new string[0], 0, new Price(), new Price(), new Price(), Faction.Colonial, false);
+            CameraCard mk7CameraCard = new CameraCard(22131177, CardView.Camera, 20, 40, 10, 20, 20);
+            WorldCard mk7WorldCard = new WorldCard(22131177, CardView.World, "HumanT1Merit", 0, 0, new SpotDesc[0], "", 0, 0, true, true, true);
+            ShipLightCard mk7ShipLightCard = new ShipLightCard(22131177, CardView.ShipLight, 100, 1, new ShipRole[1] { ShipRole.Assault }, ShipRoleDeprecated.Fighter);
 
             AddCard(mk7ShipCard);
             AddCard(mk7GuiCard);
@@ -82,15 +82,17 @@ namespace BSGO_Server
 
             AddCard(galaxyMapCard);
 
+            GUICard ownerGUIDCard = new GUICard(1, CardView.GUI, "", 0, "", 0 ,"", "", "", new string[0]);
             OwnerCard ownerCard = new OwnerCard(1, CardView.Owner, false, 0, 1);
 
+            AddCard(ownerGUIDCard);
             AddCard(ownerCard);
 
             StickerListCard stickerListCard = new StickerListCard(166885587, CardView.StickerList);
 
             AddCard(stickerListCard);
 
-            MovementCard movementCard = new MovementCard(100, CardView.Movement);
+            MovementCard movementCard = new MovementCard(22131177, CardView.Movement);
 
             AddCard(movementCard);
         }

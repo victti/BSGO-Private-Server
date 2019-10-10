@@ -19,7 +19,7 @@ namespace BSGO_Server
 
         // Since we only need at least one player to run the game, I'll make the array of clients have the
         // length of 2 if we ever need to test multiplayer features such as sync and squads.
-        private static int MaxPlayers = 2;
+        private static int MaxPlayers = 5;
         private static Client[] _clients = new Client[MaxPlayers];
 
         // The game will connect to: SERVERIP:27050

@@ -123,11 +123,65 @@ namespace BSGO_Server
                 case Request.JumpIn:
                     SendWhoIsPlayer(index);
                     SetTimeOrigin(index);
+                    Test(index);
                     break;
                 default:
                     Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
                     break;
             }
+        }
+
+        // No idea why but this makes the game load (???)
+        // I guess it spawns the player in a position inside the Sector
+        private void Test(int index)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+
+            buffer.Write((ushort)20);
+            buffer.Write((uint)0x1000000);
+            buffer.Write((int)1);
+
+            //position
+            buffer.Write((Single)0);
+            buffer.Write((Single)0);
+            buffer.Write((Single)0);
+
+            //euler3
+            buffer.Write((Single)0);
+            buffer.Write((Single)0);
+            buffer.Write((Single)0);
+
+            //linearSpeed
+            buffer.Write((Single)0);
+            buffer.Write((Single)0);
+            buffer.Write((Single)0);
+
+            //strafeSpeed
+            buffer.Write((Single)0);
+            buffer.Write((Single)0);
+            buffer.Write((Single)0);
+
+            //euler3speed
+            buffer.Write((Single)0);
+            buffer.Write((Single)0);
+            buffer.Write((Single)0);
+
+            buffer.Write((byte)2);
+
+            buffer.Write((byte)2);
+            buffer.Write((byte)2);
+            buffer.Write((int)1);
+            //position
+            buffer.Write((Single)0);
+            buffer.Write((Single)0);
+            buffer.Write((Single)0);
+
+            //euler3
+            buffer.Write((Single)0);
+            buffer.Write((Single)0);
+            buffer.Write((Single)0);
+
+            SendMessageToUser(index, buffer);
         }
 
         public void SendWhoIsPlayer(int index)
