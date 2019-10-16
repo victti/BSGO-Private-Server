@@ -41,7 +41,21 @@ namespace BSGO_Server
             }
             catch (Exception ex)
             {
-                string text = "Couldn't handle message for " + (Protocol.ProtocolID)protocolID + " Protocol (msgType:" + buffer.ReadUInt16() + "). ";
+                string text = "";
+                try
+                {
+                    text += "Couldn't handle message for " + (Protocol.ProtocolID)protocolID + " Protocol";
+                } catch
+                {
+
+                }
+                try
+                {
+                    text += " (msgType: " + buffer.ReadUInt16() + "). ";
+                } catch
+                {
+
+                }
                 if (GetProtocol((Protocol.ProtocolID)protocolID) == null)
                 {
                     text = text + protocolID + " Protocol is not (any more) registered. ";

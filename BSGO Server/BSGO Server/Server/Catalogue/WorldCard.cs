@@ -36,9 +36,9 @@ namespace BSGO_Server
         {
             base.Write(w);
             w.Write(PrefabName);
-            w.Write(LODCount);
+            w.Write((byte)LODCount);
             w.Write(Radius);
-            w.Write(Spots.Length);
+            w.Write((ushort)Spots.Length);
             foreach(SpotDesc spot in Spots)
             {
                 spot.Write(w);

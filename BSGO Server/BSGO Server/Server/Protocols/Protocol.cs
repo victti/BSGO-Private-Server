@@ -59,7 +59,7 @@ namespace BSGO_Server
         {
             if (enabled)
             {
-                Server.SendDataTo(index, bw);
+                Server.SendDataToClient(index, bw);
                 DebugMessage(bw);
             }
             else

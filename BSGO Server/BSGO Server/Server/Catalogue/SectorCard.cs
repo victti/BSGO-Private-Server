@@ -68,19 +68,19 @@ namespace BSGO_Server
             StarsMultDesc.Write(w);
             StarsVarianceDesc.Write(w);
             int num = MovingNebulaDescs.Length;
-            w.Write(num);
+            w.Write((ushort)num);
             for(int i = 0; i < num; i++)
             {
                 MovingNebulaDescs[i].Write(w);
             }
             int num2 = LightDescs.Length;
-            w.Write(num2);
+            w.Write((ushort)num2);
             for (int j = 0; j < num2; j++)
             {
                 LightDescs[j].Write(w);
             }
             int num3 = SunDescs.Length;
-            w.Write(num3);
+            w.Write((ushort)num3);
             for (int k = 0; k < num3; k++)
             {
                 SunDescs[k].Write(w);

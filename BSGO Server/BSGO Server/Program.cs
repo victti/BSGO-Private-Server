@@ -1,21 +1,25 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace BSGO_Server
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             // Since the original game was based on protocols, we have to first setup the server protocols
             // to receive/send what the game wants.
             ProtocolManager.InitProtocols();
-            // The game had this weird (imo) card system so we have to remake it in order to make the game.
+            // We are using a database called MongoDB instead of MySQL since Mongo makes it a lot easier to
+            // work with unplanned things like the unknown number of cols and tables. So anyone can just run
+            // a local Mongo that this server will handle everything else.
+            Database.Database.Start();
+            // The game had this weird (imo) card system so we have to remake it in order to make the game work.
             Catalogue.SetupCards();
             // Now we have to make the server accept connections and make it handle them.
             Server.InitServer();
-            // The program should have this line of code, that should be changed to something more complex
-            // like a commands section in the future, in order to keep the server alive.
-            Console.ReadLine();
+            // This line should keep the server alive in order to use it.
+            await Task.Delay(-1);
         }
     }
 }

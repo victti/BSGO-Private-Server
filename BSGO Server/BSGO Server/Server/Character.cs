@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BSGO_Server.Database;
+using BSGO_Server.Database.Entities;
 
 namespace BSGO_Server
 {
@@ -8,7 +10,8 @@ namespace BSGO_Server
     {
         private int index;
         public string name;
-        public int characterId;
+        public Faction Faction;
+
         public GameLocation GameLocation {
             get
             {
@@ -26,11 +29,29 @@ namespace BSGO_Server
         public Dictionary<AvatarItem, string> items = new Dictionary<AvatarItem, string>();
         public uint WorldCardGUID = 22131177;
 
-        public Character(int index,  int characterId, GameLocation gameLocation)
+        public Character(int index)
         {
             this.index = index;
-            this.characterId = characterId;
-            this.gameLocation = gameLocation;
+            this.gameLocation = GameLocation.Starter;
+
+            GUICard ownerGUIDCard = new GUICard((uint)index, CardView.GUI, "", 0, "", 0, "", "", "", new string[0]);
+            OwnerCard ownerCard = new OwnerCard((uint)index, CardView.Owner, false, 0, 1);
+            Catalogue.AddCard(ownerGUIDCard);
+            Catalogue.AddCard(ownerCard);
+
+            Characters character = Database.Database.GetCharacterById(Server.GetClientByIndex(index).playerId.ToString());
+            if (character == null)
+                return;
+
+            this.name = character.Name;
+            this.Faction = (Faction)character.Faction;
+            this.gameLocation = (GameLocation)character.GameLocation;
+
+            foreach (KeyValuePair<string, string> item in character.AvatarItems)
+            {
+                items.Add((AvatarItem)Enum.Parse(typeof(AvatarItem), item.Key), item.Value);
+            }
+
         }
 
         // Returns the Transition Scene Type based on where you are/were.

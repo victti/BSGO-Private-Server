@@ -48,12 +48,12 @@ namespace BSGO_Server
             w.Write((byte)ItemType);
             w.Write(Tier);
             w.Write((byte)Faction);
-            w.Write(SortingNames.Length);
+            w.Write((ushort)SortingNames.Length);
             foreach(string str in SortingNames)
             {
                 w.Write(str);
             }
-            w.Write(SortingWeight);
+            w.Write((ushort)SortingWeight);
             BuyPrice.Write(w);
             UpgradePrice.Write(w);
             SellPrice.Write(w);

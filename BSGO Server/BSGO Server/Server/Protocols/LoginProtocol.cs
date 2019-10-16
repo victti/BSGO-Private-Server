@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BSGO_Server.Database;
 
 namespace BSGO_Server
 {
@@ -43,7 +44,35 @@ namespace BSGO_Server
                     SendInit(index);
                     break;
                 case Request.Player:
-                    SendPlayer(index);
+                    // This is the ConnectType, but we aren't checking for that yet
+                    ConnectType connectType = (ConnectType)br.ReadByte();
+                    // Check if the player exists on our database. We'll have checks for client connected later, but it's
+                    // not necessary yet
+                    uint playerId = br.ReadUInt32();
+                    string playerName = br.ReadString();
+                    string sessionCode = br.ReadString();
+
+                    switch (connectType) {
+                        case ConnectType.Web:
+                            if (Database.Database.CheckSessionCodeExistance(sessionCode))
+                            {
+                                playerId = uint.Parse(Database.Database.GetUserBySession(sessionCode).PlayerId);
+                                Server.GetClientByIndex(index).playerId = playerId;
+                                Server.GetClientByIndex(index).Character = new Character(index);
+                                SendPlayer(index);
+
+                                if (Database.Database.CheckCharacterExistanceById(playerId.ToString())) {
+
+                                }
+                            }
+                            else
+                                SendError(index, (byte)LoginError.WrongSession);
+                            break;
+                        default:
+                            Log.Add(LogSeverity.ERROR, "Unknown Connection Type " + connectType + " on Login Protocol");
+                            break;
+                    }
+                       
                     break;
                 default:
                     Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
@@ -83,7 +112,17 @@ namespace BSGO_Server
             buffer.Write(now.Minute);
             buffer.Write(now.Second);
             buffer.Write((long)now.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
-            buffer.Write((uint)0x10); //0x10 is Dev Role
+            buffer.Write((uint)BgoAdminRoles.Console); //0x10 is Dev Role
+
+            SendMessageToUser(index, buffer);
+        }
+
+        private void SendError(int index, byte errorCode)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+            buffer.Write((ushort)Reply.Error);
+
+            buffer.Write(errorCode);
 
             SendMessageToUser(index, buffer);
         }

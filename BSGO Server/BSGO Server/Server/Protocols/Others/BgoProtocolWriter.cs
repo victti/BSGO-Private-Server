@@ -38,7 +38,7 @@ namespace BSGO_Server
 
         public void Write(string[] value)
         {
-            Write(value.Length);
+            Write((ushort)value.Length);
             for(int i = 0; i < value.Length; i++)
             {
                 Write(value[i]);

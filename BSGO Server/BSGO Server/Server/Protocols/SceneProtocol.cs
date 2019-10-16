@@ -51,9 +51,7 @@ namespace BSGO_Server
 
         // This is the case that determines where the player is going to be. It will send the
         // TransSceneType and GameLocation.
-        // It should check if the character does exist or not. If he doesn't, then we should go to the
-        // character creation (Starter). There are multiple locations to send such as Space, Room, Story etc.
-        // In this case, we have a fake database, in order to keep track of things and set them the way we want.
+        // There are multiple locations to send such as Space, Room, Story etc.
         public void SendLoadNextScene(int index)
         {
             BgoProtocolWriter buffer = NewMessage();
@@ -84,8 +82,12 @@ namespace BSGO_Server
                 case GameLocation.Tutorial:
                 case GameLocation.Teaser:
                     // I'm not sure where to send this, but since we are going to any of these once, shoulnd matter yet.
+
                     PlayerProtocol.GetProtocol().SendPlayerId(index);
+                    PlayerProtocol.GetProtocol().SendName(index);
+                    PlayerProtocol.GetProtocol().SendFaction(index);
                     PlayerProtocol.GetProtocol().SendPlayerShips(index, 100, (uint)22131177);
+
                     PlayerProtocol.GetProtocol().SetActivePlayerShip(index, 100);
                     // I don't know which values to give so I'm just giving the numbers in order. E.g:
                     // ColonialBonusGUID was 3027 and CylonBonusGUID was 3127. So here we have 1327 and 1427 :) lol

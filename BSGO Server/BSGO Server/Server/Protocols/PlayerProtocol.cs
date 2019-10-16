@@ -183,8 +183,16 @@ namespace BSGO_Server
                         items[(AvatarItem)br.ReadByte()] = br.ReadString();
                     }
 
+                    Client client = Server.GetClientByIndex(index);
+
+                    Database.Database.CreateCharacter(client.Character.name, client.playerId.ToString(), (byte)client.Character.Faction, items);
+
                     Server.GetClientByIndex(index).Character.items = items;
                     SendAvatar(index);
+
+                    SendPlayerId(index);
+                    SendPlayerShips(index, 100, (uint)22131177);
+
                     Server.GetClientByIndex(index).Character.GameLocation = GameLocation.Space;
                     break;
                 default:
@@ -204,7 +212,16 @@ namespace BSGO_Server
             SendMessageToUser(index, buffer);
         }
 
-        private void SendFaction(int index, Faction faction)
+        public void SendFaction(int index)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+            buffer.Write((ushort)24);
+            buffer.Write((byte)Server.GetClientByIndex(index).Character.Faction);
+
+            SendMessageToUser(index, buffer);
+        }
+
+        public void SendFaction(int index, Faction faction)
         {
             BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)24);
@@ -216,7 +233,7 @@ namespace BSGO_Server
         private void SendNameAvailability(int index, string name)
         {
             BgoProtocolWriter buffer = NewMessage();
-            if (Database.IsNameAvailable(name))
+            if (Database.Database.CheckCharacterNameAvailability(name))
             {
                 buffer.Write((ushort)20);
             } else
@@ -288,7 +305,7 @@ namespace BSGO_Server
         {
             BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.ID);
-            buffer.Write((uint)index);
+            buffer.Write(Server.GetClientByIndex(index).playerId);
 
             SendMessageToUser(index, buffer);
         }

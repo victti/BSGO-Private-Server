@@ -12,14 +12,12 @@ namespace BSGO_Server
         public Socket socket;
         public bool closing = false;
         private byte[] _buffer = new byte[65535];
-        private Character character;
-        public Character Character => character;
+
+        public uint playerId;
+        public Character Character;
 
         public void StartClient()
-        {
-            // We are going to use the index as the character id for debug purposes and the fake database.
-            character = new Character(index, index, Database.GetLastGameLocation());
-
+        { 
             socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
             closing = false;
         }

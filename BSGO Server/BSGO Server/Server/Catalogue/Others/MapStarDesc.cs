@@ -50,8 +50,8 @@ namespace BSGO_Server
             w.Write(Position);
             w.Write(GUIIndex);
             w.Write((byte)StarFaction);
-            w.Write(ColonialThreatLevel);
-            w.Write(CylonThreatLevel);
+            w.Write((short)ColonialThreatLevel);
+            w.Write((short)CylonThreatLevel);
             w.Write(SectorGUID);
             w.Write(CanColonialOutpost);
             w.Write(CanCylonOutpost);

@@ -10,7 +10,6 @@ namespace BSGO_Server
     {
         private static Socket _serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-
         // Default port should be 27050 since the game connects to that port by default.
         private static int PORT = 27050;
 
@@ -18,11 +17,14 @@ namespace BSGO_Server
         private static byte[] _buffer = new byte[65535];
 
         // Since we only need at least one player to run the game, I'll make the array of clients have the
-        // length of 2 if we ever need to test multiplayer features such as sync and squads.
+        // length of 5 if we ever need to test multiplayer features such as sync and squads.
         private static int MaxPlayers = 5;
         private static Client[] _clients = new Client[MaxPlayers];
 
         // The game will connect to: SERVERIP:27050
+        /// <summary>
+        /// Initializes the server.
+        /// </summary>
         public static void InitServer()
         {
             Log.Add(LogSeverity.SERVERINFO, "Initializing the server");
@@ -53,21 +55,23 @@ namespace BSGO_Server
                     _clients[i].ip = socket.RemoteEndPoint.ToString();
                     _clients[i].StartClient();
 
+                    Log.Add(LogSeverity.INFO, string.Format("Connection from '{0}' received.", _clients[i].ip));
+
                     // We should send the ConnectionOK method from the LoginProtocol otherwise the game
                     // will be stuck on a "connecting" screen with no errors since it is just waiting for
                     // this to be sent.
                     LoginProtocol.GetProtocol().SendConnectionOK(i);
-
-                    Log.Add(LogSeverity.INFO, string.Format("Connection from '{0}' received.", _clients[i].ip));
                     return;
                 }
             }
         }
 
-        // This method will be ran by the protocols in order to send the message to ONE specific Client
-        // determined by his index on the client array.
-        // In order to send data to a Sector or to other Clients use the other methods.
-        public static void SendDataTo(int index, BgoProtocolWriter message)
+        /// <summary>
+        /// Sends a message to one specific client by his index.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="message"></param>
+        public static void SendDataToClient(int index, BgoProtocolWriter message)
         {
             foreach (Client clients in _clients)
             {
@@ -78,13 +82,31 @@ namespace BSGO_Server
             }
         }
 
-        // This method will return you the client by his index. Commonly used since the received data from
-        // the clients gives you the index of the client who sent data.
+        /// <summary>
+        /// Returns a Client by searching his index.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public static Client GetClientByIndex(int index)
         {
             foreach(Client client in _clients)
             {
                 if (client.index == index)
+                    return client;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Returns a Client by searching his player Id.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public static Client GetClientByPlayerId(string id)
+        {
+            foreach (Client client in _clients)
+            {
+                if (client.playerId == uint.Parse(id))
                     return client;
             }
             return null;

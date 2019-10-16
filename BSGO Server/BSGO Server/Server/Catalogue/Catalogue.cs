@@ -82,12 +82,6 @@ namespace BSGO_Server
 
             AddCard(galaxyMapCard);
 
-            GUICard ownerGUIDCard = new GUICard(1, CardView.GUI, "", 0, "", 0 ,"", "", "", new string[0]);
-            OwnerCard ownerCard = new OwnerCard(1, CardView.Owner, false, 0, 1);
-
-            AddCard(ownerGUIDCard);
-            AddCard(ownerCard);
-
             StickerListCard stickerListCard = new StickerListCard(166885587, CardView.StickerList);
 
             AddCard(stickerListCard);
@@ -115,7 +109,7 @@ namespace BSGO_Server
             return value;
         }
 
-        private static void AddCard(Card card)
+        public static void AddCard(Card card)
         {
             long key = GenerateKey(card.CardGUID, card.CardView);
             cards[key] = card;

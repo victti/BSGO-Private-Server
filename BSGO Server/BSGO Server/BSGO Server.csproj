@@ -6,4 +6,8 @@
     <RootNamespace>BSGO_Server</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.9.2" />
+  </ItemGroup>
+
 </Project>

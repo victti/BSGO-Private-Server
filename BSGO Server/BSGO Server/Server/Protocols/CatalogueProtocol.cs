@@ -21,6 +21,11 @@ namespace BSGO_Server
         {
         }
 
+        public static CatalogueProtocol GetProtocol()
+        {
+            return ProtocolManager.GetProtocol(ProtocolID.Catalogue) as CatalogueProtocol;
+        }
+
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
             ushort msgType = (ushort)br.ReadUInt16();

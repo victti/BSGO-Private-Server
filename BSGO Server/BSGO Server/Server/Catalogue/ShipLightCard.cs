@@ -29,7 +29,7 @@ namespace BSGO_Server
             w.Write(ShipObjectKey);
             w.Write(Tier);
             int num = ShipRoles.Length;
-            w.Write(num);
+            w.Write((ushort)num);
             for (int i = 0; i < num; i++)
             {
                 w.Write((byte)ShipRoles[i]);
