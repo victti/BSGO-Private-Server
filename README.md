@@ -24,6 +24,8 @@
   - Can't load the Cylon customization.
   - Can't load the female Colonial customization.
   - Can't move the spaceship.
+  - There's no tutorial scene.
+  - Avatar character doesn't show up after reopening the game.
   - There are no sectors on the veil map.
   - There are no missions, skills, shop items etc.
   - There's a placeholder on the ranking system.
