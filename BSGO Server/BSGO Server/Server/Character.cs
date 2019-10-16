@@ -34,7 +34,7 @@ namespace BSGO_Server
             this.index = index;
             this.gameLocation = GameLocation.Starter;
 
-            GUICard ownerGUIDCard = new GUICard((uint)index, CardView.GUI, "", 0, "", 0, "", "", "", new string[0]);
+            GUICard ownerGUIDCard = new GUICard((uint)index, CardView.GUI, "", 0, "", 0, "", "GUI/Slots/" + ((GUICard)Catalogue.FetchCard(WorldCardGUID, CardView.GUI)).Key, "", new string[0]);
             OwnerCard ownerCard = new OwnerCard((uint)index, CardView.Owner, false, 0, 1);
             Catalogue.AddCard(ownerGUIDCard);
             Catalogue.AddCard(ownerCard);
@@ -62,7 +62,7 @@ namespace BSGO_Server
                 case GameLocation.Space:
                     if (lastGameLocation == GameLocation.Room)
                         return TransSceneType.Undock;
-                    else if (lastGameLocation == GameLocation.Starter || lastGameLocation == GameLocation.Space)
+                    else if (lastGameLocation == GameLocation.Starter || lastGameLocation == GameLocation.Space || lastGameLocation == GameLocation.Unknown)
                         return TransSceneType.Ftl;
                     break;
                 case GameLocation.Starter:

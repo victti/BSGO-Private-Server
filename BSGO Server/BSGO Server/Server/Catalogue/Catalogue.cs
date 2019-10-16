@@ -53,7 +53,7 @@ namespace BSGO_Server
             AddCard(sector4Reg);
 
             ShipCard mk7ShipCard = new ShipCard(22131177, CardView.Ship, 100, 2, 2, 1, 100, 0, 9000, 1, new ShipRole[1] { ShipRole.Assault }, ShipRoleDeprecated.Fighter, "ship_viper_mk7_paperdoll_layouts", new List<ShipSlotCard>(), false, new List<uint>(), -1, new ObjectStats(new Dictionary<ObjectStat, float>()), Faction.Colonial, new List<ShipImmutableSlot>());
-            GUICard mk7GuiCard = new GUICard(22131177, CardView.GUI, "gui/infojournal/ships/Human11", 0, "", 0, "gui/infojournal/ships/Human11", "gui/infojournal/ships/Human11", "gui/infojournal/ships/Human11", new string[0]);
+            GUICard mk7GuiCard = new GUICard(22131177, CardView.GUI, "vipermk7", 0, "", 0, "", "gui/infojournal/ships/Human11", "", new string[0]);
             ShopItemCard mk7ShopItemCard = new ShopItemCard(22131177, CardView.Price, ShopCategory.Ship, ShopItemType.Ship, 1, new string[0], 0, new Price(), new Price(), new Price(), Faction.Colonial, false);
             CameraCard mk7CameraCard = new CameraCard(22131177, CardView.Camera, 20, 40, 10, 20, 20);
             WorldCard mk7WorldCard = new WorldCard(22131177, CardView.World, "HumanT1Merit", 0, 0, new SpotDesc[0], "", 0, 0, true, true, true);

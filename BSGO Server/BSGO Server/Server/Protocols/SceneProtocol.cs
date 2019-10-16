@@ -81,14 +81,17 @@ namespace BSGO_Server
                 case GameLocation.Tournament:
                 case GameLocation.Tutorial:
                 case GameLocation.Teaser:
-                    // I'm not sure where to send this, but since we are going to any of these once, shoulnd matter yet.
+                    // I'm not sure where to send these. I feel like sending every time the user enters the
+                    // Space is wrong.
 
                     PlayerProtocol.GetProtocol().SendPlayerId(index);
                     PlayerProtocol.GetProtocol().SendName(index);
+                    PlayerProtocol.GetProtocol().SendAvatar(index);
                     PlayerProtocol.GetProtocol().SendFaction(index);
                     PlayerProtocol.GetProtocol().SendPlayerShips(index, 100, (uint)22131177);
 
                     PlayerProtocol.GetProtocol().SetActivePlayerShip(index, 100);
+
                     // I don't know which values to give so I'm just giving the numbers in order. E.g:
                     // ColonialBonusGUID was 3027 and CylonBonusGUID was 3127. So here we have 1327 and 1427 :) lol
                     buffer.Write((uint)1327); // sector id

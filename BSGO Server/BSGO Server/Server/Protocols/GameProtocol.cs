@@ -127,6 +127,68 @@ namespace BSGO_Server
 
                     SyncMove(index, SpaceEntityType.Player, (uint)index, new Vector3(0, 100f, 100f));
                     break;
+                case Request.WASD:
+                    break;
+                    BgoProtocolWriter buffer = NewMessage();
+
+                    buffer.Write((ushort)Reply.SyncMove);
+                    buffer.Write((uint)SpaceEntityType.Player + (uint)index);
+                    buffer.Write((int)1); // tick
+
+                    //position
+                    buffer.Write(new Vector3());
+
+                    //euler3
+                    buffer.Write(new Vector3());
+
+                    //linearSpeed
+                    buffer.Write(new Vector3());
+
+                    //strafeSpeed
+                    buffer.Write(new Vector3());
+
+                    //euler3speed
+                    buffer.Write(new Vector3());
+
+                    // mode
+                    buffer.Write((byte)2);
+
+                    buffer.Write((byte)8);
+                    buffer.Write((byte)8);
+                    buffer.Write(1);
+
+                    //qweasd
+                    buffer.Write(br.ReadByte());
+
+                    //gear
+                    buffer.Write((byte)0);
+                    //speed
+                    buffer.Write((float)0);
+                    //acceleration
+                    buffer.Write((float)13);
+                    //inertiaCompensation
+                    buffer.Write((float)85);
+                    //pitchAcceleration
+                    buffer.Write((float)120);
+                    //pitchMaxSpeed
+                    buffer.Write((float)65);
+                    //yawAcceleration
+                    buffer.Write((float)120);
+                    //yawMaxSpeed
+                    buffer.Write((float)13);
+                    //rollAcceleration
+                    buffer.Write((float)120);
+                    //rollMaxSpeed
+                    buffer.Write((float)135);
+                    //strafeAcceleration
+                    buffer.Write((float)145);
+                    //strafeMaxSpeed
+                    buffer.Write((float)40);
+
+
+                    SendMessageToUser(index, buffer);
+
+                    break;
                 default:
                     Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
                     break;
