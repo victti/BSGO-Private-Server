@@ -152,8 +152,6 @@ namespace BSGO_Server
 
                     // mode
                     buffer.Write((byte)2);
-
-                    buffer.Write((byte)8);
                     buffer.Write((byte)8);
                     buffer.Write(1);
 
@@ -223,7 +221,6 @@ namespace BSGO_Server
             // mode
             buffer.Write((byte)2);
 
-            buffer.Write((byte)2);
             buffer.Write((byte)2);
             buffer.Write((int)1);
 
