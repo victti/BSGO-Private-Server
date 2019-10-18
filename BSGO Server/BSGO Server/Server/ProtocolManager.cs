@@ -23,6 +23,8 @@ namespace BSGO_Server
             RegisterProtocol(new ShopProtocol());
             RegisterProtocol(new CommunityProtocol());
             RegisterProtocol(new FeedbackProtocol());
+            RegisterProtocol(new StoryProtocol());
+            RegisterProtocol(new SubscribeProtocol());
 
             Log.Add(LogSeverity.SERVERINFO, "Finished Initializing the Protocols");
         }

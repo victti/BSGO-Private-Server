@@ -29,6 +29,10 @@ namespace BSGO_Server
         public Dictionary<AvatarItem, string> items = new Dictionary<AvatarItem, string>();
         public uint WorldCardGUID = 22131177;
 
+        public byte qweasd;
+        public byte shipMode;
+        public float shipSpeed;
+
         public Character(int index)
         {
             this.index = index;

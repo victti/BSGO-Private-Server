@@ -113,7 +113,7 @@ namespace BSGO_Server
                 case GameLocation.Tournament:
                 case GameLocation.Tutorial:
                 case GameLocation.Teaser:
-                    PlayerProtocol.GetProtocol().SendUnanchor(index);
+                    //PlayerProtocol.GetProtocol().SendUnanchor(index);
                     break;
             }
         }

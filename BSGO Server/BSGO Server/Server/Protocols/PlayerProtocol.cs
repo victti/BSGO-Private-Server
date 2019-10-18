@@ -295,7 +295,7 @@ namespace BSGO_Server
         {
             BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.Unanchor);
-            buffer.Write((uint)SpaceEntityType.Player);
+            buffer.Write((uint)SpaceEntityType.Player + index);
             buffer.Write((byte)0);
 
             SendMessageToUser(index, buffer);
@@ -306,6 +306,25 @@ namespace BSGO_Server
             BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.ID);
             buffer.Write(Server.GetClientByIndex(index).playerId);
+
+            SendMessageToUser(index, buffer);
+        }
+
+        public void SendStats(int index)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+            buffer.Write((ushort)Reply.Stats);
+
+            ShipCard currentShip = ((ShipCard)Catalogue.FetchCard(Server.GetClientByIndex(index).Character.WorldCardGUID, CardView.Ship));
+
+            buffer.Write((ushort)currentShip.Stats.ObjStats.Count);
+
+            foreach (KeyValuePair<ObjectStat, float> stat in currentShip.Stats.ObjStats)
+            {
+                buffer.Write((byte)1);
+                buffer.Write((ushort)stat.Key);
+                buffer.Write(stat.Value);
+            }
 
             SendMessageToUser(index, buffer);
         }

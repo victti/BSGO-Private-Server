@@ -52,12 +52,48 @@ namespace BSGO_Server
             AddCard(sector4GUI);
             AddCard(sector4Reg);
 
-            ShipCard mk7ShipCard = new ShipCard(22131177, CardView.Ship, 100, 2, 2, 1, 100, 0, 9000, 1, new ShipRole[1] { ShipRole.Assault }, ShipRoleDeprecated.Fighter, "ship_viper_mk7_paperdoll_layouts", new List<ShipSlotCard>(), false, new List<uint>(), -1, new ObjectStats(new Dictionary<ObjectStat, float>()), Faction.Colonial, new List<ShipImmutableSlot>());
+
+            Dictionary<ObjectStat, float> mk7Stats = new Dictionary<ObjectStat, float>();
+            mk7Stats.Add(ObjectStat.MaxHullPoints, 585);
+            mk7Stats.Add(ObjectStat.HullRecovery, 4.5f);
+            mk7Stats.Add(ObjectStat.ArmorValue, 5);
+            mk7Stats.Add(ObjectStat.CriticalDefense, 80);
+            mk7Stats.Add(ObjectStat.Avoidance, 510);
+            mk7Stats.Add(ObjectStat.TurnSpeed, 50);
+            mk7Stats.Add(ObjectStat.TurnAcceleration, 55);
+            mk7Stats.Add(ObjectStat.InertiaCompensation, 100);
+            mk7Stats.Add(ObjectStat.Acceleration, 12);
+            mk7Stats.Add(ObjectStat.Speed, 55);
+            mk7Stats.Add(ObjectStat.BoostSpeed, 85);
+            mk7Stats.Add(ObjectStat.BoostCost, 0.75f);
+            mk7Stats.Add(ObjectStat.FtlRange, 4.5f);
+            mk7Stats.Add(ObjectStat.FtlCharge, 15);
+            mk7Stats.Add(ObjectStat.FtlCost, 30);
+            mk7Stats.Add(ObjectStat.MaxPowerPoints, 150);
+            mk7Stats.Add(ObjectStat.PowerRecovery, 5);
+            mk7Stats.Add(ObjectStat.FirewallRating, 100);
+            mk7Stats.Add(ObjectStat.DradisRange, 2000);
+            mk7Stats.Add(ObjectStat.DetectionVisualRadius, 200);
+
+            mk7Stats.Add(ObjectStat.StrafeAcceleration, 145);
+            mk7Stats.Add(ObjectStat.StrafeMaxSpeed, 40);
+            mk7Stats.Add(ObjectStat.PitchMaxSpeed, 65);
+            mk7Stats.Add(ObjectStat.PitchAcceleration, 120);
+            mk7Stats.Add(ObjectStat.YawMaxSpeed, 65);
+            mk7Stats.Add(ObjectStat.YawAcceleration, 120);
+            mk7Stats.Add(ObjectStat.RollMaxSpeed, 135);
+            mk7Stats.Add(ObjectStat.RollAcceleration, 120);
+
+            ShipCard mk7ShipCard = new ShipCard(22131177, CardView.Ship, 100, 2, 2, 1, 100, 0, 100, 1, new ShipRole[1] { ShipRole.Assault }, ShipRoleDeprecated.Fighter, "ship_viper_mk7_paperdoll_layouts", new List<ShipSlotCard>(), false, new List<uint>(), -1, new ObjectStats(mk7Stats), Faction.Colonial, new List<ShipImmutableSlot>());
             GUICard mk7GuiCard = new GUICard(22131177, CardView.GUI, "vipermk7", 0, "", 0, "", "gui/infojournal/ships/Human11", "", new string[0]);
             ShopItemCard mk7ShopItemCard = new ShopItemCard(22131177, CardView.Price, ShopCategory.Ship, ShopItemType.Ship, 1, new string[0], 0, new Price(), new Price(), new Price(), Faction.Colonial, false);
             CameraCard mk7CameraCard = new CameraCard(22131177, CardView.Camera, 20, 40, 10, 20, 20);
             WorldCard mk7WorldCard = new WorldCard(22131177, CardView.World, "HumanT1Merit", 0, 0, new SpotDesc[0], "", 0, 0, true, true, true);
             ShipLightCard mk7ShipLightCard = new ShipLightCard(22131177, CardView.ShipLight, 100, 1, new ShipRole[1] { ShipRole.Assault }, ShipRoleDeprecated.Fighter);
+
+            MovementCard movementCard = new MovementCard(22131177, CardView.Movement);
+
+            AddCard(movementCard);
 
             AddCard(mk7ShipCard);
             AddCard(mk7GuiCard);
@@ -85,10 +121,6 @@ namespace BSGO_Server
             StickerListCard stickerListCard = new StickerListCard(166885587, CardView.StickerList);
 
             AddCard(stickerListCard);
-
-            MovementCard movementCard = new MovementCard(22131177, CardView.Movement);
-
-            AddCard(movementCard);
         }
 
         // All cards should be requested using this method. It will return either null or the card.

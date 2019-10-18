@@ -124,68 +124,24 @@ namespace BSGO_Server
                 case Request.JumpIn:
                     SendWhoIsPlayer(index);
                     SetTimeOrigin(index);
+                    PlayerProtocol.GetProtocol().SendStats(index); // These are the stats of your ship, not the base ones.
 
                     SyncMove(index, SpaceEntityType.Player, (uint)index, new Vector3(0, 100f, 100f));
                     break;
-                case Request.WASD:
+                case Request.CompleteJump:
+                    PlayerProtocol.GetProtocol().SendUnanchor(index);
+                    StoryProtocol.GetProtocol().EnableGear(index, true);
                     break;
-                    BgoProtocolWriter buffer = NewMessage();
-
-                    buffer.Write((ushort)Reply.SyncMove);
-                    buffer.Write((uint)SpaceEntityType.Player + (uint)index);
-                    buffer.Write((int)1); // tick
-
-                    //position
-                    buffer.Write(new Vector3());
-
-                    //euler3
-                    buffer.Write(new Vector3());
-
-                    //linearSpeed
-                    buffer.Write(new Vector3());
-
-                    //strafeSpeed
-                    buffer.Write(new Vector3());
-
-                    //euler3speed
-                    buffer.Write(new Vector3());
-
-                    // mode
-                    buffer.Write((byte)2);
-                    buffer.Write((byte)8);
-                    buffer.Write(1);
-
-                    //qweasd
-                    buffer.Write(br.ReadByte());
-
-                    //gear
-                    buffer.Write((byte)0);
-                    //speed
-                    buffer.Write((float)0);
-                    //acceleration
-                    buffer.Write((float)13);
-                    //inertiaCompensation
-                    buffer.Write((float)85);
-                    //pitchAcceleration
-                    buffer.Write((float)120);
-                    //pitchMaxSpeed
-                    buffer.Write((float)65);
-                    //yawAcceleration
-                    buffer.Write((float)120);
-                    //yawMaxSpeed
-                    buffer.Write((float)13);
-                    //rollAcceleration
-                    buffer.Write((float)120);
-                    //rollMaxSpeed
-                    buffer.Write((float)135);
-                    //strafeAcceleration
-                    buffer.Write((float)145);
-                    //strafeMaxSpeed
-                    buffer.Write((float)40);
-
-
-                    SendMessageToUser(index, buffer);
-
+                case Request.SetSpeed:
+                    byte mode = br.ReadByte();
+                    float speed = br.ReadSingle();
+                    Server.GetClientByIndex(index).Character.shipMode = mode;
+                    Server.GetClientByIndex(index).Character.shipSpeed = speed;
+                    SyncMove(index, SpaceEntityType.Player, (uint)index);
+                    break;
+                case Request.WASD:
+                    Server.GetClientByIndex(index).Character.qweasd = br.ReadByte();
+                    SyncMove(index, SpaceEntityType.Player, (uint)index);
                     break;
                 default:
                     Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
@@ -193,9 +149,7 @@ namespace BSGO_Server
             }
         }
 
-        // No idea why but this makes the game load (???)
-        // I guess it spawns the player in a position inside the Sector
-        private void SyncMove(int index, SpaceEntityType spaceEntityType, uint objectId, Vector3 position, Vector3 eulert = default(Vector3))
+        private void SyncMove(int index, SpaceEntityType spaceEntityType, uint objectId)
         {
             BgoProtocolWriter buffer = NewMessage();
 
@@ -207,7 +161,72 @@ namespace BSGO_Server
             buffer.Write(new Vector3());
 
             //euler3
-            buffer.Write(eulert);
+            buffer.Write(new Vector3());
+
+            //linearSpeed
+            buffer.Write(new Vector3());
+
+            //strafeSpeed
+            buffer.Write(new Vector3());
+
+            //euler3speed
+            buffer.Write(new Vector3());
+
+            // mode
+            buffer.Write((byte)2);
+
+            buffer.Write((byte)8);
+            buffer.Write(1);
+
+            //qweasd
+            buffer.Write(Server.GetClientByIndex(index).Character.qweasd);
+
+            ObjectStats currentShipStats = ((ShipCard)Catalogue.FetchCard(Server.GetClientByIndex(index).Character.WorldCardGUID, CardView.Ship)).Stats;
+
+            //gear
+            buffer.Write((byte)0);
+            //speed
+            buffer.Write(Server.GetClientByIndex(index).Character.shipSpeed);
+            //acceleration
+            buffer.Write(currentShipStats.Acceleration);
+            //inertiaCompensation
+            buffer.Write(currentShipStats.InertiaCompensation);
+            //pitchAcceleration
+            buffer.Write(currentShipStats.PitchAcceleration);
+            //pitchMaxSpeed
+            buffer.Write(currentShipStats.PitchMaxSpeed);
+            //yawAcceleration
+            buffer.Write(currentShipStats.YawAcceleration);
+            //yawMaxSpeed
+            buffer.Write(currentShipStats.YawMaxSpeed);
+            //rollAcceleration
+            buffer.Write(currentShipStats.RollAcceleration);
+            //rollMaxSpeed
+            buffer.Write(currentShipStats.RollMaxSpeed);
+            //strafeAcceleration
+            buffer.Write(currentShipStats.StrafeAcceleration);
+            //strafeMaxSpeed
+            buffer.Write(currentShipStats.StrafeMaxSpeed);
+
+
+            SendMessageToUser(index, buffer);
+        }
+
+        // No idea why but this makes the game load (???)
+        // I guess it spawns the player in a position inside the Sector
+        private void SyncMove(int index, SpaceEntityType spaceEntityType, uint objectId, Vector3 position, Vector3 euler3 = default(Vector3))
+        {
+            BgoProtocolWriter buffer = NewMessage();
+
+            buffer.Write((ushort)Reply.SyncMove);
+            buffer.Write((uint)spaceEntityType + objectId);
+            buffer.Write((int)1); // tick
+
+            //position
+            buffer.Write(position);
+
+            //euler3
+            buffer.Write(euler3);
             
             //linearSpeed
             buffer.Write(new Vector3());
@@ -225,10 +244,10 @@ namespace BSGO_Server
             buffer.Write((int)1);
 
             //position
-            buffer.Write(new Vector3());
+            buffer.Write(position);
 
             //euler3
-            buffer.Write(eulert);
+            buffer.Write(euler3);
 
             SendMessageToUser(index, buffer);
         }
@@ -246,8 +265,8 @@ namespace BSGO_Server
             buffer.Write((ushort)0);
             buffer.Write((ushort)0);
 
-            buffer.Write(Server.GetClientByIndex(index).playerId); //player id. Just using his index
-            buffer.Write((uint)0x10); //player role //developer 0x10
+            buffer.Write(Server.GetClientByIndex(index).playerId); //player id
+            buffer.Write((uint)BgoAdminRoles.Developer); //player role
             buffer.Write(true);
 
             SendMessageToUser(index, buffer);
