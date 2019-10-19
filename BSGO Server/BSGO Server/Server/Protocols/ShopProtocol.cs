@@ -23,10 +23,10 @@
         }
 
         public ShopProtocol()
-            : base(ProtocolID.Shop) { }
+            : base(ProtocolIDType.Shop) { }
 
         public static ShopProtocol GetProtocol() =>
-            ProtocolManager.GetProtocol(ProtocolID.Shop) as ShopProtocol;
+            ProtocolManager.GetProtocol(ProtocolIDType.Shop) as ShopProtocol;
         
         public override void ParseMessage(int index, BgoProtocolReader br)
         {

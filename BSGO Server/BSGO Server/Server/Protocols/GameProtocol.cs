@@ -5,7 +5,7 @@ namespace BSGO_Server
 {
     class GameProtocol : Protocol
     {
-        public enum Reply : byte
+        public enum Reply : ushort
         {
             Info = 2,
             WhoIs = 4,
@@ -52,7 +52,7 @@ namespace BSGO_Server
             CargoInteraction = 106
         }
 
-        public enum Request : byte
+        public enum Request : ushort
         {
             WhoIs = 3,
             SubscribeInfo = 10,
@@ -101,10 +101,10 @@ namespace BSGO_Server
         }
 
         public GameProtocol()
-            : base(ProtocolID.Game) {}
+            : base(ProtocolIDType.Game) {}
 
         public static GameProtocol GetProtocol() =>
-            ProtocolManager.GetProtocol(ProtocolID.Game) as GameProtocol;
+            ProtocolManager.GetProtocol(ProtocolIDType.Game) as GameProtocol;
         
         public override void ParseMessage(int index, BgoProtocolReader br)
         {

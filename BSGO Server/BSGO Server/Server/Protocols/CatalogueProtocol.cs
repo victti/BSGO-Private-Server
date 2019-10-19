@@ -2,24 +2,24 @@
 {
     internal class CatalogueProtocol : Protocol
     {
-        public enum Request : byte
+        public enum Request : ushort
         {
             Card = 1
         }
 
-        public enum Reply : byte
+        public enum Reply : ushort
         {
             Card = 2
         }
 
         public CatalogueProtocol()
-            : base(ProtocolID.Catalogue)
+            : base(ProtocolIDType.Catalogue)
         {
         }
 
         public static CatalogueProtocol GetProtocol()
         {
-            return ProtocolManager.GetProtocol(ProtocolID.Catalogue) as CatalogueProtocol;
+            return ProtocolManager.GetProtocol(ProtocolIDType.Catalogue) as CatalogueProtocol;
         }
 
         public override void ParseMessage(int index, BgoProtocolReader br)

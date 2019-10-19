@@ -2,13 +2,13 @@
 {
     class FeedbackProtocol : Protocol
     {
-        public enum MessageId : byte
+        public enum MessageId : ushort
         {
             UiElementShown,
             UiElementHidden
         }
 
-        public enum UiElementId : byte
+        public enum UiElementId : ushort
         {
             ShopWindow,
             RepairWindow,
@@ -20,12 +20,12 @@
         }
 
         public FeedbackProtocol()
-            : base(ProtocolID.Feedback)
+            : base(ProtocolIDType.Feedback)
         {
         }
 
         public static FeedbackProtocol GetProtocol() =>
-            ProtocolManager.GetProtocol(ProtocolID.Feedback) as FeedbackProtocol;
+            ProtocolManager.GetProtocol(ProtocolIDType.Feedback) as FeedbackProtocol;
         
         public override void ParseMessage(int index, BgoProtocolReader br)
         {

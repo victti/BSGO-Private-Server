@@ -4,7 +4,7 @@ namespace BSGO_Server
 {
     internal class SubscribeProtocol : Protocol
     {
-        public enum Reply : byte
+        public enum Reply : ushort
         {
             PlayerName = 1,
             PlayerFaction,
@@ -22,7 +22,7 @@ namespace BSGO_Server
             PlayerTournamentIndicator
         }
 
-        public enum Request : byte
+        public enum Request : ushort
         {
             Info = 1,
             Subscribe,
@@ -32,11 +32,11 @@ namespace BSGO_Server
         }
 
         public SubscribeProtocol()
-            : base(ProtocolID.Subscribe) { }
+            : base(ProtocolIDType.Subscribe) { }
         
 
         public static SubscribeProtocol GetProtocol() =>
-            ProtocolManager.GetProtocol(ProtocolID.Subscribe) as SubscribeProtocol;
+            ProtocolManager.GetProtocol(ProtocolIDType.Subscribe) as SubscribeProtocol;
         
         public override void ParseMessage(int index, BgoProtocolReader br)
         {

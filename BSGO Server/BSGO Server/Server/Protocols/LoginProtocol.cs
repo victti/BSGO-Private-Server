@@ -4,7 +4,7 @@ namespace BSGO_Server
 {
     internal class LoginProtocol : Protocol
     {
-        public enum Reply : byte
+        public enum Reply : ushort
         {
             Hello,
             Init,
@@ -14,7 +14,7 @@ namespace BSGO_Server
             Echo
         }
 
-        public enum Request : byte
+        public enum Request : ushort
         {
             Init = 1,
             Player = 2,
@@ -22,10 +22,10 @@ namespace BSGO_Server
         }
 
         public LoginProtocol()
-            : base(ProtocolID.Login) {}
+            : base(ProtocolIDType.Login) {}
 
         public static LoginProtocol GetProtocol() =>
-            ProtocolManager.GetProtocol(ProtocolID.Login) as LoginProtocol;
+            ProtocolManager.GetProtocol(ProtocolIDType.Login) as LoginProtocol;
         
         public override void ParseMessage(int index, BgoProtocolReader br)
         {

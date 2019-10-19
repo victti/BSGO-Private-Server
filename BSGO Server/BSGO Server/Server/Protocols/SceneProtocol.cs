@@ -18,10 +18,10 @@
         }
 
         public SceneProtocol()
-            : base(ProtocolID.Scene) {}
+            : base(ProtocolIDType.Scene) {}
 
         public static SceneProtocol GetProtocol() =>
-            ProtocolManager.GetProtocol(ProtocolID.Scene) as SceneProtocol;
+            ProtocolManager.GetProtocol(ProtocolIDType.Scene) as SceneProtocol;
         
         public override void ParseMessage(int index, BgoProtocolReader br)
         {

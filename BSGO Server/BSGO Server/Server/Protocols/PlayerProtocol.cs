@@ -136,13 +136,13 @@ namespace BSGO_Server
         }
 
         public PlayerProtocol()
-            : base(ProtocolID.Player)
+            : base(ProtocolIDType.Player)
         {
         }
 
         public static PlayerProtocol GetProtocol()
         {
-            return ProtocolManager.GetProtocol(ProtocolID.Player) as PlayerProtocol;
+            return ProtocolManager.GetProtocol(ProtocolIDType.Player) as PlayerProtocol;
         }
 
         public void SendPlayerID()

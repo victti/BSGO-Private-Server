@@ -2,7 +2,7 @@
 {
     internal class CommunityProtocol : Protocol
     {
-        public enum Request : byte
+        public enum Request : ushort
         {
             PartyInvitePlayer = 1,
             PartyDismissPlayer = 2,
@@ -32,7 +32,7 @@
             IgnoreClear = 35
         }
 
-        public enum Reply : byte
+        public enum Reply : ushort
         {
             Party = 1,
             PartyIgnore = 2,
@@ -67,10 +67,10 @@
         }
 
         public CommunityProtocol()
-            : base(ProtocolID.Community) {}
+            : base(ProtocolIDType.Community) {}
 
         public static CommunityProtocol GetProtocol() =>
-            ProtocolManager.GetProtocol(ProtocolID.Community) as CommunityProtocol;
+            ProtocolManager.GetProtocol(ProtocolIDType.Community) as CommunityProtocol;
         
         public override void ParseMessage(int index, BgoProtocolReader br)
         {

@@ -130,7 +130,7 @@
             Vector3 axis = Vector3.Zero;
             q.ToAngleAxis(out angle, out axis);
             axis.x = 0f - axis.x;
-            return Quaternion.AngleAxis(0f - angle, axis);
+            return Quaternion.AngleAxis();
         }
 
         public static Vector3 Distance(Vector3 s1p0, Vector3 s1p1, Vector3 s2p0, Vector3 s2p1)

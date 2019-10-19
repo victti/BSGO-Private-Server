@@ -2,7 +2,7 @@
 {
     internal class SettingProtocol : Protocol
     {
-        public enum Request : byte
+        public enum Request : ushort
         {
             SaveSettings = 1,
             SaveKeys = 2,
@@ -10,17 +10,17 @@
             SetFullScreen = 6
         }
 
-        public enum Reply : byte
+        public enum Reply : ushort
         {
             Settings = 3,
             Keys
         }
 
         public SettingProtocol()
-            : base(ProtocolID.Setting) { }
+            : base(ProtocolIDType.Setting) { }
 
         public static SettingProtocol GetProtocol()
-            => ProtocolManager.GetProtocol(ProtocolID.Setting) as SettingProtocol;
+            => ProtocolManager.GetProtocol(ProtocolIDType.Setting) as SettingProtocol;
         
         public override void ParseMessage(int index, BgoProtocolReader br)
         {

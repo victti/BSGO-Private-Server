@@ -4,21 +4,21 @@ namespace BSGO_Server
 {
     internal class SyncProtocol : Protocol
     {
-        public enum Request : byte
+        public enum Request : ushort
         {
             SyncRequest
         }
 
-        public enum Reply : byte
+        public enum Reply : ushort
         {
             SyncReply = 1
         }
 
         public SyncProtocol()
-            : base(ProtocolID.Sync) { }
+            : base(ProtocolIDType.Sync) { }
 
         public static SyncProtocol GetProtocol() =>
-            ProtocolManager.GetProtocol(ProtocolID.Sync) as SyncProtocol;
+            ProtocolManager.GetProtocol(ProtocolIDType.Sync) as SyncProtocol;
         
         public override void ParseMessage(int index, BgoProtocolReader br)
         {

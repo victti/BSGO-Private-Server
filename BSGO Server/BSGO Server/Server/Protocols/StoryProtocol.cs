@@ -2,7 +2,7 @@
 {
     internal class StoryProtocol : Protocol
     {
-        public enum Reply : byte
+        public enum Reply : ushort
         {
             BannerBox = 1,
             MessageBox,
@@ -26,7 +26,7 @@
             AskContinue
         }
 
-        public enum Request : byte
+        public enum Request : ushort
         {
             TriggerControl = 1,
             MessageBoxOk,
@@ -38,7 +38,7 @@
             LookingAtTrigger
         }
 
-        public enum ControlType : byte
+        public enum ControlType : ushort
         {
             TargetEnemy = 19,
             TargetAlly = 20,
@@ -80,10 +80,10 @@
         }
 
         public StoryProtocol()
-            : base(ProtocolID.Story) { }
+            : base(ProtocolIDType.Story) { }
 
         public static StoryProtocol GetProtocol() =>
-            ProtocolManager.GetProtocol(ProtocolID.Story) as StoryProtocol;
+            ProtocolManager.GetProtocol(ProtocolIDType.Story) as StoryProtocol;
         
 
         public override void ParseMessage(int index, BgoProtocolReader br)

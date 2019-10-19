@@ -124,7 +124,7 @@ namespace BSGO_Server._3dAlgorithm
         public static Euler3 RotateOverTime(Euler3 start, Euler3 changePerSecond, float dt)
         {
             Vector3 vector = changePerSecond.ComponentsToVector3();
-            Quaternion lhs = Quaternion.AngleAxis(vector.Magnitude * dt, vector.Normalized);
+            Quaternion lhs = Quaternion.AngleAxis();
             return GetRotation(lhs * start.Rotation);
         }
 
