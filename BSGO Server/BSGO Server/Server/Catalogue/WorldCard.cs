@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class WorldCard : Card
+    internal class WorldCard : Card
     {
-        public string PrefabName;
-        public int LODCount;
-        public float Radius;
-        public SpotDesc[] Spots;
-        public string SystemMapTexture;
-        public sbyte FrameIndex = -1;
-        public sbyte SecondaryFrameIndex;
-        public bool Targetable = true;
-        public bool ShowBracketWhenInRange = true;
-        public bool ForceShowOnMap;
+        public string PrefabName { get; set; }
+        public int LODCount { get; set; }
+        public float Radius { get; set; }
+        public SpotDesc[] Spots { get; set; }
+        public string SystemMapTexture { get; set; }
+        public sbyte FrameIndex { get; set; } = -1;
+        public sbyte SecondaryFrameIndex { get; set; }
+        public bool Targetable { get; set; } = true;
+        public bool ShowBracketWhenInRange { get; set; } = true;
+        public bool ForceShowOnMap { get; set; }
 
         public WorldCard(uint cardGUID, CardView cardView, string prefabName, int lODCount, float radius, SpotDesc[] spots, string systemMapTexture, sbyte frameIndex, sbyte secondaryFrameIndex, bool targetable, bool showBracketWhenInRange, bool forceShowOnMap)
             : base(cardGUID, cardView)
@@ -40,9 +36,8 @@ namespace BSGO_Server
             w.Write(Radius);
             w.Write((ushort)Spots.Length);
             foreach(SpotDesc spot in Spots)
-            {
                 spot.Write(w);
-            }
+            
             w.Write(SystemMapTexture);
             w.Write(FrameIndex);
             w.Write(SecondaryFrameIndex);

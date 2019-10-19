@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    enum SpaceEntityType : uint
+    internal enum SpaceEntityType : uint
     {
         Player = 0x1000000,
         Missile = 0x2000000,

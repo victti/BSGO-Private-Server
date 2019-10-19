@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class SettingProtocol : Protocol
+    internal class SettingProtocol : Protocol
     {
-        public enum Request : ushort
+        public enum Request : byte
         {
             SaveSettings = 1,
             SaveKeys = 2,
@@ -14,30 +10,27 @@ namespace BSGO_Server
             SetFullScreen = 6
         }
 
-        public enum Reply : ushort
+        public enum Reply : byte
         {
             Settings = 3,
             Keys
         }
 
         public SettingProtocol()
-            : base(ProtocolID.Setting)
-        {
-        }
+            : base(ProtocolID.Setting) { }
 
         public static SettingProtocol GetProtocol()
-        {
-            return ProtocolManager.GetProtocol(ProtocolID.Setting) as SettingProtocol;
-        }
-
+            => ProtocolManager.GetProtocol(ProtocolID.Setting) as SettingProtocol;
+        
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
-            ushort msgType = (ushort)br.ReadUInt16();
+            ushort msgType = br.ReadUInt16();
 
-            switch ((Request)msgType)
+            // ?
+            switch (msgType)
             {
                 default:
-                    Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
+                    Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, ProtocolID));
                     break;
             }
         }

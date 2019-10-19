@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class ShopProtocol : Protocol
+    internal class ShopProtocol : Protocol
     {
         public enum Request : ushort
         {
@@ -27,18 +23,14 @@ namespace BSGO_Server
         }
 
         public ShopProtocol()
-    : base(ProtocolID.Shop)
-        {
-        }
+            : base(ProtocolID.Shop) { }
 
-        public static ShopProtocol GetProtocol()
-        {
-            return ProtocolManager.GetProtocol(ProtocolID.Shop) as ShopProtocol;
-        }
-
+        public static ShopProtocol GetProtocol() =>
+            ProtocolManager.GetProtocol(ProtocolID.Shop) as ShopProtocol;
+        
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
-            ushort msgType = (ushort)br.ReadUInt16();
+            ushort msgType = br.ReadUInt16();
 
             switch ((Request)msgType)
             {
@@ -46,14 +38,14 @@ namespace BSGO_Server
                     SendItems(index);
                     break;
                 default:
-                    Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
+                    Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, ProtocolID));
                     break;
             }
         }
 
         private void SendItems(int index)
         {
-            BgoProtocolWriter buffer = NewMessage();
+            using BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.Items);
             buffer.Write((ushort)0); // No items since I don't know what to send.
 

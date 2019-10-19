@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BSGO_Server
 {
-    class ShipListCard : Card
+    internal class ShipListCard : Card
     {
-        public List<ShipCard> ShipCards;
+        public List<ShipCard> ShipCards { get; set; }
 
-        public List<ShipCard> UpgradeShipCards;
+        public List<ShipCard> UpgradeShipCards { get; set; }
 
-        public List<ShipCard> VariantShipCards;
+        public List<ShipCard> VariantShipCards { get; set; }
 
         public ShipListCard(uint cardGUID) : base(cardGUID, CardView.ShipList)
         {

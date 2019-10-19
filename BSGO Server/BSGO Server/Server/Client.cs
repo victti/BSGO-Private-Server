@@ -1,25 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Sockets;
-using System.Text;
 
 namespace BSGO_Server
 {
-    class Client
+    internal class Client
     {
-        public int index;
-        public string ip;
-        public Socket socket;
-        public bool closing = false;
-        private byte[] _buffer = new byte[65535];
+        public int Index { get; set; }
+        public string Ip { get; set; }
+        public Socket Socket { get; set; }
+        public bool Closing { get; set; } = false;
+        private readonly byte[] _buffer = new byte[65535];
 
         public uint playerId;
         public Character Character;
 
         public void StartClient()
         { 
-            socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
-            closing = false;
+            Socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), Socket);
+            Closing = false;
         }
 
         private void ReceiveCallback(IAsyncResult ar)
@@ -31,28 +29,28 @@ namespace BSGO_Server
                 int received = socket.EndReceive(ar);
                 if (received <= 0)
                 {
-                    CloseClient(index);
+                    CloseClient(Index);
                 }
                 else
                 {
                     byte[] databuffer = new byte[received];
                     Array.Copy(_buffer, databuffer, received);
-                    ProtocolManager.HandleNetworkInformation(index, databuffer);
+                    ProtocolManager.HandleNetworkInformation(Index, databuffer);
                     socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
                 }
             }
             catch (Exception ex)
             {
-                Log.Add(LogSeverity.ERROR, "Exception thrown " + ex.ToString());
-                CloseClient(index);
+                Log.Add(LogSeverity.ERROR, "Exception thrown " + ex);
+                CloseClient(Index);
             }
         }
 
         private void CloseClient(int index)
         {
-            Log.Add(LogSeverity.INFO, string.Format("Connection from {0} has been terminated.", ip));
-            closing = true;
-            socket.Close();
+            Log.Add(LogSeverity.INFO, string.Format("Connection from {0} has been terminated.", Ip));
+            Closing = true;
+            Socket.Close();
         }
     }
 }

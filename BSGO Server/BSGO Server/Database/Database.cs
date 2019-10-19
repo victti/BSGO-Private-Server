@@ -1,7 +1,6 @@
 ﻿using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using BSGO_Server.Database.Entities;
 using System.Linq.Expressions;
 
@@ -9,15 +8,15 @@ namespace BSGO_Server.Database
 {
     class Database
     {
-        private static IMongoClient client = new MongoClient("mongodb://localhost");
-        private static IMongoDatabase database = client.GetDatabase("bsgo");
-        private static IMongoCollection<Users> colUsers = database.GetCollection<Users>("users");
-        private static IMongoCollection<Characters> colCharacters = database.GetCollection<Characters>("characters");
+        private static readonly IMongoClient client = new MongoClient("mongodb://localhost");
+        private static readonly IMongoDatabase database = client.GetDatabase("bsgo");
+        private static readonly IMongoCollection<Users> colUsers = database.GetCollection<Users>("users");
+        private static readonly IMongoCollection<Characters> colCharacters = database.GetCollection<Characters>("characters");
 
         // This is temporary. Just making sure that my user does exist
-        private static Expression<Func<Users, bool>> filter =
+        private static readonly Expression<Func<Users, bool>> filter =
             x => x.PlayerId.Equals("5085935");
-        private static Users user = colUsers.Find(filter).FirstOrDefault();
+        private static readonly Users user = colUsers.Find(filter).FirstOrDefault();
 
         /// <summary>
         /// Initializes the database.
@@ -27,7 +26,7 @@ namespace BSGO_Server.Database
             // Since we want to use my premade user, we are making sure he is on the database at the start
             if (user == null)
             {
-                Users docUser = new Users() {
+                Users docUser = new Users {
                     PlayerId = "5085935",
                     SessionCode = "b1b23d2fa2769bd59d4c1b67554599b88381afd653b156aa54cb689969ab4fb7"
                 };
@@ -43,12 +42,12 @@ namespace BSGO_Server.Database
         /// <returns></returns>
         public static bool CheckSessionCodeExistance(string sessionCode)
         {
-            Expression<Func<Users, bool>> filter =
+            Expression<Func<Users, bool>> _filter =
                 x => x.SessionCode.Equals(sessionCode);
 
-            Users user = colUsers.Find(filter).FirstOrDefault();
+            Users _user = colUsers.Find(_filter).FirstOrDefault();
 
-            return user != null;
+            return _user != null;
         }
 
         /// <summary>
@@ -58,12 +57,12 @@ namespace BSGO_Server.Database
         /// <returns></returns>
         public static bool CheckPlayerExistanceById(string id)
         {
-            Expression<Func<Users, bool>> filter =
+            Expression<Func<Users, bool>> _filter =
                 x => x.PlayerId.Equals(id);
 
-            Users user = colUsers.Find(filter).FirstOrDefault();
+            Users _user = colUsers.Find(_filter).FirstOrDefault();
 
-            return user != null;
+            return _user != null;
         }
 
         /// <summary>
@@ -73,10 +72,10 @@ namespace BSGO_Server.Database
         /// <returns></returns>
         public static bool CheckCharacterExistanceById(string id)
         {
-            Expression<Func<Characters, bool>> filter =
+            Expression<Func<Characters, bool>> _filter =
                 x => x.PlayerId.Equals(id);
 
-            Characters character = colCharacters.Find(filter).FirstOrDefault();
+            Characters character = colCharacters.Find(_filter).FirstOrDefault();
 
             return character != null;
         }
@@ -88,10 +87,10 @@ namespace BSGO_Server.Database
         /// <returns></returns>
         public static bool CheckCharacterNameAvailability(string name)
         {
-            Expression<Func<Characters, bool>> filter =
+            Expression<Func<Characters, bool>> _filter =
                 x => x.Name.Equals(name);
 
-            Characters character = colCharacters.Find(filter).FirstOrDefault();
+            Characters character = colCharacters.Find(_filter).FirstOrDefault();
 
             return character == null;
         }
@@ -103,9 +102,9 @@ namespace BSGO_Server.Database
         /// <param name="playerId"></param>
         public static void CreateCharacter(string name, string playerId, byte faction, Dictionary<AvatarItem, string> items)
         {
-            Expression<Func<Characters, bool>> filter =
+            Expression<Func<Characters, bool>> _filter =
                 x => x.Name.Equals(name);
-            Characters character = colCharacters.Find(filter).FirstOrDefault();
+            Characters character = colCharacters.Find(_filter).FirstOrDefault();
 
             if (character != null)
                 return;
@@ -116,7 +115,7 @@ namespace BSGO_Server.Database
                 avatarItems.Add(item.Key.ToString(), item.Value);
             }
 
-            character = new Characters() {
+            character = new Characters {
                 Name = name,
                 GameLocation = 2,
                 Level = 1,
@@ -140,12 +139,12 @@ namespace BSGO_Server.Database
         /// <returns></returns>
         public static Users GetUserBySession(string session)
         {
-            Expression<Func<Users, bool>> filter =
+            Expression<Func<Users, bool>> _filter =
                 x => x.SessionCode.Equals(session);
 
-            Users user = colUsers.Find(filter).FirstOrDefault();
+            Users _user = colUsers.Find(_filter).FirstOrDefault();
 
-            return user;
+            return _user;
         }
 
         /// <summary>
@@ -155,10 +154,10 @@ namespace BSGO_Server.Database
         /// <returns></returns>
         public static Characters GetCharacterById(string id)
         {
-            Expression<Func<Characters, bool>> filter =
+            Expression<Func<Characters, bool>> _filter =
                 x => x.PlayerId.Equals(id);
 
-            Characters character = colCharacters.Find(filter).FirstOrDefault();
+            Characters character = colCharacters.Find(_filter).FirstOrDefault();
 
             return character;
         }

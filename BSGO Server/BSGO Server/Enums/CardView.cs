@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    enum CardView : ushort
+    internal enum CardView : ushort
     {
         GUI = 1,
         ShipSystem = 2,

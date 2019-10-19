@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BSGO_Server.Database;
 
 namespace BSGO_Server
 {
-    class LoginProtocol : Protocol
+    internal class LoginProtocol : Protocol
     {
-        enum Reply : ushort
+        public enum Reply : byte
         {
             Hello,
             Init,
@@ -17,7 +14,7 @@ namespace BSGO_Server
             Echo
         }
 
-        enum Request : ushort
+        public enum Request : byte
         {
             Init = 1,
             Player = 2,
@@ -25,18 +22,14 @@ namespace BSGO_Server
         }
 
         public LoginProtocol()
-            : base(ProtocolID.Login)
-        {
-        }
+            : base(ProtocolID.Login) {}
 
-        public static LoginProtocol GetProtocol()
-        {
-            return ProtocolManager.GetProtocol(ProtocolID.Login) as LoginProtocol;
-        }
-
+        public static LoginProtocol GetProtocol() =>
+            ProtocolManager.GetProtocol(ProtocolID.Login) as LoginProtocol;
+        
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
-            ushort msgType = (ushort)br.ReadUInt16();
+            ushort msgType = br.ReadUInt16();
 
             switch ((Request)msgType)
             {
@@ -56,14 +49,15 @@ namespace BSGO_Server
                         case ConnectType.Web:
                             if (Database.Database.CheckSessionCodeExistance(sessionCode))
                             {
-                                playerId = uint.Parse(Database.Database.GetUserBySession(sessionCode).PlayerId);
+                                playerId = Convert.ToUInt32(Database.Database.GetUserBySession(sessionCode).PlayerId);
                                 Server.GetClientByIndex(index).playerId = playerId;
                                 Server.GetClientByIndex(index).Character = new Character(index);
                                 SendPlayer(index);
-
+                                /*
                                 if (Database.Database.CheckCharacterExistanceById(playerId.ToString())) {
 
                                 }
+                                */
                             }
                             else
                                 SendError(index, (byte)LoginError.WrongSession);
@@ -75,14 +69,14 @@ namespace BSGO_Server
                        
                     break;
                 default:
-                    Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
+                    Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, ProtocolID));
                     break;
             }
         }
 
         public void SendConnectionOK(int index)
         {
-            BgoProtocolWriter buffer = NewMessage();
+            using BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)0);
             SendMessageToUser(index, buffer);
         }
@@ -90,7 +84,7 @@ namespace BSGO_Server
         // Here we have to send the Server Revision. The latest game version have the revision number 4578.
         private void SendInit(int index)
         {
-            BgoProtocolWriter buffer = NewMessage();
+            using BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Request.Init);
             buffer.Write((uint)4578);
             SendMessageToUser(index, buffer);
@@ -101,7 +95,7 @@ namespace BSGO_Server
         // on the server. In this case we are going to send a dev role.
         private void SendPlayer(int index)
         {
-            BgoProtocolWriter buffer = NewMessage();
+            using BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)3);
 
             DateTime now = DateTime.Now;
@@ -119,7 +113,7 @@ namespace BSGO_Server
 
         private void SendError(int index, byte errorCode)
         {
-            BgoProtocolWriter buffer = NewMessage();
+            using BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.Error);
 
             buffer.Write(errorCode);

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    enum ShipAbilityTarget
+    internal enum ShipAbilityTarget
     {
         Asteroid = 1,
         Ship = 2,

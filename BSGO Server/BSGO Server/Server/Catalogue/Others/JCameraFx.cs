@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class JCameraFx : IProtocolWrite
+    internal class JCameraFx : IProtocolWrite
     {
-        public bool ForceDisableBloom;
+        public bool ForceDisableBloom { get; set; }
 
         public JCameraFx(bool forceDisableBloom)
         {
             ForceDisableBloom = forceDisableBloom;
         }
 
-        public void Write(BgoProtocolWriter w)
-        {
+        public void Write(BgoProtocolWriter w) =>
             w.Write(ForceDisableBloom);
-        }
+        
     }
 }

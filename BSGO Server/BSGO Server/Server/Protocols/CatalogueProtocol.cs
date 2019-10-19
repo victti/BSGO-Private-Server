@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class CatalogueProtocol : Protocol
+    internal class CatalogueProtocol : Protocol
     {
-        public enum Request : ushort
+        public enum Request : byte
         {
             Card = 1
         }
 
-        public enum Reply : ushort
+        public enum Reply : byte
         {
             Card = 2
         }
 
         public CatalogueProtocol()
-    : base(ProtocolID.Catalogue)
+            : base(ProtocolID.Catalogue)
         {
         }
 
@@ -28,7 +24,7 @@ namespace BSGO_Server
 
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
-            ushort msgType = (ushort)br.ReadUInt16();
+            ushort msgType = br.ReadUInt16();
 
             switch (msgType)
             {
@@ -39,20 +35,18 @@ namespace BSGO_Server
                     {
                         uint key = br.ReadUInt32();
                         ushort value = br.ReadUInt16();
-
                         SendCard(index, value, key);
                     }
-
                     break;
                 default:
-                    Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", msgType, protocolID));
+                    Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", msgType, ProtocolID));
                     break;
             }
         }
 
         private void SendCard(int index, ushort cardView, uint cardGuid)
         {
-            BgoProtocolWriter buffer = NewMessage();
+            using BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.Card);
 
             Card card = Catalogue.FetchCard(cardGuid, (CardView)cardView);

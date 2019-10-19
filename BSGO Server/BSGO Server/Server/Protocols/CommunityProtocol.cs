@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class CommunityProtocol : Protocol
+    internal class CommunityProtocol : Protocol
     {
-        public enum Request : ushort
+        public enum Request : byte
         {
             PartyInvitePlayer = 1,
             PartyDismissPlayer = 2,
@@ -36,7 +32,7 @@ namespace BSGO_Server
             IgnoreClear = 35
         }
 
-        public enum Reply : ushort
+        public enum Reply : byte
         {
             Party = 1,
             PartyIgnore = 2,
@@ -71,18 +67,14 @@ namespace BSGO_Server
         }
 
         public CommunityProtocol()
-    : base(ProtocolID.Community)
-        {
-        }
+            : base(ProtocolID.Community) {}
 
-        public static CommunityProtocol GetProtocol()
-        {
-            return ProtocolManager.GetProtocol(ProtocolID.Community) as CommunityProtocol;
-        }
-
+        public static CommunityProtocol GetProtocol() =>
+            ProtocolManager.GetProtocol(ProtocolID.Community) as CommunityProtocol;
+        
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
-            ushort msgType = (ushort)br.ReadUInt16();
+            ushort msgType = br.ReadUInt16();
 
             switch ((Request)msgType)
             {
@@ -90,14 +82,14 @@ namespace BSGO_Server
                     SendRecruitLevel(index);
                     break;
                 default:
-                    Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
+                    Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, ProtocolID));
                     break;
             }
         }
 
         private void SendRecruitLevel(int index)
         {
-            BgoProtocolWriter buffer = NewMessage();
+            using BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.RecruitLevel);
             buffer.Write((uint)1); // idk
 

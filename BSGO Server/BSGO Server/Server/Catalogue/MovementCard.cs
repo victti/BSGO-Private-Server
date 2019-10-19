@@ -1,48 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class MovementCard : Card
+    internal class MovementCard : Card
     {
-        public float minYawSpeed = 3f;
+        public float MinYawSpeed { get; set; } = 3f;
 
-        public float maxPitch = 55f;
+        public float MaxPitch { get; set; } = 55f;
 
-        public float maxRoll = 50f;
+        public float MaxRoll { get; set; } = 50f;
 
-        public float pitchFading = 0.3f;
+        public float PitchFading { get; set; } = 0.3f;
 
-        public float yawFading = 0.3f;
+        public float YawFading { get; set; } = 0.3f;
 
-        public float rollFading = 0.6f;
+        public float RollFading { get; set; } = 0.6f;
 
         public MovementCard(uint cardGUID, CardView cardView)
-            : base(cardGUID, cardView)
-        {
-        }
+            : base(cardGUID, cardView) { }
 
         public MovementCard(uint cardGUID, CardView cardView, float minYawSpeed, float maxPitch, float maxRoll, float pitchFading, float yawFading, float rollFading)
             : base(cardGUID, cardView)
         {
-            this.minYawSpeed = minYawSpeed;
-            this.maxPitch = maxPitch;
-            this.maxRoll = maxRoll;
-            this.pitchFading = pitchFading;
-            this.yawFading = yawFading;
-            this.rollFading = rollFading;
+            MinYawSpeed = minYawSpeed;
+            MaxPitch = maxPitch;
+            MaxRoll = maxRoll;
+            PitchFading = pitchFading;
+            YawFading = yawFading;
+            RollFading = rollFading;
         }
 
         public override void Write(BgoProtocolWriter w)
         {
             base.Write(w);
-            w.Write(minYawSpeed);
-            w.Write(maxPitch);
-            w.Write(maxRoll);
-            w.Write(pitchFading);
-            w.Write(yawFading);
-            w.Write(rollFading);
+            w.Write(MinYawSpeed);
+            w.Write(MaxPitch);
+            w.Write(MaxRoll);
+            w.Write(PitchFading);
+            w.Write(YawFading);
+            w.Write(RollFading);
         }
     }
 }

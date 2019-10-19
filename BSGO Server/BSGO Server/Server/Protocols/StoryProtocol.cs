@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class StoryProtocol : Protocol
+    internal class StoryProtocol : Protocol
     {
-        public enum Reply : ushort
+        public enum Reply : byte
         {
             BannerBox = 1,
             MessageBox,
@@ -30,7 +26,7 @@ namespace BSGO_Server
             AskContinue
         }
 
-        public enum Request : ushort
+        public enum Request : byte
         {
             TriggerControl = 1,
             MessageBoxOk,
@@ -84,31 +80,27 @@ namespace BSGO_Server
         }
 
         public StoryProtocol()
-    : base(ProtocolID.Story)
-        {
-        }
+            : base(ProtocolID.Story) { }
 
-        public static StoryProtocol GetProtocol()
-        {
-            return ProtocolManager.GetProtocol(ProtocolID.Story) as StoryProtocol;
-        }
+        public static StoryProtocol GetProtocol() =>
+            ProtocolManager.GetProtocol(ProtocolID.Story) as StoryProtocol;
+        
 
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
-            ushort msgType = (ushort)br.ReadUInt16();
+            ushort msgType = br.ReadUInt16();
 
-            switch ((Request)msgType)
+            switch (msgType)
             {
-
                 default:
-                    Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
+                    Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, ProtocolID));
                     break;
             }
         }
 
         public void EnableGear(int index, bool enable)
         {
-            BgoProtocolWriter buffer = NewMessage();
+            using BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.EnableGear);
 
             buffer.Write(enable);

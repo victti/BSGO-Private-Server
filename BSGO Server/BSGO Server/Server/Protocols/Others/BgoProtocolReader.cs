@@ -5,17 +5,13 @@ using System.Text;
 
 namespace BSGO_Server
 {
-    class BgoProtocolReader : BinaryReader
+    internal class BgoProtocolReader : BinaryReader
     {
         public BgoProtocolReader(byte[] buffer)
-        : this(new MemoryStream(buffer))
-        {
-        }
+        : this(new MemoryStream(buffer)) { }
 
         public BgoProtocolReader(MemoryStream stream)
-            : base(stream)
-        {
-        }
+            : base(stream) { }
 
         public BgoProtocolReader UnZip()
         {
@@ -37,8 +33,8 @@ namespace BSGO_Server
             {
                 byte[] array = new byte[num];
                 Read(array, 0, array.Length);
-                Encoding uTF = Encoding.UTF8;
-                return uTF.GetString(array);
+                Encoding utf = Encoding.UTF8;
+                return utf.GetString(array);
             }
             return string.Empty;
         }
@@ -48,9 +44,8 @@ namespace BSGO_Server
             int num = ReadLength();
             string[] array = new string[num];
             for (int i = 0; i < num; i++)
-            {
                 array[i] = ReadString();
-            }
+            
             return array;
         }
 
@@ -59,9 +54,8 @@ namespace BSGO_Server
             int num = ReadLength();
             byte[] array = new byte[num];
             for (int i = 0; i < num; i++)
-            {
                 array[i] = ReadByte();
-            }
+            
             return array;
         }
 
@@ -77,9 +71,8 @@ namespace BSGO_Server
             int num = ReadLength();
             List<T> list = new List<T>();
             for (int i = 0; i < num; i++)
-            {
                 list.Add(ReadDesc<T>());
-            }
+            
             return list;
         }
 
@@ -88,9 +81,8 @@ namespace BSGO_Server
             int num = ReadLength();
             List<ushort> list = new List<ushort>();
             for (int i = 0; i < num; i++)
-            {
                 list.Add(ReadUInt16());
-            }
+            
             return list;
         }
 
@@ -99,9 +91,8 @@ namespace BSGO_Server
             int num = ReadLength();
             List<uint> list = new List<uint>();
             for (int i = 0; i < num; i++)
-            {
                 list.Add(ReadUInt32());
-            }
+            
             return list;
         }
 
@@ -110,9 +101,8 @@ namespace BSGO_Server
             int num = ReadLength();
             T[] array = new T[num];
             for (int i = 0; i < num; i++)
-            {
                 array[i] = ReadDesc<T>();
-            }
+            
             return array;
         }
 
@@ -121,41 +111,31 @@ namespace BSGO_Server
             ushort num = ReadUInt16();
             HashSet<T> hashSet = new HashSet<T>();
             for (int num2 = 1; num2 < 65536; num2 <<= 1)
-            {
                 if ((num & num2) != 0)
-                {
                     hashSet.Add((T)Enum.ToObject(typeof(T), num2));
-                }
-            }
+                
             return hashSet;
         }
 
-        public int ReadLength()
-        {
-            return ReadUInt16();
-        }
-
-
-        public DateTime ReadDateTime()
-        {
-            return new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(ReadUInt32());
-        }
+        public int ReadLength() =>
+            ReadUInt16();
+        
+        public DateTime ReadDateTime() =>
+            new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(ReadUInt32());
+        
 
         public DateTime ReadLongDateTime()
         {
             ulong num = ReadUInt64();
             if (num != 0L)
-            {
                 return new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddSeconds(num);
-            }
-            return default(DateTime);
+
+            return default;
         }
 
-        public uint ReadGUID()
-        {
-            return ReadUInt32();
-        }
-
+        public uint ReadGUID() =>
+            ReadUInt32();
+        
         public static ushort ReadBufferSize(byte[] data)
         {
             ushort num = data[0];

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server._3dAlgorithm
+﻿namespace BSGO_Server._3dAlgorithm
 {
     public struct MathfInternal
     {

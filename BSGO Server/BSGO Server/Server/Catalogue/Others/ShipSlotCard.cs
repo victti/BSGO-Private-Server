@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class ShipSlotCard : IProtocolWrite
+    internal class ShipSlotCard : IProtocolWrite
     {
-        public byte Level;
-        public ushort SlotId;
-        public ShipSlotType SystemType;
-        public string ObjectPoint;
-        public ushort ObjectPointServerHash;
+        public byte Level { get; set; }
+        public ushort SlotId { get; set; }
+        public ShipSlotType SystemType { get; set; }
+        public string ObjectPoint { get; set; }
+        public ushort ObjectPointServerHash { get; set; }
 
         public ShipSlotCard(byte level, ushort slotId, ShipSlotType systemType, string objectPoint, ushort objectPointServerHash)
         {

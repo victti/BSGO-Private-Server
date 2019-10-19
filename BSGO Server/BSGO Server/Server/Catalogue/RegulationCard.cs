@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BSGO_Server
 {
-    class RegulationCard : Card
+    internal class RegulationCard : Card
     {
-        public ConsumableEffectType[] effectTypeBlacklist;
-        public Dictionary<uint, HashSet<ShipAbilitySide>> AbilityTargetRelations;
-        public Dictionary<uint, HashSet<ShipAbilityTarget>> AbilityTargetTypes;
-        public TargetBracketMode TargetBracketMode;
-        public bool SectorMapEnabled;
+        public ConsumableEffectType[] EffectTypeBlacklist { get; set; }
+        public Dictionary<uint, HashSet<ShipAbilitySide>> AbilityTargetRelations { get; set; }
+        public Dictionary<uint, HashSet<ShipAbilityTarget>> AbilityTargetTypes { get; set; }
+        public TargetBracketMode TargetBracketMode { get; set; }
+        public bool SectorMapEnabled { get; set; }
 
         public RegulationCard(uint cardGUID, CardView cardView, ConsumableEffectType[] effectTypeBlacklist, Dictionary<uint, HashSet<ShipAbilitySide>> abilityTargetRelations, Dictionary<uint, HashSet<ShipAbilityTarget>> abilityTargetTypes, TargetBracketMode targetBracketMode, bool sectorMapEnabled)
             : base(cardGUID, cardView)
         {
-            this.effectTypeBlacklist = effectTypeBlacklist;
+            this.EffectTypeBlacklist = effectTypeBlacklist;
             AbilityTargetRelations = abilityTargetRelations;
             AbilityTargetTypes = abilityTargetTypes;
             TargetBracketMode = targetBracketMode;
@@ -45,11 +43,11 @@ namespace BSGO_Server
                 }
             }
 
-            int num2 = effectTypeBlacklist.Length;
+            int num2 = EffectTypeBlacklist.Length;
             w.Write(num2);
             for (int j = 0; j < num2; j++)
             {
-                w.Write((byte)effectTypeBlacklist[j]);
+                w.Write((byte)EffectTypeBlacklist[j]);
             }
         }
     }

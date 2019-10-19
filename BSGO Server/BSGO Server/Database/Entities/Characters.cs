@@ -1,58 +1,56 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BSGO_Server.Database.Entities
 {
-    class Characters
+    internal class Characters
     {
-        [BsonId()]
+        [BsonId]
         public ObjectId Id { get; set; }  
 
         [BsonElement("playerid")]
-        [BsonRequired()]
+        [BsonRequired]
         public string PlayerId { get; set; }
 
         [BsonElement("name")]
-        [BsonRequired()]
+        [BsonRequired]
         public string Name { get; set; }
 
         [BsonElement("gamelocation")]
-        [BsonRequired()]
+        [BsonRequired]
         public int GameLocation { get; set; }
 
         [BsonElement("level")]
-        [BsonRequired()]
+        [BsonRequired]
         public int Level { get; set; }
 
         [BsonElement("faction")]
-        [BsonRequired()]
+        [BsonRequired]
         public int Faction { get; set; }
 
         [BsonElement("avataritems")]
-        [BsonRequired()]
+        [BsonRequired]
         public Dictionary<string, string> AvatarItems { get; set; }
 
         [BsonElement("cubits")]
-        [BsonRequired()]
+        [BsonRequired]
         public string Cubits { get; set; }
 
         [BsonElement("water")]
-        [BsonRequired()]
+        [BsonRequired]
         public string Water { get; set; }
 
         [BsonElement("tylium")]
-        [BsonRequired()]
+        [BsonRequired]
         public string Tylium { get; set; }
 
         [BsonElement("titanium")]
-        [BsonRequired()]
+        [BsonRequired]
         public string Titanium { get; set; }
 
         [BsonElement("experience")]
-        [BsonRequired()]
+        [BsonRequired]
         public string Experience { get; set; }
 
         // Should have more later

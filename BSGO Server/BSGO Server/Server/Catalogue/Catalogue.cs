@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 
 namespace BSGO_Server
 {
-    class Catalogue
+    internal static class Catalogue
     {
-        private static Dictionary<long, Card> cards = new Dictionary<long, Card>();
+        private static readonly Dictionary<long, Card> cards = new Dictionary<long, Card>();
 
         // This method will generate all "static" cards that the server is going to send to the client.
         public static void SetupCards()
@@ -21,8 +19,8 @@ namespace BSGO_Server
 
             // These two cards shouldn't be static since they are most likely set according to the database.
             // Since we are just debugging this, there's no need to hook it up even with the fake database yet.
-            GUICard colonialBonus = new GUICard(colonialBonusReward.CardGUID, CardView.GUI, "bonus_faction_balance_neutral", (byte)0, "", 0, "", "", "", new string[0]);
-            GUICard cylonBonus = new GUICard(cylonBonusReward.CardGUID, CardView.GUI, "bonus_faction_balance_neutral", (byte)0, "", 0, "", "", "", new string[0]);
+            GUICard colonialBonus = new GUICard(colonialBonusReward.CardGUID, CardView.GUI, "bonus_faction_balance_neutral", 0, "", 0, "", "", "", new string[0]);
+            GUICard cylonBonus = new GUICard(cylonBonusReward.CardGUID, CardView.GUI, "bonus_faction_balance_neutral", 0, "", 0, "", "", "", new string[0]);
 
             AddCard(colonialBonus);
             AddCard(cylonBonus);
@@ -127,17 +125,14 @@ namespace BSGO_Server
         public static Card FetchCard(uint cardGUID, CardView cardView)
         {
             if (cardGUID == 0)
-            {
                 return null;
-            }
+            
             Log.Add(LogSeverity.WARNING, string.Format("Received a card request: CardGUID={0}, CardView={1}", cardGUID, cardView));
 
             long key = GenerateKey(cardGUID, cardView);
-            Card value;
-            if (!cards.TryGetValue(key, out value))
-            {
+            if (!cards.TryGetValue(key, out Card value))
                 Log.Add(LogSeverity.ERROR, string.Format("The {0}CardView({1}) isn't on the cards dictionary.", cardView, cardGUID));
-            }
+            
             return value;
         }
 

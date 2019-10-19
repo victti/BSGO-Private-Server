@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BSGO_Server
 {
-    class Price : IProtocolWrite
+    internal class Price : IProtocolWrite
     {
-        public Dictionary<ShipConsumableCard, float> items = new Dictionary<ShipConsumableCard, float>();
+        public Dictionary<ShipConsumableCard, float> Items { get; set; } = new Dictionary<ShipConsumableCard, float>();
 
         public Price()
         {
-
         }
 
         public Price(Dictionary<ShipConsumableCard, float> items)
         {
-            this.items = items;
+            Items = items;
         }
 
         public void Write(BgoProtocolWriter w)
         {
-            w.Write(items.Count);
-            foreach(KeyValuePair<ShipConsumableCard, float> item in items)
+            w.Write(Items.Count);
+            foreach(KeyValuePair<ShipConsumableCard, float> item in Items)
             {
                 w.Write(item.Key.CardGUID);
                 w.Write(item.Value);

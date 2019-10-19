@@ -1,44 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Numerics;
-using System.Text;
 
 namespace BSGO_Server
 {
-    class SunDesc : IProtocolWrite
+    internal class SunDesc : IProtocolWrite
     {
-        public Color raysColor = Color.White;
-        public Color streakColor = Color.White;
-        public Color glowColor = Color.Red;
-        public Color discColor = Color.White;
-        public bool occlusionFade = true;
-        public Vector3 position;
-        public Quaternion rotation;
-        public Vector3 scale = new Vector3(1f, 1f, 1f);
+        public Color RaysColor { get; set; } = Color.White;
+        public Color StreakColor { get; set; } = Color.White;
+        public Color GlowColor { get; set; } = Color.Red;
+        public Color DiscColor { get; set; } = Color.White;
+        public bool OcclusionFade { get; set; } = true;
+        public Vector3 Position { get; set; }
+        public Quaternion Rotation { get; set; }
+        public Vector3 Scale { get; set; } = new Vector3(1f, 1f, 1f);
 
         public SunDesc(Color raysColor, Color streakColor, Color glowColor, Color discColor, bool occlusionFade, Vector3 position, Quaternion rotation, Vector3 scale)
         {
-            this.raysColor = raysColor;
-            this.streakColor = streakColor;
-            this.glowColor = glowColor;
-            this.discColor = discColor;
-            this.occlusionFade = occlusionFade;
-            this.position = position;
-            this.rotation = rotation;
-            this.scale = scale;
+            RaysColor = raysColor;
+            StreakColor = streakColor;
+            GlowColor = glowColor;
+            DiscColor = discColor;
+            OcclusionFade = occlusionFade;
+            Position = position;
+            Rotation = rotation;
+            Scale = scale;
         }
 
         public void Write(BgoProtocolWriter w)
         {
-            w.Write(raysColor);
-            w.Write(streakColor);
-            w.Write(glowColor);
-            w.Write(discColor);
-            w.Write(occlusionFade);
-            w.Write(rotation);
-            w.Write(position);
-            w.Write(scale);
+            w.Write(RaysColor);
+            w.Write(StreakColor);
+            w.Write(GlowColor);
+            w.Write(DiscColor);
+            w.Write(OcclusionFade);
+            w.Write(Rotation);
+            w.Write(Position);
+            w.Write(Scale);
         }
     }
 }

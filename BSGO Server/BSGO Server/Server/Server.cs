@@ -48,14 +48,14 @@ namespace BSGO_Server
 
             for (int i = 1; i < MaxPlayers; i++)
             {
-                if (_clients[i].socket == null)
+                if (_clients[i].Socket == null)
                 {
-                    _clients[i].socket = socket;
-                    _clients[i].index = i;
-                    _clients[i].ip = socket.RemoteEndPoint.ToString();
+                    _clients[i].Socket = socket;
+                    _clients[i].Index = i;
+                    _clients[i].Ip = socket.RemoteEndPoint.ToString();
                     _clients[i].StartClient();
 
-                    Log.Add(LogSeverity.INFO, string.Format("Connection from '{0}' received.", _clients[i].ip));
+                    Log.Add(LogSeverity.INFO, string.Format("Connection from '{0}' received.", _clients[i].Ip));
 
                     // We should send the ConnectionOK method from the LoginProtocol otherwise the game
                     // will be stuck on a "connecting" screen with no errors since it is just waiting for
@@ -75,9 +75,9 @@ namespace BSGO_Server
         {
             foreach (Client clients in _clients)
             {
-                if (clients.socket != null && !clients.closing && clients.index == index)
+                if (clients.Socket != null && !clients.Closing && clients.Index == index)
                 {
-                    clients.socket.Send(message.GetBuffer(), 0, message.GetLength(), SocketFlags.None);
+                    clients.Socket.Send(message.GetBuffer(), 0, message.GetLength(), SocketFlags.None);
                 }
             }
         }
@@ -89,9 +89,9 @@ namespace BSGO_Server
         /// <returns></returns>
         public static Client GetClientByIndex(int index)
         {
-            foreach(Client client in _clients)
+            foreach (Client client in _clients)
             {
-                if (client.index == index)
+                if (client.Index == index)
                     return client;
             }
             return null;

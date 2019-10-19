@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class SceneProtocol : Protocol
+    internal class SceneProtocol : Protocol
     {
         public enum Request : ushort
         {
@@ -22,18 +18,14 @@ namespace BSGO_Server
         }
 
         public SceneProtocol()
-            : base(ProtocolID.Scene)
-        {
-        }
+            : base(ProtocolID.Scene) {}
 
-        public static SceneProtocol GetProtocol()
-        {
-            return ProtocolManager.GetProtocol(ProtocolID.Scene) as SceneProtocol;
-        }
-
+        public static SceneProtocol GetProtocol() =>
+            ProtocolManager.GetProtocol(ProtocolID.Scene) as SceneProtocol;
+        
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
-            ushort msgType = (ushort)br.ReadUInt16();
+            ushort msgType = br.ReadUInt16();
 
             switch ((Request)msgType)
             {
@@ -44,7 +36,7 @@ namespace BSGO_Server
                     SceneLoaded(index);
                     break;
                 default:
-                    Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
+                    Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, ProtocolID));
                     break;
             }
         }
@@ -54,12 +46,12 @@ namespace BSGO_Server
         // There are multiple locations to send such as Space, Room, Story etc.
         public void SendLoadNextScene(int index)
         {
-            BgoProtocolWriter buffer = NewMessage();
+            using BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.LoadNextScene);
 
             Character charIndex = Server.GetClientByIndex(index).Character;
 
-            buffer.Write((byte)charIndex.getTransSceneType());
+            buffer.Write((byte)charIndex.GetTransSceneType());
             buffer.Write((byte)charIndex.GameLocation);
 
             switch (charIndex.GameLocation)
@@ -73,7 +65,6 @@ namespace BSGO_Server
                     buffer.Write(false); // No idea since the game doesn't use this.
                     break;
                 case GameLocation.Room:
-
                     break;
                 case GameLocation.Space:
                 case GameLocation.Story:
@@ -88,7 +79,7 @@ namespace BSGO_Server
                     PlayerProtocol.GetProtocol().SendName(index);
                     PlayerProtocol.GetProtocol().SendAvatar(index);
                     PlayerProtocol.GetProtocol().SendFaction(index);
-                    PlayerProtocol.GetProtocol().SendPlayerShips(index, 100, (uint)22131177);
+                    PlayerProtocol.GetProtocol().SendPlayerShips(index, 100, 22131177);
 
                     PlayerProtocol.GetProtocol().SetActivePlayerShip(index, 100);
 

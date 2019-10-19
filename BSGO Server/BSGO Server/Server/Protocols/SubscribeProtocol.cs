@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BSGO_Server
 {
-    class SubscribeProtocol : Protocol
+    internal class SubscribeProtocol : Protocol
     {
-        public enum Reply : ushort
+        public enum Reply : byte
         {
             PlayerName = 1,
             PlayerFaction,
@@ -24,7 +22,7 @@ namespace BSGO_Server
             PlayerTournamentIndicator
         }
 
-        public enum Request : ushort
+        public enum Request : byte
         {
             Info = 1,
             Subscribe,
@@ -34,34 +32,34 @@ namespace BSGO_Server
         }
 
         public SubscribeProtocol()
-            : base(ProtocolID.Subscribe)
-        {
-        }
+            : base(ProtocolID.Subscribe) { }
+        
 
-        public static SubscribeProtocol GetProtocol()
-        {
-            return ProtocolManager.GetProtocol(ProtocolID.Subscribe) as SubscribeProtocol;
-        }
-
+        public static SubscribeProtocol GetProtocol() =>
+            ProtocolManager.GetProtocol(ProtocolID.Subscribe) as SubscribeProtocol;
+        
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
-            ushort msgType = (ushort)br.ReadUInt16();
+            ushort msgType = br.ReadUInt16();
 
             switch ((Request)msgType)
             {
                 case Request.Info:
+                    /* ?
                     uint playerId = br.ReadUInt32();
                     uint flags = br.ReadUInt32();
+                    */
                     break;
                 default:
-                    Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
+                    Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, ProtocolID));
                     break;
             }
         }
-
+        /* ?
         public void SendInfo(int index)
         {
 
         }
+        */
     }
 }

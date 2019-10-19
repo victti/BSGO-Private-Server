@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class OwnerCard : Card
+    internal class OwnerCard : Card
     {
-        public bool IsDockable;
+        public bool IsDockable { get; set; }
 
-        public float DockRange;
+        public float DockRange { get; set; }
 
-        public byte Level;
+        public byte Level { get; set; }
 
         public OwnerCard(uint cardGUID, CardView cardView, bool isDockable, float dockRange, byte level)
-    : base(cardGUID, cardView)
+            : base(cardGUID, cardView)
         {
             IsDockable = isDockable;
             DockRange = dockRange;

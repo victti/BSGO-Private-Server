@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Numerics;
 
 namespace BSGO_Server
 {
     class GameProtocol : Protocol
     {
-        public enum Reply : ushort
+        public enum Reply : byte
         {
             Info = 2,
             WhoIs = 4,
@@ -54,7 +52,7 @@ namespace BSGO_Server
             CargoInteraction = 106
         }
 
-        public enum Request : ushort
+        public enum Request : byte
         {
             WhoIs = 3,
             SubscribeInfo = 10,
@@ -103,18 +101,14 @@ namespace BSGO_Server
         }
 
         public GameProtocol()
-            : base(ProtocolID.Game)
-        {
-        }
+            : base(ProtocolID.Game) {}
 
-        public static GameProtocol GetProtocol()
-        {
-            return ProtocolManager.GetProtocol(ProtocolID.Game) as GameProtocol;
-        }
-
+        public static GameProtocol GetProtocol() =>
+            ProtocolManager.GetProtocol(ProtocolID.Game) as GameProtocol;
+        
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
-            ushort msgType = (ushort)br.ReadUInt16();
+            ushort msgType = br.ReadUInt16();
 
             switch ((Request)msgType)
             {
@@ -135,23 +129,23 @@ namespace BSGO_Server
                 case Request.SetSpeed:
                     byte mode = br.ReadByte();
                     float speed = br.ReadSingle();
-                    Server.GetClientByIndex(index).Character.shipMode = mode;
-                    Server.GetClientByIndex(index).Character.shipSpeed = speed;
+                    Server.GetClientByIndex(index).Character.ShipMode = mode;
+                    Server.GetClientByIndex(index).Character.ShipSpeed = speed;
                     SyncMove(index, SpaceEntityType.Player, (uint)index);
                     break;
                 case Request.WASD:
-                    Server.GetClientByIndex(index).Character.qweasd = br.ReadByte();
+                    Server.GetClientByIndex(index).Character.Qweasd = br.ReadByte();
                     SyncMove(index, SpaceEntityType.Player, (uint)index);
                     break;
                 default:
-                    Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
+                    Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, ProtocolID));
                     break;
             }
         }
 
         private void SyncMove(int index, SpaceEntityType spaceEntityType, uint objectId)
         {
-            BgoProtocolWriter buffer = NewMessage();
+            using BgoProtocolWriter buffer = NewMessage();
 
             buffer.Write((ushort)Reply.SyncMove);
             buffer.Write((uint)spaceEntityType + objectId);
@@ -179,14 +173,14 @@ namespace BSGO_Server
             buffer.Write(1);
 
             //qweasd
-            buffer.Write(Server.GetClientByIndex(index).Character.qweasd);
+            buffer.Write(Server.GetClientByIndex(index).Character.Qweasd);
 
             ObjectStats currentShipStats = ((ShipCard)Catalogue.FetchCard(Server.GetClientByIndex(index).Character.WorldCardGUID, CardView.Ship)).Stats;
 
             //gear
             buffer.Write((byte)0);
             //speed
-            buffer.Write(Server.GetClientByIndex(index).Character.shipSpeed);
+            buffer.Write(Server.GetClientByIndex(index).Character.ShipSpeed);
             //acceleration
             buffer.Write(currentShipStats.Acceleration);
             //inertiaCompensation
@@ -220,14 +214,14 @@ namespace BSGO_Server
 
             buffer.Write((ushort)Reply.SyncMove);
             buffer.Write((uint)spaceEntityType + objectId);
-            buffer.Write((int)1); // tick
+            buffer.Write(1); // tick
 
             //position
             buffer.Write(position);
 
             //euler3
             buffer.Write(euler3);
-            
+
             //linearSpeed
             buffer.Write(new Vector3());
 
@@ -254,12 +248,12 @@ namespace BSGO_Server
 
         public void SendWhoIsPlayer(int index)
         {
-            BgoProtocolWriter buffer = NewMessage();
+            using BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.WhoIs);
             buffer.Write((uint)SpaceEntityType.Player + (uint)index);
             buffer.Write((byte)CreatingCause.JumpIn);
             buffer.Write((uint)index); // The OwnerGUID. Since idk what it could be, just using his index
-            buffer.Write((uint)Server.GetClientByIndex(index).Character.WorldCardGUID); // The WorldCardGUID which is the spaceship loaded.
+            buffer.Write(Server.GetClientByIndex(index).Character.WorldCardGUID); // The WorldCardGUID which is the spaceship loaded.
 
             //nothing yet
             buffer.Write((ushort)0);
@@ -274,7 +268,7 @@ namespace BSGO_Server
 
         public void SpawnPlanetoid(int connectionId, uint objectId, Vector3 position)
         {
-            BgoProtocolWriter buffer = NewMessage();
+            using BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.WhoIs);
             buffer.Write((uint)SpaceEntityType.Planetoid + objectId);
             buffer.Write((byte)CreatingCause.JumpIn);
@@ -289,7 +283,7 @@ namespace BSGO_Server
 
         private void SetTimeOrigin(int index)
         {
-            BgoProtocolWriter buffer = NewMessage();
+            using BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.TimeOrigin);
             buffer.Write((long)DateTime.UtcNow.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
 
@@ -298,7 +292,7 @@ namespace BSGO_Server
 
         public void SpawnOutpost(int connectionId, uint objectId)
         {
-            BgoProtocolWriter buffer = NewMessage();
+            using BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.WhoIs);
             buffer.Write((uint)SpaceEntityType.Outpost + objectId);
             buffer.Write((byte)CreatingCause.JumpIn);
@@ -320,7 +314,7 @@ namespace BSGO_Server
 
         public void SetOutpost(int connectionId)
         {
-            BgoProtocolWriter buffer = NewMessage();
+            using BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.OutpostStateBroadcast);
             //int oP = (int)br.ReadUInt16();
             //float colonialDelta = br.ReadSingle();

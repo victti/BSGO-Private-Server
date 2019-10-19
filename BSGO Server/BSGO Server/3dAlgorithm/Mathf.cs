@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BSGO_Server._3dAlgorithm
 {
@@ -18,109 +16,73 @@ namespace BSGO_Server._3dAlgorithm
         ///   <para>Returns the sine of angle /f/ in radians.</para>
         /// </summary>
         /// <param name="f"></param>
-        public static float Sin(float f)
-        {
-            return (float)Math.Sin(f);
-        }
+        public static float Sin(float f) => (float)Math.Sin(f);
 
         /// <summary>
         ///   <para>Returns the cosine of angle /f/ in radians.</para>
         /// </summary>
         /// <param name="f"></param>
-        public static float Cos(float f)
-        {
-            return (float)Math.Cos(f);
-        }
+        public static float Cos(float f) => (float)Math.Cos(f);
 
         /// <summary>
         ///   <para>Returns the tangent of angle /f/ in radians.</para>
         /// </summary>
         /// <param name="f"></param>
-        public static float Tan(float f)
-        {
-            return (float)Math.Tan(f);
-        }
+        public static float Tan(float f) => (float)Math.Tan(f);
 
         /// <summary>
         ///   <para>Returns the arc-sine of /f/ - the angle in radians whose sine is /f/.</para>
         /// </summary>
         /// <param name="f"></param>
-        public static float Asin(float f)
-        {
-            return (float)Math.Asin(f);
-        }
+        public static float Asin(float f) => (float)Math.Asin(f);
 
         /// <summary>
         ///   <para>Returns the arc-cosine of /f/ - the angle in radians whose cosine is /f/.</para>
         /// </summary>
         /// <param name="f"></param>
-        public static float Acos(float f)
-        {
-            return (float)Math.Acos(f);
-        }
+        public static float Acos(float f) => (float)Math.Acos(f);
 
         /// <summary>
         ///   <para>Returns the arc-tangent of /f/ - the angle in radians whose tangent is /f/.</para>
         /// </summary>
         /// <param name="f"></param>
-        public static float Atan(float f)
-        {
-            return (float)Math.Atan(f);
-        }
+        public static float Atan(float f) => (float)Math.Atan(f);
 
         /// <summary>
         ///   <para>Returns the angle in radians whose ::ref::Tan is @@y/x@@.</para>
         /// </summary>
         /// <param name="y"></param>
         /// <param name="x"></param>
-        public static float Atan2(float y, float x)
-        {
-            return (float)Math.Atan2(y, x);
-        }
+        public static float Atan2(float y, float x) => (float)Math.Atan2(y, x);
 
         /// <summary>
         ///   <para>Returns square root of /f/.</para>
         /// </summary>
         /// <param name="f"></param>
-        public static float Sqrt(float f)
-        {
-            return (float)Math.Sqrt(f);
-        }
+        public static float Sqrt(float f) => (float)Math.Sqrt(f);
 
         /// <summary>
         ///   <para>Returns the absolute value of /f/.</para>
         /// </summary>
         /// <param name="f"></param>
-        public static float Abs(float f)
-        {
-            return Math.Abs(f);
-        }
+        public static float Abs(float f) => Math.Abs(f);
 
         /// <summary>
         ///   <para>Returns the absolute value of /value/.</para>
         /// </summary>
         /// <param name="value"></param>
-        public static int Abs(int value)
-        {
-            return Math.Abs(value);
-        }
+        public static int Abs(int value) => Math.Abs(value);
 
         /// <summary>
         ///   <para>Returns the smallest of two or more values.</para>
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
-        /// <param name="values"></param>
-        public static float Min(float a, float b)
-        {
-            return (!(a < b)) ? b : a;
-        }
+        public static float Min(float a, float b) => (!(a < b)) ? b : a;
 
         /// <summary>
         ///   <para>Returns the smallest of two or more values.</para>
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
         /// <param name="values"></param>
         public static float Min(params float[] values)
         {
@@ -145,17 +107,11 @@ namespace BSGO_Server._3dAlgorithm
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
-        /// <param name="values"></param>
-        public static int Min(int a, int b)
-        {
-            return (a >= b) ? b : a;
-        }
+        public static int Min(int a, int b) => (a >= b) ? b : a;
 
         /// <summary>
         ///   <para>Returns the smallest of two or more values.</para>
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
         /// <param name="values"></param>
         public static int Min(params int[] values)
         {
@@ -180,17 +136,11 @@ namespace BSGO_Server._3dAlgorithm
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
-        /// <param name="values"></param>
-        public static float Max(float a, float b)
-        {
-            return (!(a > b)) ? b : a;
-        }
+        public static float Max(float a, float b) => (!(a > b)) ? b : a;
 
         /// <summary>
         ///   <para>Returns largest of two or more values.</para>
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
         /// <param name="values"></param>
         public static float Max(params float[] values)
         {
@@ -215,17 +165,11 @@ namespace BSGO_Server._3dAlgorithm
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
-        /// <param name="values"></param>
-        public static int Max(int a, int b)
-        {
-            return (a <= b) ? b : a;
-        }
+        public static int Max(int a, int b) => (a <= b) ? b : a;
 
         /// <summary>
         ///   <para>Returns the largest of two or more values.</para>
         /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
         /// <param name="values"></param>
         public static int Max(params int[] values)
         {
@@ -250,110 +194,74 @@ namespace BSGO_Server._3dAlgorithm
         /// </summary>
         /// <param name="f"></param>
         /// <param name="p"></param>
-        public static float Pow(float f, float p)
-        {
-            return (float)Math.Pow(f, p);
-        }
+        public static float Pow(float f, float p) => (float)Math.Pow(f, p);
 
         /// <summary>
         ///   <para>Returns e raised to the specified power.</para>
         /// </summary>
         /// <param name="power"></param>
-        public static float Exp(float power)
-        {
-            return (float)Math.Exp(power);
-        }
+        public static float Exp(float power) => (float)Math.Exp(power);
 
         /// <summary>
         ///   <para>Returns the logarithm of a specified number in a specified base.</para>
         /// </summary>
         /// <param name="f"></param>
         /// <param name="p"></param>
-        public static float Log(float f, float p)
-        {
-            return (float)Math.Log(f, p);
-        }
+        public static float Log(float f, float p) => (float)Math.Log(f, p);
 
         /// <summary>
         ///   <para>Returns the natural (base e) logarithm of a specified number.</para>
         /// </summary>
         /// <param name="f"></param>
-        public static float Log(float f)
-        {
-            return (float)Math.Log(f);
-        }
+        public static float Log(float f) => (float)Math.Log(f);
 
         /// <summary>
         ///   <para>Returns the base 10 logarithm of a specified number.</para>
         /// </summary>
         /// <param name="f"></param>
-        public static float Log10(float f)
-        {
-            return (float)Math.Log10(f);
-        }
+        public static float Log10(float f) => (float)Math.Log10(f);
 
         /// <summary>
         ///   <para>Returns the smallest integer greater to or equal to /f/.</para>
         /// </summary>
         /// <param name="f"></param>
-        public static float Ceil(float f)
-        {
-            return (float)Math.Ceiling(f);
-        }
+        public static float Ceil(float f) => (float)Math.Ceiling(f);
 
         /// <summary>
         ///   <para>Returns the largest integer smaller to or equal to /f/.</para>
         /// </summary>
         /// <param name="f"></param>
-        public static float Floor(float f)
-        {
-            return (float)Math.Floor(f);
-        }
+        public static float Floor(float f) => (float)Math.Floor(f);
 
         /// <summary>
         ///   <para>Returns /f/ rounded to the nearest integer.</para>
         /// </summary>
         /// <param name="f"></param>
-        public static float Round(float f)
-        {
-            return (float)Math.Round(f);
-        }
+        public static float Round(float f) => (float)Math.Round(f);
 
         /// <summary>
         ///   <para>Returns the smallest integer greater to or equal to /f/.</para>
         /// </summary>
         /// <param name="f"></param>
-        public static int CeilToInt(float f)
-        {
-            return (int)Math.Ceiling(f);
-        }
+        public static int CeilToInt(float f) => (int)Math.Ceiling(f);
 
         /// <summary>
         ///   <para>Returns the largest integer smaller to or equal to /f/.</para>
         /// </summary>
         /// <param name="f"></param>
-        public static int FloorToInt(float f)
-        {
-            return (int)Math.Floor(f);
-        }
+        public static int FloorToInt(float f) => (int)Math.Floor(f);
 
         /// <summary>
         ///   <para>Returns /f/ rounded to the nearest integer.</para>
         /// </summary>
         /// <param name="f"></param>
-        public static int RoundToInt(float f)
-        {
-            return (int)Math.Round(f);
-        }
+        public static int RoundToInt(float f) => (int)Math.Round(f);
 
         /// <summary>
         ///   <para>Returns the sign of /f/.</para>
         /// </summary>
         /// <param name="f"></param>
-        public static float Sign(float f)
-        {
-            return (!(f >= 0f)) ? (-1f) : 1f;
-        }
+        public static float Sign(float f) => (!(f >= 0f)) ? (-1f) : 1f;
 
         /// <summary>
         ///   <para>Clamps a value between a minimum float and maximum float value.</para>
@@ -416,10 +324,7 @@ namespace BSGO_Server._3dAlgorithm
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <param name="t"></param>
-        public static float Lerp(float from, float to, float t)
-        {
-            return from + (to - from) * Clamp01(t);
-        }
+        public static float Lerp(float from, float to, float t) => from + (to - from) * Clamp01(t);
 
         /// <summary>
         ///   <para>Same as ::ref::Lerp but makes sure the values interpolate correctly when they wrap around 360 degrees.</para>
@@ -479,16 +384,11 @@ namespace BSGO_Server._3dAlgorithm
 
         public static float Gamma(float value, float absmax, float gamma)
         {
-            bool flag = false;
-            if (value < 0f)
-            {
-                flag = true;
-            }
+            bool flag = false || value < 0f;
             float num = Abs(value);
             if (num > absmax)
-            {
                 return (!flag) ? num : (0f - num);
-            }
+            
             float num2 = Pow(num / absmax, gamma) * absmax;
             return (!flag) ? num2 : (0f - num2);
         }
@@ -498,20 +398,14 @@ namespace BSGO_Server._3dAlgorithm
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
-        public static bool Approximately(float a, float b)
-        {
-            return Abs(b - a) < Max(1E-06f * Max(Abs(a), Abs(b)), Epsilon * 8f);
-        }
+        public static bool Approximately(float a, float b) => Abs(b - a) < Max(1E-06f * Max(Abs(a), Abs(b)), Epsilon * 8f);
 
         /// <summary>
         ///   <para>Loops the value t, so that it is never larger than length and never smaller than 0.</para>
         /// </summary>
         /// <param name="t"></param>
         /// <param name="length"></param>
-        public static float Repeat(float t, float length)
-        {
-            return t - Floor(t / length) * length;
-        }
+        public static float Repeat(float t, float length) => t - Floor(t / length) * length;
 
         /// <summary>
         ///   <para>Calculates the shortest difference between two given angles given in degrees.</para>
@@ -522,9 +416,8 @@ namespace BSGO_Server._3dAlgorithm
         {
             float num = Repeat(target - current, 360f);
             if (num > 180f)
-            {
                 num -= 360f;
-            }
+            
             return num;
         }
     }

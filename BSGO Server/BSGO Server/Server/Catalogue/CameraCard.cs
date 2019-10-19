@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class CameraCard : Card
+    internal class CameraCard : Card
     {
-        public float DefaultZoom = 1f;
-        public float MinZoom = 10f;
-        public float MaxZoom = 20f;
-        public float SoftTrembleSpeed = 1f;
-        public float HardTrembleSpeed = 1f;
+        public float DefaultZoom { get; set; } = 1f;
+        public float MinZoom { get; set; } = 10f;
+        public float MaxZoom { get; set; } = 20f;
+        public float SoftTrembleSpeed { get; set; } = 1f;
+        public float HardTrembleSpeed { get; set; } = 1f;
 
         public CameraCard(uint cardGUID, CardView cardView, float defaultZoom, float minZoom, float maxZoom, float softTrembleSpeed, float hardTrembleSpeed)
             : base(cardGUID, cardView)

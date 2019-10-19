@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server._3dAlgorithm
+﻿namespace BSGO_Server._3dAlgorithm
 {
     public static class Algorithm3D
     {
@@ -72,12 +68,12 @@ namespace BSGO_Server._3dAlgorithm
 
         public static bool IsNaN(Quaternion q)
         {
-            return float.IsNaN(q.w) || float.IsNaN(q.x) || float.IsNaN(q.y) || float.IsNaN(q.z);
+            return float.IsNaN(q.W) || float.IsNaN(q.X) || float.IsNaN(q.Y) || float.IsNaN(q.Z);
         }
 
         public static bool IsInfinity(Quaternion q)
         {
-            return float.IsInfinity(q.w) || float.IsInfinity(q.x) || float.IsInfinity(q.y) || float.IsInfinity(q.z);
+            return float.IsInfinity(q.W) || float.IsInfinity(q.X) || float.IsInfinity(q.Y) || float.IsInfinity(q.Z);
         }
 
         //public static bool Raycast(GameObject gameObject, Vector3 origin, Vector3 direction, float distance, out RaycastHit raycastHit)
@@ -100,22 +96,22 @@ namespace BSGO_Server._3dAlgorithm
 
         public static Vector3 GetTrueDirection(Vector3 direction)
         {
-            Vector3 vector = direction.normalized;
-            if (Vector3.Angle(vector, Vector3.up) < 40f)
+            Vector3 vector = direction.Normalized;
+            if (Vector3.Angle(vector, Vector3.Up) < 40f)
             {
                 Vector3 from = vector;
                 from.y = 0f;
                 from.Normalize();
-                vector = Vector3.Slerp(from, Vector3.up, 5f / 9f);
+                vector = Vector3.Slerp(from, Vector3.Up, 5f / 9f);
             }
-            else if (Vector3.Angle(vector, Vector3.down) < 40f)
+            else if (Vector3.Angle(vector, Vector3.Down) < 40f)
             {
                 Vector3 from2 = vector;
                 from2.y = 0f;
                 from2.Normalize();
-                vector = Vector3.Slerp(from2, Vector3.down, 5f / 9f);
+                vector = Vector3.Slerp(from2, Vector3.Down, 5f / 9f);
             }
-            return vector.normalized;
+            return vector.Normalized;
         }
 
         public static Quaternion RotateQuaternion(Quaternion q1, Quaternion q2, float rotationAngle)
@@ -131,7 +127,7 @@ namespace BSGO_Server._3dAlgorithm
         public static Quaternion MirrorQuaternion(Quaternion q)
         {
             float angle = 0f;
-            Vector3 axis = Vector3.zero;
+            Vector3 axis = Vector3.Zero;
             q.ToAngleAxis(out angle, out axis);
             axis.x = 0f - axis.x;
             return Quaternion.AngleAxis(0f - angle, axis);
@@ -221,7 +217,7 @@ namespace BSGO_Server._3dAlgorithm
             Vector3 b = s3 - s2;
             Vector3 rhs = a - b;
             Vector3 lhs = s2 - s0;
-            float sqrMagnitude = rhs.sqrMagnitude;
+            float sqrMagnitude = rhs.SqrMagnitude;
             float value = 0f;
             if (!Mathf.Approximately(sqrMagnitude, 0f))
             {

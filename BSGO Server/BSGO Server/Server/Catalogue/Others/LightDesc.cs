@@ -1,29 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Numerics;
-using System.Text;
 
 namespace BSGO_Server
 {
-    class LightDesc : IProtocolWrite
+    internal class LightDesc : IProtocolWrite
     {
-        public Quaternion rotation;
-        public Color color;
-        public float intensity;
+        public Quaternion Rotation { get; set; }
+        public Color Color { get; set; }
+        public float Intensity { get; set; }
 
         public LightDesc(Quaternion rotation, Color color, float intensity)
         {
-            this.rotation = rotation;
-            this.color = color;
-            this.intensity = intensity;
+            Rotation = rotation;
+            Color = color;
+            Intensity = intensity;
         }
 
         public void Write(BgoProtocolWriter w)
         {
-            w.Write(rotation);
-            w.Write(color);
-            w.Write(intensity);
+            w.Write(Rotation);
+            w.Write(Color);
+            w.Write(Intensity);
         }
     }
 }

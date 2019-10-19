@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BSGO_Server
 {
-    class Protocol
+    internal class Protocol
     {
-        public enum ProtocolID : byte
+        public enum ProtocolIDType : byte
         {
             Login,
             Universe,
@@ -36,13 +34,13 @@ namespace BSGO_Server
             Zone
         }
 
-        public readonly ProtocolID protocolID;
+        public ProtocolIDType ProtocolID { get; }
 
-        private bool enabled;
+        private readonly bool enabled;
 
-        public Protocol(ProtocolID protocolID)
+        public Protocol(ProtocolIDType protocolID)
         {
-            this.protocolID = protocolID;
+            ProtocolID = protocolID;
             enabled = true;
         }
 
@@ -51,7 +49,7 @@ namespace BSGO_Server
         protected BgoProtocolWriter NewMessage()
         {
             BgoProtocolWriter bgoProtocolWriter = new BgoProtocolWriter();
-            bgoProtocolWriter.Write((byte)protocolID);
+            bgoProtocolWriter.Write((byte)ProtocolID);
             return bgoProtocolWriter;
         }
 
@@ -63,13 +61,13 @@ namespace BSGO_Server
                 DebugMessage(bw);
             }
             else
-            {
-                Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to \"{0}\" for disabled protocol \"{1}\"", index, protocolID));
-            }
+                Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to \"{0}\" for disabled protocol \"{1}\"", index, ProtocolID));
+            
         }
 
         protected void SendMessageToSector(int index, BgoProtocolWriter bw)
         {
+            // ?
             if (enabled)
             {
 
@@ -82,22 +80,23 @@ namespace BSGO_Server
 
         protected void SendMessageToEveryone(BgoProtocolWriter bw)
         {
+            // ?
             if (enabled)
             {
 
             }
             else
             {
-                Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to everyone for disabled protocol \"{0}\"", protocolID));
+                Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to everyone for disabled protocol \"{0}\"", ProtocolID));
             }
         }
 
         private void DebugMessage(BgoProtocolWriter w)
         {
-            BgoProtocolReader buffer = new BgoProtocolReader(w.GetBuffer());
+            using BgoProtocolReader buffer = new BgoProtocolReader(w.GetBuffer());
             buffer.ReadUInt16();
             byte protocolId = buffer.ReadByte();
-            Log.Add(LogSeverity.INFO, Log.LogDir.Out, string.Format("Protocol ID: {0} ({1}) - msgType: {2}", protocolId, (ProtocolID)protocolId, buffer.ReadUInt16()));
+            Log.Add(LogSeverity.INFO, Log.LogDir.Out, string.Format("Protocol ID: {0} ({1}) - msgType: {2}", protocolId, (ProtocolIDType)protocolId, buffer.ReadUInt16()));
         }
     }
 }

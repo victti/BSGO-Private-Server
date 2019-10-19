@@ -1,26 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class GUICard : Card
+    internal class GUICard : Card
     {
-        public string Key = string.Empty;
+        public string Key { get; set; } = string.Empty;
 
-        public byte Level;
+        public byte Level { get; set; }
 
-        private string[] Args;
+        private readonly string[] args;
 
-        public string GUIIcon;
+        public string GUIIcon { get; set; }
 
-        public string GUITexturePath = string.Empty;
+        public string GUITexturePath { get; set; } = string.Empty;
 
-        public string GUIAtlasTexturePath = string.Empty;
+        public string GUIAtlasTexturePath { get; set; } = string.Empty;
 
-        public string GUIAvatarSlotTexturePath = string.Empty;
+        public string GUIAvatarSlotTexturePath { get; set; } = string.Empty;
 
-        public ushort FrameIndex;
+        public ushort FrameIndex { get; set; }
 
         public GUICard(uint cardGUID, CardView cardView, string key, byte level, string GUIAtlasTexturePath, ushort frameIndex, string GUIIcon, string GUIAvatarSlotTexturePath, string GUITexturePath, string[] args)
             : base(cardGUID, cardView)
@@ -32,7 +28,7 @@ namespace BSGO_Server
             this.GUIIcon = GUIIcon;
             this.GUIAvatarSlotTexturePath = GUIAvatarSlotTexturePath;
             this.GUITexturePath = GUITexturePath;
-            Args = args;
+            this.args = args;
         }
 
         public override void Write(BgoProtocolWriter w)
@@ -45,7 +41,7 @@ namespace BSGO_Server
             w.Write(GUIIcon);
             w.Write(GUIAvatarSlotTexturePath);
             w.Write(GUITexturePath);
-            w.Write(Args);
+            w.Write(args);
         }
     }
 }

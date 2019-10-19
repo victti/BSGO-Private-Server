@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class ShipImmutableSlot : IProtocolWrite
+    internal class ShipImmutableSlot : IProtocolWrite
     {
-        public ushort SlotId;
+        public ushort SlotId { get; set; }
 
-        public ShipSlotType SystemType;
+        public ShipSlotType SystemType { get; set; }
 
-        public ushort ObjectPointServerHash;
+        public ushort ObjectPointServerHash { get; set; }
 
-        public uint SystemKey;
+        public uint SystemKey { get; set; }
 
-        public uint SystemLevel;
+        public uint SystemLevel { get; set; }
 
-        public uint ConsumableKey;
+        public uint ConsumableKey { get; set; }
 
         public void Write(BgoProtocolWriter w)
         {

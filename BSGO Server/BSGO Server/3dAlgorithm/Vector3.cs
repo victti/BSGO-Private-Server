@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BSGO_Server._3dAlgorithm
 {
@@ -25,20 +23,13 @@ namespace BSGO_Server._3dAlgorithm
 
         public float this[int index]
         {
-            get
+            get => index switch
             {
-                switch (index)
-                {
-                    case 0:
-                        return x;
-                    case 1:
-                        return y;
-                    case 2:
-                        return z;
-                    default:
-                        throw new IndexOutOfRangeException("Invalid Vector3 index!");
-                }
-            }
+                0 => x,
+                1 => y,
+                2 => z,
+                _ => throw new IndexOutOfRangeException("Invalid Vector3 index!"),
+            };
             set
             {
                 switch (index)
@@ -61,123 +52,57 @@ namespace BSGO_Server._3dAlgorithm
         /// <summary>
         ///   <para>Returns this vector with a ::ref::magnitude of 1 (RO).</para>
         /// </summary>
-        public Vector3 normalized
-        {
-            get
-            {
-                return Normalize(this);
-            }
-        }
+        public Vector3 Normalized => Normalize(this);
 
         /// <summary>
         ///   <para>Returns the length of this vector (RO).</para>
         /// </summary>
-        public float magnitude
-        {
-            get
-            {
-                return MathF.Sqrt(x * x + y * y + z * z);
-            }
-        }
+        public float Magnitude => MathF.Sqrt(x * x + y * y + z * z);
 
         /// <summary>
         ///   <para>Returns the squared length of this vector (RO).</para>
         /// </summary>
-        public float sqrMagnitude
-        {
-            get
-            {
-                return x * x + y * y + z * z;
-            }
-        }
+        public float SqrMagnitude => x * x + y * y + z * z;
 
         /// <summary>
         ///   <para>Shorthand for writing @@Vector3(0, 0, 0)@@.</para>
         /// </summary>
-        public static Vector3 zero
-        {
-            get
-            {
-                return new Vector3(0f, 0f, 0f);
-            }
-        }
+        public static Vector3 Zero => new Vector3(0f, 0f, 0f);
 
         /// <summary>
         ///   <para>Shorthand for writing @@Vector3(1, 1, 1)@@.</para>
         /// </summary>
-        public static Vector3 one
-        {
-            get
-            {
-                return new Vector3(1f, 1f, 1f);
-            }
-        }
+        public static Vector3 One => new Vector3(1f, 1f, 1f);
 
         /// <summary>
         ///   <para>Shorthand for writing @@Vector3(0, 0, 1)@@.</para>
         /// </summary>
-        public static Vector3 forward
-        {
-            get
-            {
-                return new Vector3(0f, 0f, 1f);
-            }
-        }
+        public static Vector3 Forward => new Vector3(0f, 0f, 1f);
 
         /// <summary>
         ///   <para>Shorthand for writing @@Vector3(0, 0, -1)@@.</para>
         /// </summary>
-        public static Vector3 back
-        {
-            get
-            {
-                return new Vector3(0f, 0f, -1f);
-            }
-        }
+        public static Vector3 Back => new Vector3(0f, 0f, -1f);
 
         /// <summary>
         ///   <para>Shorthand for writing @@Vector3(0, 1, 0)@@.</para>
         /// </summary>
-        public static Vector3 up
-        {
-            get
-            {
-                return new Vector3(0f, 1f, 0f);
-            }
-        }
+        public static Vector3 Up => new Vector3(0f, 1f, 0f);
 
         /// <summary>
         ///   <para>Shorthand for writing @@Vector3(0, -1, 0)@@.</para>
         /// </summary>
-        public static Vector3 down
-        {
-            get
-            {
-                return new Vector3(0f, -1f, 0f);
-            }
-        }
+        public static Vector3 Down => new Vector3(0f, -1f, 0f);
 
         /// <summary>
         ///   <para>Shorthand for writing @@Vector3(-1, 0, 0)@@.</para>
         /// </summary>
-        public static Vector3 left
-        {
-            get
-            {
-                return new Vector3(-1f, 0f, 0f);
-            }
-        }
+        public static Vector3 Left => new Vector3(-1f, 0f, 0f);
 
         /// <summary>
         ///   <para>Shorthand for writing @@Vector3(1, 0, 0)@@.</para>
         /// </summary>
-        public static Vector3 right
-        {
-            get
-            {
-                return new Vector3(1f, 0f, 0f);
-            }
-        }
+        public static Vector3 Right => new Vector3(1f, 0f, 0f);
 
         /// <summary>
         ///   <para>Creates a new vector with given x, y, z components.</para>
@@ -238,12 +163,12 @@ namespace BSGO_Server._3dAlgorithm
         /// <param name="value"></param>
         public static Vector3 Normalize(Vector3 value)
         {
-            float num = Magnitude(value);
+            float num = GetMagnitude(value);
             if (num > 1E-05f)
             {
                 return value / num;
             }
-            return zero;
+            return Zero;
         }
 
         /// <summary>
@@ -251,14 +176,14 @@ namespace BSGO_Server._3dAlgorithm
         /// </summary>
         public void Normalize()
         {
-            float num = Magnitude(this);
+            float num = GetMagnitude(this);
             if (num > 1E-05f)
             {
                 this /= num;
             }
             else
             {
-                this = zero;
+                this = Zero;
             }
         }
 
@@ -277,68 +202,31 @@ namespace BSGO_Server._3dAlgorithm
         /// </summary>
         /// <param name="from">The angle extends round from this vector.</param>
         /// <param name="to">The angle extends round to this vector.</param>
-        public static float Angle(Vector3 from, Vector3 to)
-        {
-            return MathF.Acos(Math.Clamp(Dot(from.normalized, to.normalized), -1f, 1f)) * 57.29578f;
-        }
+        public static float Angle(Vector3 from, Vector3 to) => MathF.Acos(Math.Clamp(Dot(from.Normalized, to.Normalized), -1f, 1f)) * 57.29578f;
 
-        public static float Magnitude(Vector3 a)
-        {
-            return MathF.Sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
-        }
+        public static float GetMagnitude(Vector3 a) => MathF.Sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
 
-        public static float SqrMagnitude(Vector3 a)
-        {
-            return a.x * a.x + a.y * a.y + a.z * a.z;
-        }
+        public static float GetSqrMagnitude(Vector3 a) => a.x * a.x + a.y * a.y + a.z * a.z;
 
-        public static Vector3 operator +(Vector3 a, Vector3 b)
-        {
-            return new Vector3(a.x + b.x, a.y + b.y, a.z + b.z);
-        }
+        public static Vector3 operator +(Vector3 a, Vector3 b) => new Vector3(a.x + b.x, a.y + b.y, a.z + b.z);
 
-        public static Vector3 operator -(Vector3 a, Vector3 b)
-        {
-            return new Vector3(a.x - b.x, a.y - b.y, a.z - b.z);
-        }
+        public static Vector3 operator -(Vector3 a, Vector3 b) => new Vector3(a.x - b.x, a.y - b.y, a.z - b.z);
 
-        public static Vector3 operator -(Vector3 a)
-        {
-            return new Vector3(0f - a.x, 0f - a.y, 0f - a.z);
-        }
+        public static Vector3 operator -(Vector3 a) => new Vector3(0f - a.x, 0f - a.y, 0f - a.z);
 
-        public static Vector3 operator *(Vector3 a, float d)
-        {
-            return new Vector3(a.x * d, a.y * d, a.z * d);
-        }
+        public static Vector3 operator *(Vector3 a, float d) => new Vector3(a.x * d, a.y * d, a.z * d);
 
-        public static Vector3 operator *(float d, Vector3 a)
-        {
-            return new Vector3(a.x * d, a.y * d, a.z * d);
-        }
+        public static Vector3 operator *(float d, Vector3 a) => new Vector3(a.x * d, a.y * d, a.z * d);
 
-        public static Vector3 operator /(Vector3 a, float d)
-        {
-            return new Vector3(a.x / d, a.y / d, a.z / d);
-        }
+        public static Vector3 operator /(Vector3 a, float d) => new Vector3(a.x / d, a.y / d, a.z / d);
 
-        public static bool operator ==(Vector3 lhs, Vector3 rhs)
-        {
-            return SqrMagnitude(lhs - rhs) < 9.99999944E-11f;
-        }
+        public static bool operator ==(Vector3 lhs, Vector3 rhs) => GetSqrMagnitude(lhs - rhs) < 9.99999944E-11f;
 
-        public static bool operator !=(Vector3 lhs, Vector3 rhs)
-        {
-            return SqrMagnitude(lhs - rhs) >= 9.99999944E-11f;
-        }
+        public static bool operator !=(Vector3 lhs, Vector3 rhs) => GetSqrMagnitude(lhs - rhs) >= 9.99999944E-11f;
 
         /// <summary>
         ///   <para>Returns a nicely formatted string for this vector.</para>
         /// </summary>
-        /// <param name="format"></param>
-        public override string ToString()
-        {
-            return string.Format("({0:F1}, {1:F1}, {2:F1})", x, y, z);
-        }
+        public override string ToString() => string.Format("({0:F1}, {1:F1}, {2:F1})", x, y, z);
     }
 }

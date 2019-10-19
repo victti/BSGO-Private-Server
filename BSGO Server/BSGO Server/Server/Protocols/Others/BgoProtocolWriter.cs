@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
 using System.Numerics;
 using System.Text;
 
 namespace BSGO_Server
 {
-    class BgoProtocolWriter : BinaryWriter
+    internal class BgoProtocolWriter : BinaryWriter
     {
-        private MemoryStream memoryStream;
+        private readonly MemoryStream memoryStream;
 
         public BgoProtocolWriter()
             : base(new MemoryStream())
@@ -31,18 +29,16 @@ namespace BSGO_Server
             byte[] bytes = uTF.GetBytes(value);
             Write((ushort)bytes.Length);
             if (bytes.Length > 0)
-            {
                 Write(bytes, 0, bytes.Length);
-            }
+            
         }
 
         public void Write(string[] value)
         {
             Write((ushort)value.Length);
             for(int i = 0; i < value.Length; i++)
-            {
                 Write(value[i]);
-            }
+            
         }
 
         public void Write(Color value)
@@ -81,9 +77,8 @@ namespace BSGO_Server
             return buffer;
         }
 
-        public int GetLength()
-        {
-            return (int)memoryStream.Length;
-        }
+        public int GetLength() =>
+            (int)memoryStream.Length;
+        
     }
 }
