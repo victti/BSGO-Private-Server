@@ -11,8 +11,8 @@ namespace BSGO_Server
         public bool Closing { get; set; } = false;
         private readonly byte[] _buffer = new byte[65535];
 
-        public uint playerId;
-        public Character Character;
+        public uint PlayerId { get; set; }
+        public Character Character { get; set; }
 
         public void StartClient()
         { 
@@ -46,6 +46,7 @@ namespace BSGO_Server
             }
         }
 
+        // Unused param index, wip?
         private void CloseClient(int index)
         {
             Log.Add(LogSeverity.INFO, string.Format("Connection from {0} has been terminated.", Ip));

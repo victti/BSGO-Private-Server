@@ -101,11 +101,11 @@ namespace BSGO_Server
         }
 
         public GameProtocol()
-            : base(ProtocolIDType.Game) {}
+            : base(ProtocolIDType.Game) { }
 
         public static GameProtocol GetProtocol() =>
             ProtocolManager.GetProtocol(ProtocolIDType.Game) as GameProtocol;
-        
+
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
             ushort msgType = br.ReadUInt16();
@@ -259,7 +259,7 @@ namespace BSGO_Server
             buffer.Write((ushort)0);
             buffer.Write((ushort)0);
 
-            buffer.Write(Server.GetClientByIndex(index).playerId); //player id
+            buffer.Write(Server.GetClientByIndex(index).PlayerId); //player id
             buffer.Write((uint)BgoAdminRoles.Developer); //player role
             buffer.Write(true);
 

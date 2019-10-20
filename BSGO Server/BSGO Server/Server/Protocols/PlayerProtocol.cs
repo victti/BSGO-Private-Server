@@ -152,7 +152,7 @@ namespace BSGO_Server
 
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
-            ushort msgType = (ushort)br.ReadUInt16();
+            ushort msgType = br.ReadUInt16();
 
             switch ((Request)msgType)
             {
@@ -178,14 +178,13 @@ namespace BSGO_Server
                     Dictionary<AvatarItem, string> items = new Dictionary<AvatarItem, string>();
 
                     int num = br.ReadLength();
-                    for (int i = 0; i < num; i++)
-                    {
-                        items[(AvatarItem)br.ReadByte()] = br.ReadString();
-                    }
 
+                    for (int i = 0; i < num; i++)
+                        items[(AvatarItem)br.ReadByte()] = br.ReadString();
+                    
                     Client client = Server.GetClientByIndex(index);
 
-                    Database.Database.CreateCharacter(client.Character.Name, client.playerId.ToString(), (byte)client.Character.Faction, items);
+                    Database.Database.CreateCharacter(client.Character.Name, client.PlayerId.ToString(), (byte)client.Character.Faction, items);
 
                     Server.GetClientByIndex(index).Character.Items = items;
                     SendAvatar(index);
@@ -306,7 +305,7 @@ namespace BSGO_Server
         {
             BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.ID);
-            buffer.Write(Server.GetClientByIndex(index).playerId);
+            buffer.Write(Server.GetClientByIndex(index).PlayerId);
 
             SendMessageToUser(index, buffer);
         }

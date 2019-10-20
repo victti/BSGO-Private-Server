@@ -41,7 +41,7 @@ namespace BSGO_Server
             Catalogue.AddCard(ownerGUIDCard);
             Catalogue.AddCard(ownerCard);
 
-            Characters character = Database.Database.GetCharacterById(Server.GetClientByIndex(index).playerId.ToString());
+            Characters character = Database.Database.GetCharacterById(Server.GetClientByIndex(index).PlayerId.ToString());
             if (character is null)
                 return;
 

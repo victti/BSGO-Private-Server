@@ -71,12 +71,8 @@ namespace BSGO_Server
         public static void SendDataToClient(int index, BgoProtocolWriter message)
         {
             foreach (Client currentClient in clients)
-            {
                 if (currentClient.Socket != null && !currentClient.Closing && currentClient.Index == index)
-                {
                     currentClient.Socket.Send(message.GetBuffer(), 0, message.GetLength(), SocketFlags.None);
-                }
-            }
         }
 
         /// <summary>
@@ -101,10 +97,9 @@ namespace BSGO_Server
         public static Client GetClientByPlayerId(string id)
         {
             foreach (Client client in clients)
-            {
-                if (client.playerId == uint.Parse(id))
+                if (client.PlayerId == uint.Parse(id))
                     return client;
-            }
+            
             return null;
         }
     }

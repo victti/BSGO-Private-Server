@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BSGO_Server
 {
-    class ProtocolManager
+    internal static class ProtocolManager
     {
         private static Dictionary<Protocol.ProtocolIDType, Protocol> protocols;
 
@@ -12,19 +12,20 @@ namespace BSGO_Server
             Log.Add(LogSeverity.SERVERINFO, "Initializing Protocols");
 
             protocols = new Dictionary<Protocol.ProtocolIDType, Protocol>();
-            RegisterProtocol(new LoginProtocol());
-            RegisterProtocol(new SyncProtocol());
-            RegisterProtocol(new SceneProtocol());
-            RegisterProtocol(new SettingProtocol());
-            RegisterProtocol(new CatalogueProtocol());
-            RegisterProtocol(new GameProtocol());
-            RegisterProtocol(new PlayerProtocol());
-            RegisterProtocol(new ShopProtocol());
-            RegisterProtocol(new CommunityProtocol());
-            RegisterProtocol(new FeedbackProtocol());
-            RegisterProtocol(new StoryProtocol());
-            RegisterProtocol(new SubscribeProtocol());
-
+            RegisterProtocol(new Protocol[] {
+                new LoginProtocol(),
+                new SyncProtocol(),
+                new SceneProtocol(),
+                new SettingProtocol(),
+                new CatalogueProtocol(),
+                new GameProtocol(),
+                new PlayerProtocol(),
+                new ShopProtocol(),
+                new CommunityProtocol(),
+                new FeedbackProtocol(),
+                new StoryProtocol(),
+                new SubscribeProtocol()
+            });
             Log.Add(LogSeverity.SERVERINFO, "Finished Initializing the Protocols");
         }
 
@@ -77,8 +78,11 @@ namespace BSGO_Server
             return protocols[protoID];
         }
 
-        private static void RegisterProtocol(Protocol protocol) =>
-            protocols.Add(protocol.ProtocolID, protocol);
+        private static void RegisterProtocol(params Protocol[] passedProtocols)
+        {
+            foreach (Protocol current in passedProtocols)
+                protocols.Add(current.ProtocolID, current);
+        }
         
     }
 }

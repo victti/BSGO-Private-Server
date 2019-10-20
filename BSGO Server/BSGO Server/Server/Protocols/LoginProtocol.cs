@@ -22,11 +22,11 @@ namespace BSGO_Server
         }
 
         public LoginProtocol()
-            : base(ProtocolIDType.Login) {}
+            : base(ProtocolIDType.Login) { }
 
         public static LoginProtocol GetProtocol() =>
             ProtocolManager.GetProtocol(ProtocolIDType.Login) as LoginProtocol;
-        
+
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
             ushort msgType = br.ReadUInt16();
@@ -46,12 +46,13 @@ namespace BSGO_Server
                     string playerName = br.ReadString();
                     string sessionCode = br.ReadString();
 
-                    switch (connectType) {
+                    switch (connectType)
+                    {
                         case ConnectType.Web:
                             if (Database.Database.CheckSessionCodeExistance(sessionCode))
                             {
                                 playerId = Convert.ToUInt32(Database.Database.GetUserBySession(sessionCode).PlayerId);
-                                Server.GetClientByIndex(index).playerId = playerId;
+                                Server.GetClientByIndex(index).PlayerId = playerId;
                                 Server.GetClientByIndex(index).Character = new Character(index);
                                 SendPlayer(index);
                                 /*
@@ -67,7 +68,7 @@ namespace BSGO_Server
                             Log.Add(LogSeverity.ERROR, "Unknown Connection Type " + connectType + " on Login Protocol");
                             break;
                     }
-                       
+
                     break;
                 default:
                     Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, ProtocolID));
