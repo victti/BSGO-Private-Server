@@ -29,15 +29,16 @@
         
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
+            ushort uiElement = br.ReadUInt16();
             ushort messageId = br.ReadUInt16();
 
             switch (messageId)
             {
                 case 0:
-                    Log.Add(LogSeverity.INFO, string.Format("The element {0} is shown.", (UiElementId)messageId));
+                    Log.Add(LogSeverity.INFO, string.Format("The element {0} is shown.", (UiElementId)uiElement));
                     break;
                 case 1:
-                    Log.Add(LogSeverity.INFO, string.Format("The element {0} is hidden.", (UiElementId)messageId));
+                    Log.Add(LogSeverity.INFO, string.Format("The element {0} is hidden.", (UiElementId)uiElement));
                     break;
             }
         }
