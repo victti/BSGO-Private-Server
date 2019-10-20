@@ -13,9 +13,9 @@ namespace BSGO_Server._3dAlgorithm
             get => new Vector3(X, Y, Z);
             set
             {
-                X = value.x;
-                Y = value.y;
-                Z = value.z;
+                X = value.X;
+                Y = value.Y;
+                Z = value.Z;
             }
         }
 
@@ -85,6 +85,7 @@ namespace BSGO_Server._3dAlgorithm
         ///   NEEDS FIX
         ///   <para>Returns the euler angle representation of the rotation.</para>
         /// </summary>
+        /*
         public Vector3 EulerAngles
         {
             get
@@ -98,7 +99,9 @@ namespace BSGO_Server._3dAlgorithm
                 this = new Quaternion(); 
                 //this = Internal_FromEulerRad(value * ((float)Math.PI / 180f));
             }
+            
         }
+        */
 
         /// <summary>
         ///   <para>Constructs new Quaternion with given x,y,z,w components.</para>
@@ -141,8 +144,7 @@ namespace BSGO_Server._3dAlgorithm
         ///   NEEDS FIX
         ///   <para>Creates a rotation which rotates /angle/ degrees around /axis/.</para>
         /// </summary>
-        /// <param name="angle"></param>
-        /// <param name="axis"></param>
+        // args: float angle, Vector3 axis
         public static Quaternion AngleAxis() => new Quaternion();
 
         /// <summary>
@@ -241,9 +243,9 @@ namespace BSGO_Server._3dAlgorithm
 
         private static Quaternion FromEulerRad(Vector3 euler)
         {
-            var yaw = euler.x;
-            var pitch = euler.y;
-            var roll = euler.z;
+            var yaw = euler.X;
+            var pitch = euler.Y;
+            var roll = euler.Z;
             float rollOver2 = roll * 0.5f;
             float sinRollOver2 = (float)Math.Sin(rollOver2);
             float cosRollOver2 = (float)Math.Cos(rollOver2);
@@ -282,9 +284,9 @@ namespace BSGO_Server._3dAlgorithm
             float num11 = rotation.W * num2;
             float num12 = rotation.W * num3;
             Vector3 result = default;
-            result.x = (1f - (num5 + num6)) * point.x + (num7 - num12) * point.y + (num8 + num11) * point.z;
-            result.y = (num7 + num12) * point.x + (1f - (num4 + num6)) * point.y + (num9 - num10) * point.z;
-            result.z = (num8 - num11) * point.x + (num9 + num10) * point.y + (1f - (num4 + num5)) * point.z;
+            result.X = (1f - (num5 + num6)) * point.X + (num7 - num12) * point.Y + (num8 + num11) * point.Z;
+            result.Y = (num7 + num12) * point.X + (1f - (num4 + num6)) * point.Y + (num9 - num10) * point.Z;
+            result.Z = (num8 - num11) * point.X + (num9 + num10) * point.Y + (1f - (num4 + num5)) * point.Z;
             return result;
         }
 

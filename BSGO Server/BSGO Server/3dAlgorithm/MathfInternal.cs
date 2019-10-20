@@ -6,6 +6,6 @@
 
         public static volatile float FloatMinDenormal = float.Epsilon;
 
-        public static bool IsFlushToZeroEnabled = FloatMinDenormal == 0f;
+        public static bool IsFlushToZeroEnabled = (int)FloatMinDenormal == (int)0f;
     }
 }

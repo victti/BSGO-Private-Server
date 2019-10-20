@@ -2,7 +2,7 @@
 
 namespace BSGO_Server
 {
-    internal class Protocol
+    internal abstract class Protocol
     {
         public enum ProtocolIDType : byte
         {
@@ -38,13 +38,13 @@ namespace BSGO_Server
 
         private readonly bool enabled;
 
-        public Protocol(ProtocolIDType protocolID)
+        protected Protocol(ProtocolIDType protocolID)
         {
             ProtocolID = protocolID;
             enabled = true;
         }
 
-        public virtual void ParseMessage(int index, BgoProtocolReader br) { }
+        public abstract void ParseMessage(int index, BgoProtocolReader br);
 
         protected BgoProtocolWriter NewMessage()
         {
@@ -62,10 +62,12 @@ namespace BSGO_Server
             }
             else
                 Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to \"{0}\" for disabled protocol \"{1}\"", index, ProtocolID));
-            
+
+            bw.Dispose();
         }
 
-        protected void SendMessageToSector(int index, BgoProtocolWriter bw)
+        // unused params, method is unfinished?
+        protected void SendMessageToSector(/* int index, BgoProtocolWriter bw */)
         {
             // ?
             if (enabled)
@@ -78,7 +80,8 @@ namespace BSGO_Server
             }
         }
 
-        protected void SendMessageToEveryone(BgoProtocolWriter bw)
+        // unused params, method is unfinished?
+        protected void SendMessageToEveryone(/* BgoProtocolWriter bw */)
         {
             // ?
             if (enabled)

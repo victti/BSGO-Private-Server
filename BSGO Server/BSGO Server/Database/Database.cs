@@ -135,7 +135,7 @@ namespace BSGO_Server.Database
         /// <summary>
         /// Returns a User(Database Entity) by searching his Session Code.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="session"></param>
         /// <returns></returns>
         public static Users GetUserBySession(string session)
         {

@@ -59,10 +59,10 @@
 
         public static Vector3 Clamp(Vector3 value, Vector3 min, Vector3 max)
         {
-            Vector3 result = default(Vector3);
-            result.x = Mathf.Clamp(value.x, min.x, max.x);
-            result.y = Mathf.Clamp(value.y, min.y, max.y);
-            result.z = Mathf.Clamp(value.z, min.z, max.z);
+            Vector3 result = default;
+            result.X = Mathf.Clamp(value.X, min.X, max.X);
+            result.Y = Mathf.Clamp(value.Y, min.Y, max.Y);
+            result.Z = Mathf.Clamp(value.Z, min.Z, max.Z);
             return result;
         }
 
@@ -100,14 +100,14 @@
             if (Vector3.Angle(vector, Vector3.Up) < 40f)
             {
                 Vector3 from = vector;
-                from.y = 0f;
+                from.Y = 0f;
                 from.Normalize();
                 vector = Vector3.Slerp(from, Vector3.Up, 5f / 9f);
             }
             else if (Vector3.Angle(vector, Vector3.Down) < 40f)
             {
                 Vector3 from2 = vector;
-                from2.y = 0f;
+                from2.Y = 0f;
                 from2.Normalize();
                 vector = Vector3.Slerp(from2, Vector3.Down, 5f / 9f);
             }
@@ -124,12 +124,12 @@
             return Quaternion.Slerp(q1, q2, rotationAngle / num);
         }
 
+        // AngleAxis needs fix
         public static Quaternion MirrorQuaternion(Quaternion q)
         {
-            float angle = 0f;
             Vector3 axis = Vector3.Zero;
-            q.ToAngleAxis(out angle, out axis);
-            axis.x = 0f - axis.x;
+            q.ToAngleAxis(out float angle, out axis);
+            axis.X = 0f - axis.X;
             return Quaternion.AngleAxis();
         }
 
@@ -230,12 +230,12 @@
 
         public static Vector3 NormalizeEuler(Vector3 v)
         {
-            return new Vector3(NormalizeAngle(v.x), NormalizeAngle(v.y), NormalizeAngle(v.z));
+            return new Vector3(NormalizeAngle(v.X), NormalizeAngle(v.Y), NormalizeAngle(v.Z));
         }
 
         public static Vector3 NormalizeEuler(Vector3 v, Vector3 nearest)
         {
-            return new Vector3(NormalizeAngle(v.x, nearest.x), NormalizeAngle(v.y, nearest.y), NormalizeAngle(v.z, nearest.z));
+            return new Vector3(NormalizeAngle(v.X, nearest.X), NormalizeAngle(v.Y, nearest.Y), NormalizeAngle(v.Z, nearest.Z));
         }
 
         public static float NormalizeAngle(float angle)

@@ -27,7 +27,7 @@ namespace BSGO_Server
             base.Write(w);
             w.Write((byte)TargetBracketMode);
             w.Write(SectorMapEnabled);
-            ushort num = (ushort)AbilityTargetRelations.Count;
+            //ushort num = (ushort)AbilityTargetRelations.Count;
             foreach (KeyValuePair<uint, HashSet<ShipAbilitySide>> pair in AbilityTargetRelations)
             {
                 w.Write(pair.Key);

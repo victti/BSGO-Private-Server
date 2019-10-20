@@ -53,8 +53,8 @@ namespace BSGO_Server._3dAlgorithm
 
         public static Euler3 GetDirection(Vector3 direction)
         {
-            float num = Mathf.Atan2(direction.x, direction.z) * 57.29578f;
-            float num2 = (0f - Mathf.Atan2(direction.y, Mathf.Sqrt(direction.x * direction.x + direction.z * direction.z))) * 57.29578f;
+            float num = Mathf.Atan2(direction.X, direction.Z) * 57.29578f;
+            float num2 = (0f - Mathf.Atan2(direction.Y, Mathf.Sqrt(direction.X * direction.X + direction.Z * direction.Z))) * 57.29578f;
             return new Euler3(num2, num, 0f);
         }
 
@@ -153,18 +153,18 @@ namespace BSGO_Server._3dAlgorithm
 
         public void ComponentsFromVector3(Vector3 input)
         {
-            Pitch = input.x;
-            Yaw = input.y;
-            Roll = input.z;
+            Pitch = input.X;
+            Yaw = input.Y;
+            Roll = input.Z;
         }
 
         public override int GetHashCode() =>
             GetHashCode();
-        
+
 
         public override bool Equals(object obj) =>
             this == (Euler3)obj;
-        
+
 
         public static bool operator ==(Euler3 a, Euler3 b)
         {

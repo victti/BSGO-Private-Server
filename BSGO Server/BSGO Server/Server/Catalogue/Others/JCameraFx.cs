@@ -4,13 +4,10 @@
     {
         public bool ForceDisableBloom { get; set; }
 
-        public JCameraFx(bool forceDisableBloom)
-        {
+        public JCameraFx(bool forceDisableBloom) =>
             ForceDisableBloom = forceDisableBloom;
-        }
-
-        public void Write(BgoProtocolWriter w) =>
-            w.Write(ForceDisableBloom);
         
+        public void Write(BgoProtocolWriter w) =>
+            w.Write(ForceDisableBloom);   
     }
 }

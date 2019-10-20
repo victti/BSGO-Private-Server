@@ -45,7 +45,7 @@ namespace BSGO_Server
                 string text = string.Empty;
                 /*
                  * stop using empty catch blocks eventually
-                */
+                 */
                 try
                 {
                     text += "Couldn't handle message for " + (Protocol.ProtocolIDType)protocolID + " Protocol";
@@ -77,9 +77,8 @@ namespace BSGO_Server
             return protocols[protoID];
         }
 
-        private static void RegisterProtocol(Protocol protocol)
-        {
+        private static void RegisterProtocol(Protocol protocol) =>
             protocols.Add(protocol.ProtocolID, protocol);
-        }
+        
     }
 }

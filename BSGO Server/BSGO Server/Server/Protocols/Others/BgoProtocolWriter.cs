@@ -1,11 +1,12 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Numerics;
 using System.Text;
 
 namespace BSGO_Server
 {
-    internal class BgoProtocolWriter : BinaryWriter
+    internal class BgoProtocolWriter : BinaryWriter, IDisposable, IAsyncDisposable
     {
         private readonly MemoryStream memoryStream;
 
@@ -25,12 +26,10 @@ namespace BSGO_Server
 
         public override void Write(string value)
         {
-            Encoding uTF = Encoding.UTF8;
-            byte[] bytes = uTF.GetBytes(value);
+            byte[] bytes = Encoding.UTF8.GetBytes(value);
             Write((ushort)bytes.Length);
             if (bytes.Length > 0)
                 Write(bytes, 0, bytes.Length);
-            
         }
 
         public void Write(string[] value)
@@ -79,6 +78,33 @@ namespace BSGO_Server
 
         public int GetLength() =>
             (int)memoryStream.Length;
-        
+
+        protected override void Dispose(bool disposing = true)
+        {
+            GC.SuppressFinalize(this);
+            try
+            {
+                base.Dispose(disposing);
+                memoryStream.Dispose();
+            }
+            catch (ObjectDisposedException ex)
+            {
+                Log.Add(LogSeverity.ERROR, $"{ex}; disposed early... somehow?");
+            }
+        }
+
+        public override async System.Threading.Tasks.ValueTask DisposeAsync()
+        {
+            GC.SuppressFinalize(this);
+            try
+            {
+                await memoryStream.DisposeAsync();
+                await base.DisposeAsync();
+            }
+            catch (ObjectDisposedException ex)
+            {
+                Log.Add(LogSeverity.ERROR, $"{ex}; disposed early... somehow?");
+            }
+        }
     }
 }
