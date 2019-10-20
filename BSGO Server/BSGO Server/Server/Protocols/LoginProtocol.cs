@@ -42,15 +42,15 @@ namespace BSGO_Server
                     // Check if the player exists on our database. We'll have checks for client connected later, but it's
                     // not necessary yet
 
-                    // uint playerId = br.ReadUInt32();
-                    // string playerName = br.ReadString();
+                    uint playerId = br.ReadUInt32();
+                    string playerName = br.ReadString();
                     string sessionCode = br.ReadString();
 
                     switch (connectType) {
                         case ConnectType.Web:
                             if (Database.Database.CheckSessionCodeExistance(sessionCode))
                             {
-                                uint playerId = Convert.ToUInt32(Database.Database.GetUserBySession(sessionCode).PlayerId);
+                                playerId = Convert.ToUInt32(Database.Database.GetUserBySession(sessionCode).PlayerId);
                                 Server.GetClientByIndex(index).playerId = playerId;
                                 Server.GetClientByIndex(index).Character = new Character(index);
                                 SendPlayer(index);
