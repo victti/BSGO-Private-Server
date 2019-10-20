@@ -5,8 +5,8 @@ namespace BSGO_Server._3dAlgorithm
     public struct Quaternion
     {
         public const float kEpsilon = 1E-06f;
-        const float radToDeg = (float)(180.0 / Math.PI);
-        const float degToRad = (float)(Math.PI / 180.0);
+        private const float radToDeg = (float)(180.0 / Math.PI);
+        private const float degToRad = (float)(Math.PI / 180.0);
 
         public Vector3 Xyz
         {
@@ -82,6 +82,7 @@ namespace BSGO_Server._3dAlgorithm
         public static Quaternion Identity => new Quaternion(0f, 0f, 0f, 1f);
 
         /// <summary>
+        ///   NEEDS FIX
         ///   <para>Returns the euler angle representation of the rotation.</para>
         /// </summary>
         public Vector3 EulerAngles
@@ -94,7 +95,7 @@ namespace BSGO_Server._3dAlgorithm
             // no value param being used
             set
             {
-                this = new Quaternion();
+                this = new Quaternion(); 
                 //this = Internal_FromEulerRad(value * ((float)Math.PI / 180f));
             }
         }
@@ -137,6 +138,7 @@ namespace BSGO_Server._3dAlgorithm
         public static float Dot(Quaternion a, Quaternion b) => a.X * b.X + a.Y * b.Y + a.Z * b.Z + a.W * b.W;
 
         /// <summary>
+        ///   NEEDS FIX
         ///   <para>Creates a rotation which rotates /angle/ degrees around /axis/.</para>
         /// </summary>
         /// <param name="angle"></param>
