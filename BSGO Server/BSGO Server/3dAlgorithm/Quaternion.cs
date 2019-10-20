@@ -226,18 +226,16 @@ namespace BSGO_Server._3dAlgorithm
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="z"></param>
-        public static Quaternion Euler(float x, float y, float z)
-        {
-            return FromEulerRad(new Vector3(x, y, z) * degToRad);
-        }
+        public static Quaternion Euler(float x, float y, float z) =>
+            FromEulerRad(new Vector3(x, y, z) * degToRad);
+        
         /// <summary>
         ///   <para>Returns a rotation that rotates z degrees around the z axis, x degrees around the x axis, and y degrees around the y axis (in that order).</para>
         /// </summary>
         /// <param name="euler"></param>
-        public static Quaternion Euler(Vector3 euler)
-        {
-            return FromEulerRad(euler * degToRad);
-        }
+        public static Quaternion Euler(Vector3 euler) => 
+            FromEulerRad(euler * degToRad);
+        
 
         private static Quaternion FromEulerRad(Vector3 euler)
         {
