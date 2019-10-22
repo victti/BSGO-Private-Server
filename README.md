@@ -5,7 +5,7 @@
 </p>
 
 #### None of the repo, the tool, nor the repo owner is affiliated with, or sponsored or authorized by, BigPoint or its affiliates.
-##### This server is for learning more about C# and Networking. I am not responsible for what other people's Forks.
+##### This server is for learning more about C# and Networking. I am not responsible for other people's Forks.
 ###### Feel free to open Issues or do Pull requests.
 
 ### Features
