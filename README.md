@@ -20,17 +20,20 @@
   - Shop?
   - Show the correct ship slots?
   - Skills?
+  - Multiplayer?
+  - Dock/Undock?
+  - Jump to another Sector?
 - Known bugs:
   - Can't load the Cylon customization.
   - Can't load the female Colonial customization.
-  - Can't move the spaceship.
   - There's no tutorial scene.
-  - Avatar character doesn't show up after reopening the game.
-  - There are no sectors on the veil map.
   - There are no missions, skills, shop items etc.
   - There's a placeholder on the ranking system.
   - Chat doesn't work.
-  
+  - Server isn't aware of player positions/eulers.
+  - Player 1 sees when Player 2 joins, but Player 2 doesn't see Player 1.
+  - Not always you can join the game, crashes on Tick 0 and no Players.
+  - Not always Player 2 can join the game for Player 1, Cards and Position doesn't work.
   
 ### Usage
 
