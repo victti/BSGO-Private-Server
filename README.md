@@ -39,7 +39,7 @@
 - MongoDB (https://www.mongodb.com/download-center/community).
 - Battlestar Galactica Online files.
   
-#### How to use
+### How to use
 #### First Time
 - Add the following directory to your PATH:
 > %PathToYourMongoFolder%\Server\4.2\bin
