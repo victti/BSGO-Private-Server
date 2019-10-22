@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class ShipLightCard : Card
+    internal class ShipLightCard : Card
     {
-        public uint ShipObjectKey;
+        public uint ShipObjectKey { get; set; }
 
-        public byte Tier;
+        public byte Tier { get; set; }
 
-        public ShipRole[] ShipRoles;
+        public ShipRole[] ShipRoles { get; set; }
 
-        public ShipRoleDeprecated ShipRoleDeprecated;
+        public ShipRoleDeprecated ShipRoleDeprecated { get; set; }
 
         public ShipLightCard(uint cardGUID, CardView cardView, uint shipObjectKey, byte tier, ShipRole[] shipRoles, ShipRoleDeprecated shipRoleDeprecated)
             : base(cardGUID, cardView)

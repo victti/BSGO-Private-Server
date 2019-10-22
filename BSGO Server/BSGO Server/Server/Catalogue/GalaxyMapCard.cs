@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BSGO_Server
 {
-    class GalaxyMapCard : Card
+    internal class GalaxyMapCard : Card
     {
-        public Dictionary<uint, MapStarDesc> Stars = new Dictionary<uint, MapStarDesc>();
+        public Dictionary<uint, MapStarDesc> Stars { get; set; } = new Dictionary<uint, MapStarDesc>();
 
-        public int[] Tiers;
+        public int[] Tiers { get; set; }
 
-        public int BaseScalingMultiplier;
+        public int BaseScalingMultiplier { get; set; }
 
         public GalaxyMapCard(uint cardGUID, CardView cardView, Dictionary<uint, MapStarDesc> stars, int[] tiers, int baseScalingMultiplier)
             : base(cardGUID, cardView)
@@ -42,9 +40,7 @@ namespace BSGO_Server
             w.Write(200);
         }
 
-        public MapStarDesc GetStar(uint sectorId)
-        {
-            return Stars[sectorId];
-        }
+        public MapStarDesc GetStar(uint sectorId) =>
+            Stars[sectorId];
     }
 }

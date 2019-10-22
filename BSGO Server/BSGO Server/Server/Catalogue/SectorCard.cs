@@ -1,31 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
+﻿using System.Drawing;
 
 namespace BSGO_Server
 {
-    class SectorCard : Card
+    internal class SectorCard : Card
     {
-        public float Width;
-        public float Height;
-        public float Length;
-        public uint RegulationCardGUID;
-        public Color AmbientColor;
-        public Color FogColor;
-        public int FogDensity;
-        public Color DustColor;
-        public int DustDensity;
-        public BackgroundDesc NebulaDesc;
-        public BackgroundDesc StarsDesc;
-        public BackgroundDesc StarsMultDesc;
-        public BackgroundDesc StarsVarianceDesc;
-        public MovingNebulaDesc[] MovingNebulaDescs;
-        public LightDesc[] LightDescs;
-        public SunDesc[] SunDescs;
-        public JGlobalFog GlobalFogDesc;
-        public JCameraFx CameraFxDesc;
-        public string[] RequiredAssets;
+        public float Width { get; set; }
+        public float Height { get; set; }
+        public float Length { get; set; }
+        public uint RegulationCardGUID { get; set; }
+        public Color AmbientColor { get; set; }
+        public Color FogColor { get; set; }
+        public int FogDensity { get; set; }
+        public Color DustColor { get; set; }
+        public int DustDensity { get; set; }
+        public BackgroundDesc NebulaDesc { get; set; }
+        public BackgroundDesc StarsDesc { get; set; }
+        public BackgroundDesc StarsMultDesc { get; set; }
+        public BackgroundDesc StarsVarianceDesc { get; set; }
+        public MovingNebulaDesc[] MovingNebulaDescs { get; set; }
+        public LightDesc[] LightDescs { get; set; }
+        public SunDesc[] SunDescs { get; set; }
+        public JGlobalFog GlobalFogDesc { get; set; }
+        public JCameraFx CameraFxDesc { get; set; }
+        public string[] RequiredAssets { get; set; }
 
         public SectorCard(uint cardGUID, CardView cardView, float width, float height, float length, uint regulationCardGUID, Color ambientColor, Color fogColor, int fogDensity, Color dustColor, int dustDensity, BackgroundDesc nebulaDesc, BackgroundDesc starsDesc, BackgroundDesc starsMultDesc, BackgroundDesc starsVarianceDesc, MovingNebulaDesc[] movingNebulaDescs, LightDesc[] lightDescs, SunDesc[] sunDescs, JGlobalFog globalFogDesc, JCameraFx cameraFxDesc, string[] requiredAssets)
             : base(cardGUID, cardView)

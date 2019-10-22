@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BSGO_Server
 {
-    class RegulationCard : Card
+    internal class RegulationCard : Card
     {
-        public ConsumableEffectType[] effectTypeBlacklist;
-        public Dictionary<uint, HashSet<ShipAbilitySide>> AbilityTargetRelations;
-        public Dictionary<uint, HashSet<ShipAbilityTarget>> AbilityTargetTypes;
-        public TargetBracketMode TargetBracketMode;
-        public bool SectorMapEnabled;
+        public ConsumableEffectType[] effectTypeBlacklist { get; set; }
+        public Dictionary<uint, HashSet<ShipAbilitySide>> AbilityTargetRelations { get; set; }
+        public Dictionary<uint, HashSet<ShipAbilityTarget>> AbilityTargetTypes { get; set; }
+        public TargetBracketMode TargetBracketMode { get; set; }
+        public bool SectorMapEnabled { get; set; }
 
         public RegulationCard(uint cardGUID, CardView cardView, ConsumableEffectType[] effectTypeBlacklist, Dictionary<uint, HashSet<ShipAbilitySide>> abilityTargetRelations, Dictionary<uint, HashSet<ShipAbilityTarget>> abilityTargetTypes, TargetBracketMode targetBracketMode, bool sectorMapEnabled)
             : base(cardGUID, cardView)
@@ -29,7 +27,7 @@ namespace BSGO_Server
             base.Write(w);
             w.Write((byte)TargetBracketMode);
             w.Write(SectorMapEnabled);
-            ushort num = (ushort)AbilityTargetRelations.Count;
+            //ushort num = (ushort)AbilityTargetRelations.Count;
             foreach (KeyValuePair<uint, HashSet<ShipAbilitySide>> pair in AbilityTargetRelations)
             {
                 w.Write(pair.Key);

@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Numerics;
-using System.Text;
 
 namespace BSGO_Server
 {
-    class BackgroundDesc : IProtocolWrite
+    internal class BackgroundDesc : IProtocolWrite
     {
-        public string prefabName;
-        public Quaternion rotation;
-        public Color color;
-        public Vector3 position;
+        public string prefabName { get; set; }
+        public Quaternion rotation { get; set; }
+        public Color color { get; set; }
+        public Vector3 position { get; set; }
 
         public BackgroundDesc(string prefabName, Quaternion rotation, Color color, Vector3 position)
         {

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BSGO_Server
 {
-    class SceneProtocol : Protocol
+    internal class SceneProtocol : Protocol
     {
         public enum Request : ushort
         {
@@ -33,7 +33,7 @@ namespace BSGO_Server
 
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
-            ushort msgType = (ushort)br.ReadUInt16();
+            ushort msgType = br.ReadUInt16();
 
             switch ((Request)msgType)
             {
@@ -94,8 +94,8 @@ namespace BSGO_Server
 
                     // I don't know which values to give so I'm just giving the numbers in order. E.g:
                     // ColonialBonusGUID was 3027 and CylonBonusGUID was 3127. So here we have 1327 and 1427 :) lol
-                    buffer.Write((uint)1327); // sector id
-                    buffer.Write((uint)1427); // cardGuid2
+                    buffer.Write(Server.GetClientByIndex(index).Character.sectorId); // sector id
+                    buffer.Write(Server.GetClientByIndex(index).Character.sectorId); // cardGuid2
                     break;
             }
 

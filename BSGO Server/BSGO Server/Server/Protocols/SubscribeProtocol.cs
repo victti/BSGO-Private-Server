@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BSGO_Server
 {
-    class SubscribeProtocol : Protocol
+    internal class SubscribeProtocol : Protocol
     {
         public enum Reply : ushort
         {
@@ -45,7 +45,7 @@ namespace BSGO_Server
 
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
-            ushort msgType = (ushort)br.ReadUInt16();
+            ushort msgType = br.ReadUInt16();
 
             switch ((Request)msgType)
             {
@@ -53,15 +53,59 @@ namespace BSGO_Server
                     uint playerId = br.ReadUInt32();
                     uint flags = br.ReadUInt32();
                     break;
+                case Request.Subscribe:
+                    uint playerId2 = br.ReadUInt32();
+                    uint flags2 = br.ReadUInt32();
+                    break;
                 default:
                     Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
                     break;
             }
         }
 
-        public void SendInfo(int index)
+        public void SendName(int index, uint playerId)
         {
+            BgoProtocolWriter buffer = NewMessage();
 
+            buffer.Write((ushort)Reply.PlayerName);
+            buffer.Write(playerId);
+            buffer.Write("teste");
+
+            SendMessageToUser(index, buffer);
+        }
+
+        public void SendFaction(int index, uint playerId)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+
+            buffer.Write((ushort)Reply.PlayerFaction);
+            buffer.Write(playerId);
+            buffer.Write((byte)Faction.Colonial);
+
+            SendMessageToUser(index, buffer);
+        }
+
+        public void SendPlayerStatus(int index, uint playerId)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+
+            buffer.Write((ushort)Reply.PlayerStatus);
+            buffer.Write(playerId);
+            buffer.Write(true);
+
+            SendMessageToUser(index, buffer);
+        }
+
+        public void SendLocation(int index, uint playerId)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+
+            buffer.Write((ushort)Reply.PlayerLocation);
+            buffer.Write(playerId);
+            buffer.Write((byte)1);
+            buffer.Write((uint)1427);
+
+            SendMessageToUser(index, buffer);
         }
     }
 }

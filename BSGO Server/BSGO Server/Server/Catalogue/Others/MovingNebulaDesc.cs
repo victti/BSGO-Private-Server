@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Numerics;
-using System.Text;
 
 namespace BSGO_Server
 {
     class MovingNebulaDesc : IProtocolWrite
     {
-        public string modelName = "movingnebula";
-        public string matSuffix = "1";
-        public Color color = Color.White;
-        public Vector2 textureOffset = new Vector2(0f, 0f);
-        public Vector2 textureScale = new Vector2(1f, 1f);
-        public Vector3 position;
-        public Quaternion rotation;
-        public Vector3 scale = new Vector3(1f, 1f, 1f);
+        public string modelName { get; set; } = "movingnebula";
+        public string matSuffix { get; set; } = "1";
+        public Color color { get; set; } = Color.White;
+        public Vector2 textureOffset { get; set; } = new Vector2(0f, 0f);
+        public Vector2 textureScale { get; set; } = new Vector2(1f, 1f);
+        public Vector3 position { get; set; }
+        public Quaternion rotation { get; set; }
+        public Vector3 scale { get; set; } = new Vector3(1f, 1f, 1f);
 
         public MovingNebulaDesc(string modelName, string matSuffix, Color color, Vector2 textureOffset, Vector2 textureScale, Vector3 position, Quaternion rotation, Vector3 scale)
         {

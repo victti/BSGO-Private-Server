@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BSGO_Server
 {
-    class StoryProtocol : Protocol
+    internal class StoryProtocol : Protocol
     {
         public enum Reply : ushort
         {
@@ -95,7 +95,7 @@ namespace BSGO_Server
 
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
-            ushort msgType = (ushort)br.ReadUInt16();
+            ushort msgType = br.ReadUInt16();
 
             switch ((Request)msgType)
             {

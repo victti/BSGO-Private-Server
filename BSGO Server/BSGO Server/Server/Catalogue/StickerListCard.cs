@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class StickerListCard : Card
+    internal class StickerListCard : Card
     {
         public StickerListCard(uint cardGUID, CardView cardView)
             : base(cardGUID, cardView)

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BSGO_Server
 {
-    class FeedbackProtocol : Protocol
+    internal class FeedbackProtocol : Protocol
     {
         public enum MessageId : ushort
         {
@@ -35,8 +35,8 @@ namespace BSGO_Server
 
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
-            ushort messageId = (ushort)br.ReadUInt16();
-            ushort uiElement = br.ReadUInt16(); ;
+            ushort messageId = br.ReadUInt16();
+            ushort uiElement = br.ReadUInt16();
 
             switch (messageId)
             {

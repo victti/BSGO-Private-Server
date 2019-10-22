@@ -1,32 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class ShipConsumableCard : Card
+    internal class ShipConsumableCard : Card
     {
-        public ushort ConsumableType;
+        public ushort ConsumableType { get; set; }
 
-        public ObjectStats ItemBuffMultiply;
+        public ObjectStats ItemBuffMultiply { get; set; }
 
-        public ObjectStats ItemBuffAdd;
+        public ObjectStats ItemBuffAdd { get; set; }
 
-        public byte Tier;
+        public byte Tier { get; set; }
 
-        public AugmentActionType Action;
+        public AugmentActionType Action { get; set; }
 
-        public bool IsAugment;
+        public bool IsAugment { get; set; }
 
-        public bool AutoConsume;
+        public bool AutoConsume { get; set; }
 
-        public bool Trashable;
+        public bool Trashable { get; set; }
 
-        public uint buyCount;
+        public uint buyCount { get; set; }
 
-        public ConsumableAttribute[] sortingAttributes;
+        public ConsumableAttribute[] sortingAttributes { get; set; }
 
-        public ConsumableEffectType effectType;
+        public ConsumableEffectType effectType { get; set; }
 
         public ShipConsumableCard(uint cardGUID, CardView cardView, ushort consumableType, ObjectStats itemBuffMultiply, ObjectStats itemBuffAdd, byte tier, AugmentActionType action, bool isAugment, bool autoConsume, bool trashable, uint buyCount, ConsumableAttribute[] sortingAttributes, ConsumableEffectType effectType)
     : base(cardGUID, cardView)

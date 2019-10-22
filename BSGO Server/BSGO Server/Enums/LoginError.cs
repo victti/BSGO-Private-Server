@@ -1,10 +1,13 @@
-﻿public enum LoginError
+﻿namespace BSGO_Server
 {
-    Unknown,
-    AlreadyConnected,
-    WrongProtocol,
-    WrongSession,
-    WrongUserId,
-    WrongPlayerId,
-    WrongPlayerName
+    internal enum LoginError
+    {
+        Unknown,
+        AlreadyConnected,
+        WrongProtocol,
+        WrongSession,
+        WrongUserId,
+        WrongPlayerId,
+        WrongPlayerName
+    }
 }

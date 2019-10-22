@@ -1,29 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BSGO_Server
 {
-    class ShipCard : Card
+    internal class ShipCard : Card
     {
-        public uint ShipObjectKey;
-        public byte Level;
-        public byte MaxLevel;
-        public byte LevelRequeriment;
-        public byte HangarID;
-        public uint next; // it's called num on the code and fetches other shipcard if not equals 0
-        public float Durability;
-        public byte Tier;
-        public ShipRole[] ShipRoles;
-        public ShipRoleDeprecated ShipRoleDeprecated;
-        public string PaperdollUiLayoutfile;
-        public List<ShipSlotCard> Slots;
-        public bool CubitOnlyRepair;
-        public List<uint> VariantHangarIDs;
-        public int ParentHangerID;
-        public ObjectStats Stats;
-        public Faction Faction;
-        public List<ShipImmutableSlot> ImmutableSlots;
+        public uint ShipObjectKey { get; set; }
+        public byte Level { get; set; }
+        public byte MaxLevel { get; set; }
+        public byte LevelRequeriment { get; set; }
+        public byte HangarID { get; set; }
+        public uint next { get; set; } // it's called num on the code and fetches other shipcard if not equals 0
+        public float Durability { get; set; }
+        public byte Tier { get; set; }
+        public ShipRole[] ShipRoles { get; set; }
+        public ShipRoleDeprecated ShipRoleDeprecated { get; set; }
+        public string PaperdollUiLayoutfile { get; set; }
+        public List<ShipSlotCard> Slots { get; set; }
+        public bool CubitOnlyRepair { get; set; }
+        public List<uint> VariantHangarIDs { get; set; }
+        public int ParentHangerID { get; set; }
+        public ObjectStats Stats { get; set; }
+        public Faction Faction { get; set; }
+        public List<ShipImmutableSlot> ImmutableSlots { get; set; }
 
         public ShipCard(uint cardGUID, CardView cardView, uint shipObjectKey, byte level, byte maxLevel, byte levelRequeriment, byte hangarID, uint next, float durability, byte tier, ShipRole[] shipRoles, ShipRoleDeprecated shipRoleDeprecated, string paperdollUiLayoutfile, List<ShipSlotCard> slots, bool cubitOnlyRepair, List<uint> variantHangarIDs, int parentHangerID, ObjectStats stats, Faction faction, List<ShipImmutableSlot> immutableSlots)
             : base(cardGUID, cardView)

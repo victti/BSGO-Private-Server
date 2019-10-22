@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
+﻿using System.Numerics;
 
 namespace BSGO_Server
 {
-    class SpotDesc : IProtocolWrite
+    internal class SpotDesc : IProtocolWrite
     {
-        public ushort ObjectPointServerHash;
+        public ushort ObjectPointServerHash { get; set; }
 
-        public string ObjectPointName;
+        public string ObjectPointName { get; set; }
 
-        public SpotType Type;
+        public SpotType Type { get; set; }
 
-        public Vector3 LocalPosition;
+        public Vector3 LocalPosition { get; set; }
 
-        public Quaternion LocalRotation;
+        public Quaternion LocalRotation { get; set; }
 
         public SpotDesc(ushort objectPointServerHash, string objectPointName, SpotType type, Vector3 localPosition, Quaternion localRotation)
         {

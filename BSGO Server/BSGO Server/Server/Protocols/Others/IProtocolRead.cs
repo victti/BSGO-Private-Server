@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BSGO_Server
 {
-    interface IProtocolRead
+    internal interface IProtocolRead
     {
         void Read(BgoProtocolReader r);
     }

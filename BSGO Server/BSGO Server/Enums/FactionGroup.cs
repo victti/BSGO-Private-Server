@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    enum FactionGroup
+    internal enum FactionGroup
     {
         Group0,
         Group1

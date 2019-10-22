@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BSGO_Server
 {
-    class ProtocolManager
+    internal class ProtocolManager
     {
         private static Dictionary<Protocol.ProtocolID, Protocol> protocols;
 
@@ -13,18 +14,20 @@ namespace BSGO_Server
             Log.Add(LogSeverity.SERVERINFO, "Initializing Protocols");
 
             protocols = new Dictionary<Protocol.ProtocolID, Protocol>();
-            RegisterProtocol(new LoginProtocol());
-            RegisterProtocol(new SyncProtocol());
-            RegisterProtocol(new SceneProtocol());
-            RegisterProtocol(new SettingProtocol());
-            RegisterProtocol(new CatalogueProtocol());
-            RegisterProtocol(new GameProtocol());
-            RegisterProtocol(new PlayerProtocol());
-            RegisterProtocol(new ShopProtocol());
-            RegisterProtocol(new CommunityProtocol());
-            RegisterProtocol(new FeedbackProtocol());
-            RegisterProtocol(new StoryProtocol());
-            RegisterProtocol(new SubscribeProtocol());
+            RegisterProtocol(new Protocol[] {
+                new LoginProtocol(),
+                new SyncProtocol(),
+                new SceneProtocol(),
+                new SettingProtocol(),
+                new CatalogueProtocol(),
+                new GameProtocol(),
+                new PlayerProtocol(),
+                new ShopProtocol(),
+                new CommunityProtocol(),
+                new FeedbackProtocol(),
+                new StoryProtocol(),
+                new SubscribeProtocol()
+            });
 
             Log.Add(LogSeverity.SERVERINFO, "Finished Initializing the Protocols");
         }
@@ -39,7 +42,7 @@ namespace BSGO_Server
 
             try
             {
-                GetProtocol((Protocol.ProtocolID)protocolID).ParseMessage(index, buffer);
+                Task.Run(() => GetProtocol((Protocol.ProtocolID)protocolID).ParseMessage(index, buffer));
             }
             catch (Exception ex)
             {
@@ -62,10 +65,9 @@ namespace BSGO_Server
                 {
                     text = text + protocolID + " Protocol is not (any more) registered. ";
                 }
-                text = text + "\nCaught Exception: " + ex.ToString();
+                text = text + "\nCaught Exception: " + ex;
                 Log.Add(LogSeverity.ERROR, text);
             }
-            buffer.Dispose();
         }
 
         public static Protocol GetProtocol(Protocol.ProtocolID protoID)
@@ -77,9 +79,10 @@ namespace BSGO_Server
             return protocols[protoID];
         }
 
-        private static void RegisterProtocol(Protocol protocol)
+        private static void RegisterProtocol(params Protocol[] passedProtocols)
         {
-            protocols.Add(protocol.protocolID, protocol);
+            foreach (Protocol current in passedProtocols)
+                protocols.Add(current.protocolID, current);
         }
     }
 }

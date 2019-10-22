@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BSGO_Server
 {
-    class Protocol
+    internal abstract class Protocol
     {
         public enum ProtocolID : byte
         {
@@ -38,15 +38,15 @@ namespace BSGO_Server
 
         public readonly ProtocolID protocolID;
 
-        private bool enabled;
+        private readonly bool enabled;
 
-        public Protocol(ProtocolID protocolID)
+        protected Protocol(ProtocolID protocolID)
         {
             this.protocolID = protocolID;
             enabled = true;
         }
 
-        public virtual void ParseMessage(int index, BgoProtocolReader br) { }
+        public abstract void ParseMessage(int index, BgoProtocolReader br);
 
         protected BgoProtocolWriter NewMessage()
         {
@@ -66,18 +66,39 @@ namespace BSGO_Server
             {
                 Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to \"{0}\" for disabled protocol \"{1}\"", index, protocolID));
             }
+            bw.Dispose();
         }
 
+        protected void SendMessageToSectorButUser(int index, BgoProtocolWriter bw)
+        {
+            if (enabled)
+            {
+                Server.SendDataToSectorButClient(index, bw);
+                DebugMessage(bw);
+            }
+            else
+            {
+                Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to \"{0}\" for disabled protocol \"{1}\"", index, protocolID));
+            }
+            bw.Dispose();
+        }
+
+        /// <summary>
+        /// Sends the message to the sector by getting the client[index].sector id
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="bw"></param>
         protected void SendMessageToSector(int index, BgoProtocolWriter bw)
         {
             if (enabled)
             {
-
+                Server.SendDataToSector(Server.GetClientByIndex(index).Character.sectorId, bw);
             }
             else
             {
-                //Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to the Sector \"{0}\" for disabled protocol \"{1}\"", Server.Sectors[index], protocolID));
+                Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to the Sector \"{0}\" for disabled protocol \"{1}\"", Server.GetSectorById(Server.GetClientByIndex(index).Character.sectorId).Name, protocolID));
             }
+            bw.Dispose();
         }
 
         protected void SendMessageToEveryone(BgoProtocolWriter bw)
@@ -90,6 +111,7 @@ namespace BSGO_Server
             {
                 Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to everyone for disabled protocol \"{0}\"", protocolID));
             }
+            bw.Dispose();
         }
 
         private void DebugMessage(BgoProtocolWriter w)

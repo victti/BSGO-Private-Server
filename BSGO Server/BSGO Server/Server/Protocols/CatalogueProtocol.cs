@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BSGO_Server
 {
-    class CatalogueProtocol : Protocol
+    internal class CatalogueProtocol : Protocol
     {
         public enum Request : ushort
         {
@@ -17,7 +17,7 @@ namespace BSGO_Server
         }
 
         public CatalogueProtocol()
-    : base(ProtocolID.Catalogue)
+            : base(ProtocolID.Catalogue)
         {
         }
 
@@ -28,7 +28,7 @@ namespace BSGO_Server
 
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
-            ushort msgType = (ushort)br.ReadUInt16();
+            ushort msgType = br.ReadUInt16();
 
             switch (msgType)
             {

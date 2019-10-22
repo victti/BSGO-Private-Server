@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    enum ShipAbilitySide : byte
+    internal enum ShipAbilitySide : byte
     {
         Self = 1,
         Any = 2,

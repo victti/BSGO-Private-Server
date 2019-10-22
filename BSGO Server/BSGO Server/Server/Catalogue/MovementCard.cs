@@ -4,24 +4,22 @@ using System.Text;
 
 namespace BSGO_Server
 {
-    class MovementCard : Card
+    internal class MovementCard : Card
     {
-        public float minYawSpeed = 3f;
+        public float minYawSpeed { get; set; } = 3f;
 
-        public float maxPitch = 55f;
+        public float maxPitch { get; set; } = 55f;
 
-        public float maxRoll = 50f;
+        public float maxRoll { get; set; } = 50f;
 
-        public float pitchFading = 0.3f;
+        public float pitchFading { get; set; } = 0.3f;
 
-        public float yawFading = 0.3f;
+        public float yawFading { get; set; } = 0.3f;
 
-        public float rollFading = 0.6f;
+        public float rollFading { get; set; } = 0.6f;
 
         public MovementCard(uint cardGUID, CardView cardView)
-            : base(cardGUID, cardView)
-        {
-        }
+            : base(cardGUID, cardView) { }
 
         public MovementCard(uint cardGUID, CardView cardView, float minYawSpeed, float maxPitch, float maxRoll, float pitchFading, float yawFading, float rollFading)
             : base(cardGUID, cardView)

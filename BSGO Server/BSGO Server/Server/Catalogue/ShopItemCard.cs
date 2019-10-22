@@ -1,30 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class ShopItemCard : Card
+    internal class ShopItemCard : Card
     {
-        public ShopCategory Category;
+        public ShopCategory Category { get; set; }
 
-        public ShopItemType ItemType;
+        public ShopItemType ItemType { get; set; }
 
-        public byte Tier;
+        public byte Tier { get; set; }
 
-        public string[] SortingNames;
+        public string[] SortingNames { get; set; }
 
-        public int SortingWeight;
+        public int SortingWeight { get; set; }
 
-        public Price BuyPrice = new Price();
+        public Price BuyPrice { get; set; } = new Price();
 
-        public Price UpgradePrice = new Price();
+        public Price UpgradePrice { get; set; } = new Price();
 
-        public Price SellPrice = new Price();
+        public Price SellPrice { get; set; } = new Price();
 
-        public Faction Faction;
+        public Faction Faction { get; set; }
 
-        public bool CanBeSold;
+        public bool CanBeSold { get; set; }
 
         public ShopItemCard(uint cardGUID, CardView cardView, ShopCategory category, ShopItemType itemType, byte tier, string[] sortingNames, int sortingWeight, Price buyPrice, Price upgradePrice, Price sellPrice, Faction faction, bool canBeSold)
     : base(cardGUID, cardView)

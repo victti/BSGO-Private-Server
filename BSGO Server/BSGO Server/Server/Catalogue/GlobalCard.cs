@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace BSGO_Server
 {
-    class GlobalCard : Card
+    internal class GlobalCard : Card
     {
-        public float TitaniumRepairCard = 1f;
-        public float CubitsRepairCard = 1f;
-        public uint CapitalShipPrice;
-        public float UndockTimeout;
-        public RewardCard FriendBonus;
-        public Dictionary<int, RewardCard> SpecialFriendBonus = new Dictionary<int, RewardCard>();
+        public float TitaniumRepairCard { get; set; } = 1f;
+        public float CubitsRepairCard { get; set; } = 1f;
+        public uint CapitalShipPrice { get; set; }
+        public float UndockTimeout { get; set; }
+        public RewardCard FriendBonus { get; set; }
+        public Dictionary<int, RewardCard> SpecialFriendBonus { get; set; } = new Dictionary<int, RewardCard>();
 
         public GlobalCard(uint cardGUID, CardView cardView, float titaniumRepairCard, float cubitsRepairCard, uint capitalShipPrice, float undockTimeout, RewardCard friendBonus, Dictionary<int, RewardCard> specialFriendBonus)
-    : base(cardGUID, cardView)
+            : base(cardGUID, cardView)
         {
             TitaniumRepairCard = titaniumRepairCard;
             CubitsRepairCard = cubitsRepairCard;
@@ -33,6 +31,7 @@ namespace BSGO_Server
             w.Write(UndockTimeout);
             w.Write(FriendBonus.CardGUID);
             w.Write(SpecialFriendBonus.Count);
+
             foreach (KeyValuePair<int, RewardCard> friendBonus in SpecialFriendBonus)
             {
                 w.Write((byte)friendBonus.Key);

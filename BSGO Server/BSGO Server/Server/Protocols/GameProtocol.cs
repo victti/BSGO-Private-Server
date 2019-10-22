@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Numerics;
+using System.Threading.Tasks;
 
 namespace BSGO_Server
 {
-    class GameProtocol : Protocol
+    internal class GameProtocol : Protocol
     {
         public enum Reply : ushort
         {
@@ -114,7 +115,7 @@ namespace BSGO_Server
 
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
-            ushort msgType = (ushort)br.ReadUInt16();
+            ushort msgType = br.ReadUInt16();
 
             switch ((Request)msgType)
             {
@@ -122,15 +123,20 @@ namespace BSGO_Server
                 // Also I don't know if it was sent to everyone or just to the client. Probably everyone on the sector,
                 // but since we are doing this offline for now, let's keep it still only client.
                 case Request.JumpIn:
-                    SendWhoIsPlayer(index);
+                    Client c = Server.GetClientByIndex(index);
+                    Task.Run(() =>Server.GetSectorById(c.Character.sectorId).JoinSector(c));
+                    //SendWhoIsPlayer(index, SpaceEntityType.Player, (uint)index, (uint)index, Server.GetClientByIndex(index).Character.WorldCardGUID);
                     SetTimeOrigin(index);
                     PlayerProtocol.GetProtocol().SendStats(index); // These are the stats of your ship, not the base ones.
-
-                    SyncMove(index, SpaceEntityType.Player, (uint)index, new Vector3(0, 100f, 100f));
+                    PlayerProtocol.GetProtocol().SendShipInfo(index);
+                    //SyncMove(index, SpaceEntityType.Player, (uint)index, new Vector3(0, 0f, 0f));
                     break;
                 case Request.CompleteJump:
-                    PlayerProtocol.GetProtocol().SendUnanchor(index);
+                    PlayerProtocol.GetProtocol().SendUnanchor(index, (uint)index);
                     StoryProtocol.GetProtocol().EnableGear(index, true);
+
+                    //SendWhoIsPlayer(index, SpaceEntityType.Player, (uint)10, 10, 22131177);
+                    //SyncMove(index, SpaceEntityType.Player, (uint)10, new Vector3(0, 100f, 100f));
                     break;
                 case Request.SetSpeed:
                     byte mode = br.ReadByte();
@@ -149,7 +155,7 @@ namespace BSGO_Server
             }
         }
 
-        private void SyncMove(int index, SpaceEntityType spaceEntityType, uint objectId)
+        public void SyncMove(int index, SpaceEntityType spaceEntityType, uint objectId)
         {
             BgoProtocolWriter buffer = NewMessage();
 
@@ -209,12 +215,12 @@ namespace BSGO_Server
             buffer.Write(currentShipStats.StrafeMaxSpeed);
 
 
-            SendMessageToUser(index, buffer);
+            SendMessageToSector(index, buffer);
         }
 
         // No idea why but this makes the game load (???)
         // I guess it spawns the player in a position inside the Sector
-        private void SyncMove(int index, SpaceEntityType spaceEntityType, uint objectId, Vector3 position, Vector3 euler3 = default(Vector3))
+        public void SyncMove(int index, SpaceEntityType spaceEntityType, uint objectId, Vector3 position, Vector3 euler3 = default(Vector3))
         {
             BgoProtocolWriter buffer = NewMessage();
 
@@ -249,17 +255,18 @@ namespace BSGO_Server
             //euler3
             buffer.Write(euler3);
 
-            SendMessageToUser(index, buffer);
+
+            SendMessageToSector(index, buffer);
         }
 
-        public void SendWhoIsPlayer(int index)
+        public void SendWhoIsPlayer(int index, SpaceEntityType spaceEntityType, uint objectId, uint ownerGuid, uint WorldCard)
         {
             BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.WhoIs);
-            buffer.Write((uint)SpaceEntityType.Player + (uint)index);
+            buffer.Write((uint)spaceEntityType + (uint)objectId);
             buffer.Write((byte)CreatingCause.JumpIn);
-            buffer.Write((uint)index); // The OwnerGUID. Since idk what it could be, just using his index
-            buffer.Write((uint)Server.GetClientByIndex(index).Character.WorldCardGUID); // The WorldCardGUID which is the spaceship loaded.
+            buffer.Write(ownerGuid); // The OwnerGUID. Since idk what it could be, just using his index
+            buffer.Write(WorldCard); // The WorldCardGUID which is the spaceship loaded.
 
             //nothing yet
             buffer.Write((ushort)0);
@@ -269,7 +276,7 @@ namespace BSGO_Server
             buffer.Write((uint)BgoAdminRoles.Developer); //player role
             buffer.Write(true);
 
-            SendMessageToUser(index, buffer);
+            SendMessageToSector(index, buffer);
         }
 
         public void SpawnPlanetoid(int connectionId, uint objectId, Vector3 position)
@@ -291,6 +298,7 @@ namespace BSGO_Server
         {
             BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.TimeOrigin);
+
             buffer.Write((long)DateTime.UtcNow.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
 
             SendMessageToUser(index, buffer);

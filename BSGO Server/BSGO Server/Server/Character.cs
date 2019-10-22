@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using BSGO_Server.Database;
 using BSGO_Server.Database.Entities;
 
 namespace BSGO_Server
 {
     class Character
     {
-        private int index;
-        public string name;
-        public Faction Faction;
+        private readonly int index;
+        public string name { get; set; }
+        public Faction Faction { get; set; }
 
         public GameLocation GameLocation {
             get
@@ -26,17 +24,18 @@ namespace BSGO_Server
         }
         private GameLocation gameLocation;
         private GameLocation lastGameLocation = GameLocation.Unknown;
-        public Dictionary<AvatarItem, string> items = new Dictionary<AvatarItem, string>();
-        public uint WorldCardGUID = 22131177;
+        public Dictionary<AvatarItem, string> items { get; set; } = new Dictionary<AvatarItem, string>();
+        public uint WorldCardGUID { get; set; } = 22131177;
 
-        public byte qweasd;
-        public byte shipMode;
-        public float shipSpeed;
+        public uint sectorId { get; set; } = 163231265;
+        public byte qweasd { get; set; }
+        public byte shipMode { get; set; }
+        public float shipSpeed { get; set; }
 
         public Character(int index)
         {
             this.index = index;
-            this.gameLocation = GameLocation.Starter;
+            gameLocation = GameLocation.Starter;
 
             GUICard ownerGUIDCard = new GUICard((uint)index, CardView.GUI, "", 0, "", 0, "", "GUI/Slots/" + ((GUICard)Catalogue.FetchCard(WorldCardGUID, CardView.GUI)).Key, "", new string[0]);
             OwnerCard ownerCard = new OwnerCard((uint)index, CardView.Owner, false, 0, 1);
@@ -44,12 +43,12 @@ namespace BSGO_Server
             Catalogue.AddCard(ownerCard);
 
             Characters character = Database.Database.GetCharacterById(Server.GetClientByIndex(index).playerId.ToString());
-            if (character == null)
+            if (character is null)
                 return;
 
-            this.name = character.Name;
-            this.Faction = (Faction)character.Faction;
-            this.gameLocation = (GameLocation)character.GameLocation;
+            name = character.Name;
+            Faction = (Faction)character.Faction;
+            gameLocation = (GameLocation)character.GameLocation;
 
             foreach (KeyValuePair<string, string> item in character.AvatarItems)
             {

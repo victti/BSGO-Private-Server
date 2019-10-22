@@ -4,17 +4,17 @@ using System.Text;
 
 namespace BSGO_Server
 {
-    class AvatarIndex : IProtocolWrite
+    internal class AvatarIndex : IProtocolWrite
     {
-        public string race;
+        public string race { get; set; }
 
-        public string sex;
+        public string sex { get; set; }
 
-        public Dictionary<string, List<string>> items = new Dictionary<string, List<string>>();
+        public Dictionary<string, List<string>> items { get; set; } = new Dictionary<string, List<string>>();
 
-        public Dictionary<string, List<string>> textures = new Dictionary<string, List<string>>();
+        public Dictionary<string, List<string>> textures { get; set; } = new Dictionary<string, List<string>>();
 
-        public Dictionary<string, Dictionary<string, List<string>>> materials = new Dictionary<string, Dictionary<string, List<string>>>();
+        public Dictionary<string, Dictionary<string, List<string>>> materials { get; set; } = new Dictionary<string, Dictionary<string, List<string>>>();
 
         public AvatarIndex(string race, string sex, Dictionary<string, List<string>> items, Dictionary<string, List<string>> textures, Dictionary<string, Dictionary<string, List<string>>> materials)
         {
@@ -30,6 +30,7 @@ namespace BSGO_Server
             w.Write(sex);
             w.Write(race);
             w.Write((ushort)items.Count);
+
             foreach (KeyValuePair<string, List<string>> pair in items)
             {
                 w.Write(pair.Key);
@@ -42,6 +43,7 @@ namespace BSGO_Server
             }
 
             w.Write((ushort)materials.Count);
+
             foreach (KeyValuePair<string, Dictionary<string, List<string>>> pair in materials)
             {
                 w.Write(pair.Key);
@@ -60,6 +62,7 @@ namespace BSGO_Server
             }
 
             w.Write((ushort)textures.Count);
+
             foreach (KeyValuePair<string, List<string>> pair3 in textures)
             {
                 w.Write(pair3.Key);

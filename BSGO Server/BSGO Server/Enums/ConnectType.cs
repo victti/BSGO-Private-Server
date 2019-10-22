@@ -1,8 +1,11 @@
-﻿public enum ConnectType
+﻿namespace BSGO_Server
 {
-    Web,
-    DebugPlayerId,
-    DebugName,
-    DebugNew,
-    DebugResetByPlayerId
+    internal enum ConnectType
+    {
+        Web,
+        DebugPlayerId,
+        DebugName,
+        DebugNew,
+        DebugResetByPlayerId
+    }
 }

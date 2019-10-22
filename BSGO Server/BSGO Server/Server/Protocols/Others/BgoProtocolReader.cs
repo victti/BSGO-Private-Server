@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BSGO_Server
 {
-    class BgoProtocolReader : BinaryReader
+    internal class BgoProtocolReader : BinaryReader
     {
         public BgoProtocolReader(byte[] buffer)
         : this(new MemoryStream(buffer))

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    enum SpotType
+    internal enum SpotType
     {
         Weapon = 1,
         Sticker,

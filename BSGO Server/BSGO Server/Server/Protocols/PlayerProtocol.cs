@@ -291,11 +291,11 @@ namespace BSGO_Server
             SendMessageToUser(index, buffer);
         }
 
-        public void SendUnanchor(int index)
+        public void SendUnanchor(int index, uint objId)
         {
             BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.Unanchor);
-            buffer.Write((uint)SpaceEntityType.Player + index);
+            buffer.Write((uint)SpaceEntityType.Player + objId);
             buffer.Write((byte)0);
 
             SendMessageToUser(index, buffer);
@@ -325,6 +325,19 @@ namespace BSGO_Server
                 buffer.Write((ushort)stat.Key);
                 buffer.Write(stat.Value);
             }
+
+            SendMessageToUser(index, buffer);
+        }
+
+        public void SendShipInfo(int index)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+            buffer.Write((ushort)Reply.ShipInfo);
+
+            uint worldGuid = Server.GetClientByIndex(index).Character.WorldCardGUID;
+
+            buffer.Write((ushort)100);
+            buffer.Write(((ShipCard)Catalogue.FetchCard(worldGuid, CardView.Ship)).Durability);
 
             SendMessageToUser(index, buffer);
         }

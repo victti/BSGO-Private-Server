@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BSGO_Server
 {
-    interface IProtocolWrite
+    internal interface IProtocolWrite
     {
         void Write(BgoProtocolWriter w);
     }

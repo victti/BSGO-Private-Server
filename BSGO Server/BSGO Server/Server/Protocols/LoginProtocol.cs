@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BSGO_Server.Database;
 
 namespace BSGO_Server
 {
-    class LoginProtocol : Protocol
+    internal class LoginProtocol : Protocol
     {
         enum Reply : ushort
         {
@@ -36,7 +33,7 @@ namespace BSGO_Server
 
         public override void ParseMessage(int index, BgoProtocolReader br)
         {
-            ushort msgType = (ushort)br.ReadUInt16();
+            ushort msgType = br.ReadUInt16();
 
             switch ((Request)msgType)
             {
@@ -56,7 +53,7 @@ namespace BSGO_Server
                         case ConnectType.Web:
                             if (Database.Database.CheckSessionCodeExistance(sessionCode))
                             {
-                                playerId = uint.Parse(Database.Database.GetUserBySession(sessionCode).PlayerId);
+                                playerId = Convert.ToUInt32(Database.Database.GetUserBySession(sessionCode).PlayerId);
                                 Server.GetClientByIndex(index).playerId = playerId;
                                 Server.GetClientByIndex(index).Character = new Character(index);
                                 SendPlayer(index);
@@ -104,7 +101,7 @@ namespace BSGO_Server
             BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)3);
 
-            DateTime now = DateTime.Now;
+            DateTime now = Server.serverStartTime;
             buffer.Write(now.Year);
             buffer.Write(now.Month);
             buffer.Write(now.Day);

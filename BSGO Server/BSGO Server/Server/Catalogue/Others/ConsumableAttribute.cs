@@ -4,9 +4,9 @@ using System.Text;
 
 namespace BSGO_Server
 {
-    class ConsumableAttribute
+    internal class ConsumableAttribute
     {
-        public string Attribute;
+        public string Attribute { get; set; }
 
         public ConsumableAttribute(string attribute)
         {

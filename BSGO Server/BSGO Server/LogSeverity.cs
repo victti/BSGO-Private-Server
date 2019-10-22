@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    enum LogSeverity
+    internal enum LogSeverity
     {
         SERVERINFO,
         INFO,

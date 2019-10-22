@@ -4,9 +4,9 @@ using System.Text;
 
 namespace BSGO_Server
 {
-    class Price : IProtocolWrite
+    internal class Price : IProtocolWrite
     {
-        public Dictionary<ShipConsumableCard, float> items = new Dictionary<ShipConsumableCard, float>();
+        public Dictionary<ShipConsumableCard, float> items { get; set; } = new Dictionary<ShipConsumableCard, float>();
 
         public Price()
         {
@@ -21,6 +21,7 @@ namespace BSGO_Server
         public void Write(BgoProtocolWriter w)
         {
             w.Write(items.Count);
+
             foreach(KeyValuePair<ShipConsumableCard, float> item in items)
             {
                 w.Write(item.Key.CardGUID);

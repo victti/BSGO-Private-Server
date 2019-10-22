@@ -1,33 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
+﻿using System.Numerics;
 
 namespace BSGO_Server
 {
-    class MapStarDesc : IProtocolWrite
+    internal class MapStarDesc : IProtocolWrite
     {
-        public uint Id;
+        public uint Id { get; set; }
 
-        public Vector2 Position;
+        public Vector2 Position { get; set; }
 
-        public byte GUIIndex;
+        public byte GUIIndex { get; set; }
 
-        public Faction StarFaction;
+        public Faction StarFaction { get; set; }
 
-        public int ColonialThreatLevel;
+        public int ColonialThreatLevel { get; set; }
 
-        public int CylonThreatLevel;
+        public int CylonThreatLevel { get; set; }
 
-        public uint SectorGUID;
+        public uint SectorGUID { get; set; }
 
-        public bool CanColonialOutpost;
+        public bool CanColonialOutpost { get; set; }
 
-        public bool CanCylonOutpost;
+        public bool CanCylonOutpost { get; set; }
 
-        public bool CanColonialJumpBeacon;
+        public bool CanColonialJumpBeacon { get; set; }
 
-        public bool CanCylonJumpBeacon;
+        public bool CanCylonJumpBeacon { get; set; }
 
         public MapStarDesc(uint id, Vector2 position, byte gUIIndex, Faction starFaction, int colonialThreatLevel, int cylonThreatLevel, uint sectorGUID, bool canColonialOutpost, bool canCylonOutpost, bool canColonialJumpBeacon, bool canCylonJumpBeacon)
         {

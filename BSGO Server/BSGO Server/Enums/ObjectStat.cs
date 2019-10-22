@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    enum ObjectStat : ushort
+    internal enum ObjectStat : ushort
     {
         None = 0,
         Accuracy = 2,

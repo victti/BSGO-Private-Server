@@ -2,19 +2,25 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BSGO_Server
 {
     class Client
     {
-        public int index;
-        public string ip;
-        public Socket socket;
-        public bool closing = false;
-        private byte[] _buffer = new byte[65535];
+        public int index { get; private set; }
+        public string ip { get; set; }
+        public Socket socket { get; set; }
+        public bool closing { get; set; } = false;
+        private readonly byte[] _buffer = new byte[65535];
 
-        public uint playerId;
-        public Character Character;
+        public uint playerId { get; set; }
+        public Character Character { get; set; }
+
+        public Client(int index)
+        {
+            this.index = index;
+        }
 
         public void StartClient()
         { 
@@ -43,16 +49,18 @@ namespace BSGO_Server
             }
             catch (Exception ex)
             {
-                Log.Add(LogSeverity.ERROR, "Exception thrown " + ex.ToString());
+                Log.Add(LogSeverity.ERROR, "Exception thrown " + ex);
                 CloseClient(index);
             }
         }
 
         private void CloseClient(int index)
         {
+            Server.GetSectorById(Character.sectorId).LeaveSector(this);
             Log.Add(LogSeverity.INFO, string.Format("Connection from {0} has been terminated.", ip));
             closing = true;
             socket.Close();
+            socket = null;
         }
     }
 }

@@ -9,15 +9,20 @@ namespace BSGO_Server.Database
 {
     class Database
     {
-        private static IMongoClient client = new MongoClient("mongodb://localhost");
-        private static IMongoDatabase database = client.GetDatabase("bsgo");
-        private static IMongoCollection<Users> colUsers = database.GetCollection<Users>("users");
-        private static IMongoCollection<Characters> colCharacters = database.GetCollection<Characters>("characters");
+        private static readonly IMongoClient client = new MongoClient("mongodb://localhost");
+        private static readonly IMongoDatabase database = client.GetDatabase("bsgo");
+        private static readonly IMongoCollection<Users> colUsers = database.GetCollection<Users>("users");
+        private static readonly IMongoCollection<Characters> colCharacters = database.GetCollection<Characters>("characters");
 
         // This is temporary. Just making sure that my user does exist
-        private static Expression<Func<Users, bool>> filter =
+        private static readonly Expression<Func<Users, bool>> filter =
             x => x.PlayerId.Equals("5085935");
-        private static Users user = colUsers.Find(filter).FirstOrDefault();
+        private static readonly Users user = colUsers.Find(filter).FirstOrDefault();
+
+        // This is temporary. Just making sure that my second user does exist
+        private static readonly Expression<Func<Users, bool>> filter2 =
+            x => x.PlayerId.Equals("5085936");
+        private static readonly Users user2 = colUsers.Find(filter2).FirstOrDefault();
 
         /// <summary>
         /// Initializes the database.
@@ -27,19 +32,30 @@ namespace BSGO_Server.Database
             // Since we want to use my premade user, we are making sure he is on the database at the start
             if (user == null)
             {
-                Users docUser = new Users() {
+                Users docUser = new Users {
                     PlayerId = "5085935",
                     SessionCode = "b1b23d2fa2769bd59d4c1b67554599b88381afd653b156aa54cb689969ab4fb7"
                 };
 
                 colUsers.InsertOne(docUser);
             }
+
+            if(user2 == null)
+            {
+                Users docUser2 = new Users
+                {
+                    PlayerId = "5085936",
+                    SessionCode = "b1b23d2fa2769bd59d4c1b67554599b88381afd653b156aa54cb689969ab4fb8"
+                };
+
+                colUsers.InsertOne(docUser2);
+            }
         }
 
         /// <summary>
         /// Checks if the Session exists on the database by its Session Code.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="sessionCode"></param>
         /// <returns></returns>
         public static bool CheckSessionCodeExistance(string sessionCode)
         {
@@ -101,6 +117,8 @@ namespace BSGO_Server.Database
         /// </summary>
         /// <param name="name"></param>
         /// <param name="playerId"></param>
+        /// <param name="faction"></param>
+        /// <param name="items"></param>
         public static void CreateCharacter(string name, string playerId, byte faction, Dictionary<AvatarItem, string> items)
         {
             Expression<Func<Characters, bool>> filter =
@@ -116,9 +134,9 @@ namespace BSGO_Server.Database
                 avatarItems.Add(item.Key.ToString(), item.Value);
             }
 
-            character = new Characters() {
+            character = new Characters {
                 Name = name,
-                GameLocation = 2,
+                GameLocation = 1,
                 Level = 1,
                 PlayerId = playerId,
                 Faction = faction,
@@ -136,7 +154,7 @@ namespace BSGO_Server.Database
         /// <summary>
         /// Returns a User(Database Entity) by searching his Session Code.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="session"></param>
         /// <returns></returns>
         public static Users GetUserBySession(string session)
         {

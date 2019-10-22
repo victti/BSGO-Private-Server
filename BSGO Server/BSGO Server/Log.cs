@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BSGO_Server
 {
-    class Log
+    internal static class Log
     {
         public enum LogDir
         {
@@ -35,7 +33,7 @@ namespace BSGO_Server
                     break;
             }
 
-            finalText += "[" + System.DateTime.Now + "]";
+            finalText += "[" + DateTime.Now + "]";
             finalText += "[" + logDir +"] ";
 
             finalText += text;
@@ -68,7 +66,7 @@ namespace BSGO_Server
                     break;
             }
 
-            finalText += "[" + System.DateTime.Now + "] ";
+            finalText += "[" + DateTime.Now + "] ";
 
             finalText += text;
 

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BSGO_Server
+﻿namespace BSGO_Server
 {
-    class RewardCard : Card
+    internal class RewardCard : Card
     {
-        public int Experience;
-        //public List<ShipItem> Items = new List<ShipItems>();
-        public AugmentActionType Action;
-        public string Package = string.Empty;
-        public uint ItemGroup = 101;
-        public uint PackagedCubits;
+        public int Experience { get; set; }
+        //public List<ShipItem> Items  { get; set; } = new List<ShipItems>();
+        public AugmentActionType Action { get; set; }
+        public string Package { get; set; } = string.Empty;
+        public uint ItemGroup { get; set; } = 101;
+        public uint PackagedCubits { get; set; }
 
         public RewardCard(uint cardGUID, CardView cardView, int experience, AugmentActionType action, string package, uint packagedCubits)
             : base(cardGUID, cardView)
