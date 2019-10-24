@@ -11,7 +11,7 @@
 ### Features
 - Supported version:
   - Latest released by BigPoint. I'm not sure if it works for other versions.
-- What's working (only saved in memory, not on a database):
+- What's working:
   - Select a faction.
   - Customize the male Colonial character.
   - Load into the game.
