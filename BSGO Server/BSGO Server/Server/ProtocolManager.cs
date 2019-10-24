@@ -42,7 +42,7 @@ namespace BSGO_Server
 
             try
             {
-                Task.Run(() => GetProtocol((Protocol.ProtocolID)protocolID).ParseMessage(index, buffer));
+                GetProtocol((Protocol.ProtocolID)protocolID).ParseMessage(index, buffer);
             }
             catch (Exception ex)
             {

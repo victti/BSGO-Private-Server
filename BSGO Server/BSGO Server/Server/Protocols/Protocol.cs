@@ -93,6 +93,7 @@ namespace BSGO_Server
             if (enabled)
             {
                 Server.SendDataToSector(Server.GetClientByIndex(index).Character.sectorId, bw);
+                DebugMessage(bw);
             }
             else
             {

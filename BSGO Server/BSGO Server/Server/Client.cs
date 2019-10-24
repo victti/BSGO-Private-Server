@@ -43,7 +43,7 @@ namespace BSGO_Server
                 {
                     byte[] databuffer = new byte[received];
                     Array.Copy(_buffer, databuffer, received);
-                    ProtocolManager.HandleNetworkInformation(index, databuffer);
+                    Task.Run(()=>ProtocolManager.HandleNetworkInformation(index, databuffer));
                     socket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), socket);
                 }
             }

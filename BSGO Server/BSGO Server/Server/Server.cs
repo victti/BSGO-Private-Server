@@ -34,14 +34,14 @@ namespace BSGO_Server
             Log.Add(LogSeverity.SERVERINFO, "Initializing the server");
 
             serverStartTime = DateTime.UtcNow.ToUniversalTime();
-            _sectors.Add(new Sector("Alpha Ceti", 163231265, Color.FromArgb(255, 100, 100, 100), Color.FromArgb(255, 100, 100, 100), Color.FromArgb(255, 100, 100, 100), new BackgroundDesc("nebula1", new System.Numerics.Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new System.Numerics.Vector3(0, 0, 0)), new BackgroundDesc("stars", new System.Numerics.Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new System.Numerics.Vector3(0, 0, 0)), new BackgroundDesc("starsmultiply_mid", new System.Numerics.Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new System.Numerics.Vector3(0, 0, 0)), new BackgroundDesc("starsvariances", new System.Numerics.Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new System.Numerics.Vector3(0, 0, 0)), new MovingNebulaDesc[0], new LightDesc[0], new SunDesc[0], new JGlobalFog(false, Color.FromArgb(0, 0, 0, 0), 0, 0), new JCameraFx(false)));
+            _sectors.Add(new Sector("Alpha Ceti", 0, 163231265, Color.FromArgb(255, 100, 100, 100), Color.FromArgb(255, 100, 100, 100), Color.FromArgb(255, 100, 100, 100), new BackgroundDesc("nebula1", new System.Numerics.Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new System.Numerics.Vector3(0, 0, 0)), new BackgroundDesc("stars", new System.Numerics.Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new System.Numerics.Vector3(0, 0, 0)), new BackgroundDesc("starsmultiply_mid", new System.Numerics.Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new System.Numerics.Vector3(0, 0, 0)), new BackgroundDesc("starsvariances", new System.Numerics.Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new System.Numerics.Vector3(0, 0, 0)), new MovingNebulaDesc[0], new LightDesc[0], new SunDesc[0], new JGlobalFog(false, Color.FromArgb(0, 0, 0, 0), 0, 0), new JCameraFx(false)));
 
             for (int i = 0; i < MaxPlayers; i++)
                 _clients[i] = new Client(i);
 
             _serverSocket.NoDelay = true;
             _serverSocket.Bind(new IPEndPoint(IPAddress.Any, PORT));
-            _serverSocket.Listen(10);
+            _serverSocket.Listen(128);
             _serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), null);
 
             Log.Add(LogSeverity.SERVERINFO, string.Format("The server is now running on port {0}", PORT));
@@ -71,6 +71,22 @@ namespace BSGO_Server
             }
         }
 
+        private static void SendCallback(IAsyncResult ar)
+        {
+            try
+            {
+                // Retrieve the socket from the state object.  
+                Socket handler = (Socket)ar.AsyncState;
+
+                // Complete sending the data to the remote device.  
+                int bytesSent = handler.EndSend(ar);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+        }
+
         /// <summary>
         /// Sends a message to one specific client by his index.
         /// </summary>
@@ -82,7 +98,7 @@ namespace BSGO_Server
             {
                 if (client.socket != null && !client.closing && client.index == index)
                 {
-                    client.socket.Send(message.GetBuffer(), 0, message.GetLength(), SocketFlags.None);
+                    client.socket.BeginSend(message.GetBuffer(), 0, message.GetLength(), SocketFlags.None, new AsyncCallback(SendCallback), client.socket);
                 }
             }
         }
@@ -99,7 +115,7 @@ namespace BSGO_Server
             {
                 if (client.socket != null && !client.closing && client.index != index && client.Character != null && client.Character.sectorId == sectorid)
                 {
-                    client.socket.Send(message.GetBuffer(), 0, message.GetLength(), SocketFlags.None);
+                    client.socket.BeginSend(message.GetBuffer(), 0, message.GetLength(), SocketFlags.None, new AsyncCallback(SendCallback), client.socket);
                 }
             }
         }
@@ -115,7 +131,7 @@ namespace BSGO_Server
             {
                 if (client.socket != null && !client.closing && client.Character != null && client.Character.sectorId == index)
                 {
-                    client.socket.Send(message.GetBuffer(), 0, message.GetLength(), SocketFlags.None);
+                    client.socket.BeginSend(message.GetBuffer(), 0, message.GetLength(), SocketFlags.None, new AsyncCallback(SendCallback), client.socket);
                 }
             }
         }

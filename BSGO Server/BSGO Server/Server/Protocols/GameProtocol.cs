@@ -124,9 +124,9 @@ namespace BSGO_Server
                 // but since we are doing this offline for now, let's keep it still only client.
                 case Request.JumpIn:
                     Client c = Server.GetClientByIndex(index);
-                    Task.Run(() =>Server.GetSectorById(c.Character.sectorId).JoinSector(c));
+                    //Task.Run(() =>Server.GetSectorById(c.Character.sectorId).JoinSector(c));
+                    Server.GetSectorById(c.Character.sectorId).JoinSector(c);
                     //SendWhoIsPlayer(index, SpaceEntityType.Player, (uint)index, (uint)index, Server.GetClientByIndex(index).Character.WorldCardGUID);
-                    SetTimeOrigin(index);
                     PlayerProtocol.GetProtocol().SendStats(index); // These are the stats of your ship, not the base ones.
                     PlayerProtocol.GetProtocol().SendShipInfo(index);
                     //SyncMove(index, SpaceEntityType.Player, (uint)index, new Vector3(0, 0f, 0f));
@@ -226,7 +226,7 @@ namespace BSGO_Server
 
             buffer.Write((ushort)Reply.SyncMove);
             buffer.Write((uint)spaceEntityType + objectId);
-            buffer.Write((int)1); // tick
+            buffer.Write(5); // tick
 
             //position
             buffer.Write(position);
@@ -247,7 +247,7 @@ namespace BSGO_Server
             buffer.Write((byte)2);
 
             buffer.Write((byte)2);
-            buffer.Write((int)1);
+            buffer.Write(5); //startTick
 
             //position
             buffer.Write(position);
@@ -294,7 +294,7 @@ namespace BSGO_Server
             SendMessageToUser(connectionId, buffer);
         }
 
-        private void SetTimeOrigin(int index)
+        public void SetTimeOrigin(int index)
         {
             BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.TimeOrigin);

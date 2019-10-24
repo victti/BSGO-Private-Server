@@ -95,7 +95,7 @@ namespace BSGO_Server
                     // I don't know which values to give so I'm just giving the numbers in order. E.g:
                     // ColonialBonusGUID was 3027 and CylonBonusGUID was 3127. So here we have 1327 and 1427 :) lol
                     buffer.Write(Server.GetClientByIndex(index).Character.sectorId); // sector id
-                    buffer.Write(Server.GetClientByIndex(index).Character.sectorId); // cardGuid2
+                    buffer.Write(Server.GetSectorById(Server.GetClientByIndex(index).Character.sectorId).sectorGuid); // cardGuid2
                     break;
             }
 
@@ -113,7 +113,7 @@ namespace BSGO_Server
                 case GameLocation.Tournament:
                 case GameLocation.Tutorial:
                 case GameLocation.Teaser:
-                    //PlayerProtocol.GetProtocol().SendUnanchor(index);
+                    //PlayerProtocol.GetProtocol().SendUnanchor(index, (uint)index);
                     break;
             }
         }

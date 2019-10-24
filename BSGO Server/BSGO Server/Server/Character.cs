@@ -27,7 +27,7 @@ namespace BSGO_Server
         public Dictionary<AvatarItem, string> items { get; set; } = new Dictionary<AvatarItem, string>();
         public uint WorldCardGUID { get; set; } = 22131177;
 
-        public uint sectorId { get; set; } = 163231265;
+        public uint sectorId { get; set; } = 0;
         public byte qweasd { get; set; }
         public byte shipMode { get; set; }
         public float shipSpeed { get; set; }

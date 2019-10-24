@@ -10,14 +10,16 @@ namespace BSGO_Server
     class Sector
     {
         public uint sectorId { get; private set; }
+        public uint sectorGuid { get; private set; }
         public string Name { get; private set; }
         public DateTime CreatedTime { get; private set; }
 
         public List<Client> clients = new List<Client>();
 
-        public Sector(string Name, uint sectorGuid, Color ambientColor, Color fogColor, Color dustColor, BackgroundDesc backgroundDesc, BackgroundDesc starsDesc, BackgroundDesc starsMult, BackgroundDesc starsVariance, MovingNebulaDesc[] movingNebulas, LightDesc[] lightDescs, SunDesc[] sunDescs, JGlobalFog jGlobalFog, JCameraFx jCameraFx)
+        public Sector(string Name, uint sectorId, uint sectorGuid, Color ambientColor, Color fogColor, Color dustColor, BackgroundDesc backgroundDesc, BackgroundDesc starsDesc, BackgroundDesc starsMult, BackgroundDesc starsVariance, MovingNebulaDesc[] movingNebulas, LightDesc[] lightDescs, SunDesc[] sunDescs, JGlobalFog jGlobalFog, JCameraFx jCameraFx)
         {
-            this.sectorId = sectorGuid;
+            this.sectorId = sectorId;
+            this.sectorGuid = sectorGuid;
             this.Name = Name;
             CreatedTime = DateTime.UtcNow.ToUniversalTime();
 
@@ -37,10 +39,9 @@ namespace BSGO_Server
             //foreach(Client c in clients)
             //{
                 int index = client.index;
-                Task.Run(()=> { 
-                    GameProtocol.GetProtocol().SendWhoIsPlayer(index, SpaceEntityType.Player, (uint)index, (uint)index, Server.GetClientByIndex(index).Character.WorldCardGUID);
-                    GameProtocol.GetProtocol().SyncMove(index, SpaceEntityType.Player, (uint)index, new Vector3(0, 0f, 0f));
-                });
+                GameProtocol.GetProtocol().SendWhoIsPlayer(index, SpaceEntityType.Player, (uint)index, (uint)index, Server.GetClientByIndex(index).Character.WorldCardGUID);
+                GameProtocol.GetProtocol().SetTimeOrigin(index);
+                GameProtocol.GetProtocol().SyncMove(index, SpaceEntityType.Player, (uint)index, new Vector3(0, 0f, 0f));
             //}
         }
 
