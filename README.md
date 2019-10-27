@@ -54,3 +54,9 @@
 > mongod
 - Run the server, open a cmd in your BSGO/client/live folder and run:
 > bsgo.exe +projectID 547 +userID 5085935 +sessionID c7faac2379e35f6404eced5f484210ba +trackingID 6cc3a6e78a753f29ccabaa0f79b7041b +gameServer 127.0.0.1 +cdn C:\Program Files (x86)\BSGO/client/live/ +language en +session b1b23d2fa2769bd59d4c1b67554599b88381afd653b156aa54cb689969ab4fb7 +version 3b27980a3b7dd77e597872106ca98000 
+
+### Credits
+- aeroson (For the implementation of UnityEngine.Quaternion).
+- bubisnew.
+- Mementomori.
+
