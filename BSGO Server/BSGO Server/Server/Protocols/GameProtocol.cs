@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Numerics;
+using BSGO_Server._3dAlgorithm;
 using System.Threading.Tasks;
 
 namespace BSGO_Server
@@ -124,12 +124,9 @@ namespace BSGO_Server
                 // but since we are doing this offline for now, let's keep it still only client.
                 case Request.JumpIn:
                     Client c = Server.GetClientByIndex(index);
-                    //Task.Run(() =>Server.GetSectorById(c.Character.sectorId).JoinSector(c));
                     Server.GetSectorById(c.Character.sectorId).JoinSector(c);
-                    //SendWhoIsPlayer(index, SpaceEntityType.Player, (uint)index, (uint)index, Server.GetClientByIndex(index).Character.WorldCardGUID);
                     PlayerProtocol.GetProtocol().SendStats(index); // These are the stats of your ship, not the base ones.
                     PlayerProtocol.GetProtocol().SendShipInfo(index);
-                    //SyncMove(index, SpaceEntityType.Player, (uint)index, new Vector3(0, 0f, 0f));
                     break;
                 case Request.CompleteJump:
                     PlayerProtocol.GetProtocol().SendUnanchor(index, (uint)index);
@@ -143,10 +140,12 @@ namespace BSGO_Server
                     float speed = br.ReadSingle();
                     Server.GetClientByIndex(index).Character.shipMode = mode;
                     Server.GetClientByIndex(index).Character.shipSpeed = speed;
+                    Server.GetClientByIndex(index).Character.MovementOptions.speed = speed;
                     SyncMove(index, SpaceEntityType.Player, (uint)index);
                     break;
                 case Request.WASD:
-                    Server.GetClientByIndex(index).Character.qweasd = br.ReadByte();
+                    Client wasdClient = Server.GetClientByIndex(index);
+                    wasdClient.Character.qweasd.Bitmask = br.ReadByte();
                     SyncMove(index, SpaceEntityType.Player, (uint)index);
                     break;
                 default:
@@ -161,31 +160,15 @@ namespace BSGO_Server
 
             buffer.Write((ushort)Reply.SyncMove);
             buffer.Write((uint)spaceEntityType + objectId);
-            buffer.Write((int)1); // tick
+            buffer.Write(Server.GetSectorById(Server.GetClientByIndex(index).Character.sectorId).Tick-1); // tick
 
-            //position
-            buffer.Write(new Vector3());
-
-            //euler3
-            buffer.Write(new Vector3());
-
-            //linearSpeed
-            buffer.Write(new Vector3());
-
-            //strafeSpeed
-            buffer.Write(new Vector3());
-
-            //euler3speed
-            buffer.Write(new Vector3());
-
-            // mode
-            buffer.Write((byte)2);
+            Server.GetClientByIndex(index).Character.MovementFrame.Write(buffer);
 
             buffer.Write((byte)8);
             buffer.Write(1);
 
             //qweasd
-            buffer.Write(Server.GetClientByIndex(index).Character.qweasd);
+            buffer.Write((byte)Server.GetClientByIndex(index).Character.qweasd.Bitmask);
 
             ObjectStats currentShipStats = ((ShipCard)Catalogue.FetchCard(Server.GetClientByIndex(index).Character.WorldCardGUID, CardView.Ship)).Stats;
 
@@ -226,28 +209,12 @@ namespace BSGO_Server
 
             buffer.Write((ushort)Reply.SyncMove);
             buffer.Write((uint)spaceEntityType + objectId);
-            buffer.Write(5); // tick
+            buffer.Write(Server.GetSectorById(Server.GetClientByIndex(index).Character.sectorId).Tick); // tick
 
-            //position
-            buffer.Write(position);
-
-            //euler3
-            buffer.Write(euler3);
-            
-            //linearSpeed
-            buffer.Write(new Vector3());
-
-            //strafeSpeed
-            buffer.Write(new Vector3());
-
-            //euler3speed
-            buffer.Write(new Vector3());
-
-            // mode
-            buffer.Write((byte)2);
+            Server.GetClientByIndex(index).Character.MovementFrame.Write(buffer);
 
             buffer.Write((byte)2);
-            buffer.Write(5); //startTick
+            buffer.Write(Server.GetSectorById(Server.GetClientByIndex(index).Character.sectorId).Tick); //startTick
 
             //position
             buffer.Write(position);
@@ -299,7 +266,7 @@ namespace BSGO_Server
             BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.TimeOrigin);
 
-            buffer.Write((long)DateTime.UtcNow.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
+            buffer.Write((long)Server.GetSectorById(Server.GetClientByIndex(index).Character.sectorId).CreatedTime.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
 
             SendMessageToUser(index, buffer);
         }

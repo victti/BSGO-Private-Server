@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BSGO_Server._3dAlgorithm;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Net;
@@ -34,7 +35,7 @@ namespace BSGO_Server
             Log.Add(LogSeverity.SERVERINFO, "Initializing the server");
 
             serverStartTime = DateTime.UtcNow.ToUniversalTime();
-            _sectors.Add(new Sector("Alpha Ceti", 0, 163231265, Color.FromArgb(255, 100, 100, 100), Color.FromArgb(255, 100, 100, 100), Color.FromArgb(255, 100, 100, 100), new BackgroundDesc("nebula1", new System.Numerics.Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new System.Numerics.Vector3(0, 0, 0)), new BackgroundDesc("stars", new System.Numerics.Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new System.Numerics.Vector3(0, 0, 0)), new BackgroundDesc("starsmultiply_mid", new System.Numerics.Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new System.Numerics.Vector3(0, 0, 0)), new BackgroundDesc("starsvariances", new System.Numerics.Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new System.Numerics.Vector3(0, 0, 0)), new MovingNebulaDesc[0], new LightDesc[0], new SunDesc[0], new JGlobalFog(false, Color.FromArgb(0, 0, 0, 0), 0, 0), new JCameraFx(false)));
+            _sectors.Add(new Sector("Alpha Ceti", 0, 163231265, Color.FromArgb(255, 100, 100, 100), Color.FromArgb(255, 100, 100, 100), Color.FromArgb(255, 100, 100, 100), new BackgroundDesc("nebula1", new Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new Vector3(0, 0, 0)), new BackgroundDesc("stars", new Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new Vector3(0, 0, 0)), new BackgroundDesc("starsmultiply_mid", new Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new Vector3(0, 0, 0)), new BackgroundDesc("starsvariances", new Quaternion(0, 0, 0, 0), Color.FromArgb(100, 100, 100, 100), new Vector3(0, 0, 0)), new MovingNebulaDesc[0], new LightDesc[0], new SunDesc[0], new JGlobalFog(false, Color.FromArgb(0, 0, 0, 0), 0, 0), new JCameraFx(false)));
 
             for (int i = 0; i < MaxPlayers; i++)
                 _clients[i] = new Client(i);

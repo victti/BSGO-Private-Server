@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
-using System.Numerics;
+using BSGO_Server._3dAlgorithm;
 using System.Text;
 
 namespace BSGO_Server
@@ -49,14 +49,21 @@ namespace BSGO_Server
             Write((byte)(value.A * 255f));
         }
 
-        public void Write(Vector3 value)
+        public void Write(Euler3 value)
         {
-            Write(value.X);
-            Write(value.Y);
-            Write(value.Z);
+            Write(value.pitch);
+            Write(value.yaw);
+            Write(value.roll);
         }
 
-        public void Write(Vector2 value)
+        public void Write(Vector3 value)
+        {
+            Write(value.x);
+            Write(value.y);
+            Write(value.z);
+        }
+
+        public void Write(System.Numerics.Vector2 value)
         {
             Write(value.X);
             Write(value.Y);
@@ -64,10 +71,10 @@ namespace BSGO_Server
 
         public void Write(Quaternion value)
         {
-            Write(value.X);
-            Write(value.Y);
-            Write(value.Z);
-            Write(value.W);
+            Write(value.x);
+            Write(value.y);
+            Write(value.z);
+            Write(value.w);
         }
 
         public byte[] GetBuffer()

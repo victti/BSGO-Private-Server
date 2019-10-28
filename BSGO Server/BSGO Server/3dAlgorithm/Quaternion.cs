@@ -97,6 +97,17 @@ namespace BSGO_Server._3dAlgorithm
         }
 
         /// <summary>
+        /// Gets the square of the quaternion length (magnitude).
+        /// </summary>
+        public float LengthSquared
+        {
+            get
+            {
+                return x * x + y * y + z * z + w * w;
+            }
+        }
+
+        /// <summary>
         ///   <para>The identity rotation (RO).</para>
         /// </summary>
         public static Quaternion identity
@@ -108,19 +119,30 @@ namespace BSGO_Server._3dAlgorithm
         }
 
         /// <summary>
+        /// Construct a new MyQuaternion from vector and w components
+        /// </summary>
+        /// <param name="v">The vector part</param>
+        /// <param name="w">The w part</param>
+        public Quaternion(Vector3 v, float w)
+        {
+            this.x = v.x;
+            this.y = v.y;
+            this.z = v.z;
+            this.w = w;
+        }
+
+        /// <summary>
         ///   <para>Returns the euler angle representation of the rotation.</para>
         /// </summary>
         public Vector3 eulerAngles
         {
             get
             {
-                return new Vector3();
-                //return Internal_ToEulerRad(this) * 57.29578f;
+                return Quaternion.ToEulerRad(this) * radToDeg;
             }
             set
             {
-                this = new Quaternion();
-                //this = Internal_FromEulerRad(value * ((float)Math.PI / 180f));
+                this = Quaternion.FromEulerRad(value * degToRad);
             }
         }
 
@@ -249,6 +271,269 @@ namespace BSGO_Server._3dAlgorithm
             float scale = 1.0f / this.Length;
             xyz *= scale;
             w *= scale;
+        }
+
+        /// <summary>
+        ///   <para>Returns the Inverse of /rotation/.</para>
+        /// </summary>
+        /// <param name="rotation"></param>
+        public static Quaternion Inverse(Quaternion rotation)
+        {
+            float lengthSq = rotation.LengthSquared;
+            if (lengthSq != 0.0)
+            {
+                float i = 1.0f / lengthSq;
+                return new Quaternion(rotation.xyz * -i, rotation.w * i);
+            }
+            return rotation;
+        }
+
+        /// <summary>
+        ///   <para>Creates a rotation which rotates from /fromDirection/ to /toDirection/.</para>
+        /// </summary>
+        /// <param name="fromDirection"></param>
+        /// <param name="toDirection"></param>
+        public static Quaternion FromToRotation(Vector3 fromDirection, Vector3 toDirection)
+        {
+            return RotateTowards(LookRotation(fromDirection), LookRotation(toDirection), float.MaxValue);
+        }
+
+        public static Quaternion LookRotation(Vector3 forward, Vector3 upwards)
+        {
+            return Quaternion.LookRotation(ref forward, ref upwards);
+        }
+        public static Quaternion LookRotation(Vector3 forward)
+        {
+            Vector3 up = Vector3.up;
+            return Quaternion.LookRotation(ref forward, ref up);
+        }
+        // from http://answers.unity3d.com/questions/467614/what-is-the-source-code-of-quaternionlookrotation.html
+        private static Quaternion LookRotation(ref Vector3 forward, ref Vector3 up)
+        {
+
+            forward = Vector3.Normalize(forward);
+            Vector3 right = Vector3.Normalize(Vector3.Cross(up, forward));
+            up = Vector3.Cross(forward, right);
+            var m00 = right.x;
+            var m01 = right.y;
+            var m02 = right.z;
+            var m10 = up.x;
+            var m11 = up.y;
+            var m12 = up.z;
+            var m20 = forward.x;
+            var m21 = forward.y;
+            var m22 = forward.z;
+
+
+            float num8 = (m00 + m11) + m22;
+            var quaternion = new Quaternion();
+            if (num8 > 0f)
+            {
+                var num = (float)System.Math.Sqrt(num8 + 1f);
+                quaternion.w = num * 0.5f;
+                num = 0.5f / num;
+                quaternion.x = (m12 - m21) * num;
+                quaternion.y = (m20 - m02) * num;
+                quaternion.z = (m01 - m10) * num;
+                return quaternion;
+            }
+            if ((m00 >= m11) && (m00 >= m22))
+            {
+                var num7 = (float)System.Math.Sqrt(((1f + m00) - m11) - m22);
+                var num4 = 0.5f / num7;
+                quaternion.x = 0.5f * num7;
+                quaternion.y = (m01 + m10) * num4;
+                quaternion.z = (m02 + m20) * num4;
+                quaternion.w = (m12 - m21) * num4;
+                return quaternion;
+            }
+            if (m11 > m22)
+            {
+                var num6 = (float)System.Math.Sqrt(((1f + m11) - m00) - m22);
+                var num3 = 0.5f / num6;
+                quaternion.x = (m10 + m01) * num3;
+                quaternion.y = 0.5f * num6;
+                quaternion.z = (m21 + m12) * num3;
+                quaternion.w = (m20 - m02) * num3;
+                return quaternion;
+            }
+            var num5 = (float)System.Math.Sqrt(((1f + m22) - m00) - m11);
+            var num2 = 0.5f / num5;
+            quaternion.x = (m20 + m02) * num2;
+            quaternion.y = (m21 + m12) * num2;
+            quaternion.z = 0.5f * num5;
+            quaternion.w = (m01 - m10) * num2;
+            return quaternion;
+        }
+
+        public void SetLookRotation(Vector3 view)
+        {
+            Vector3 up = Vector3.up;
+            this.SetLookRotation(view, up);
+        }
+
+        /// <summary>
+        ///   <para>Creates a rotation with the specified /forward/ and /upwards/ directions.</para>
+        /// </summary>
+        /// <param name="view">The direction to look in.</param>
+        /// <param name="up">The vector that defines in which direction up is.</param>
+        public void SetLookRotation(Vector3 view, Vector3 up)
+        {
+            this = Quaternion.LookRotation(view, up);
+        }
+
+        /// <summary>
+        ///   <para>Rotates a rotation /from/ towards /to/.</para>
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <param name="maxDegreesDelta"></param>
+        public static Quaternion RotateTowards(Quaternion from, Quaternion to, float maxDegreesDelta)
+        {
+            float num = Quaternion.Angle(from, to);
+            if (num == 0f)
+            {
+                return to;
+            }
+            float t = Math.Min(1f, maxDegreesDelta / num);
+            return Quaternion.SlerpUnclamped(from, to, t);
+        }
+
+        /// <summary>
+        ///   <para>Spherically interpolates between /a/ and /b/ by t. The parameter /t/ is not clamped.</para>
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="t"></param>
+        public static Quaternion SlerpUnclamped(Quaternion a, Quaternion b, float t)
+        {
+            return Quaternion.SlerpUnclamped(ref a, ref b, t);
+        }
+        private static Quaternion SlerpUnclamped(ref Quaternion a, ref Quaternion b, float t)
+        {
+            // if either input is zero, return the other.
+            if (a.LengthSquared == 0.0f)
+            {
+                if (b.LengthSquared == 0.0f)
+                {
+                    return identity;
+                }
+                return b;
+            }
+            else if (b.LengthSquared == 0.0f)
+            {
+                return a;
+            }
+
+
+            float cosHalfAngle = a.w * b.w + Vector3.Dot(a.xyz, b.xyz);
+
+            if (cosHalfAngle >= 1.0f || cosHalfAngle <= -1.0f)
+            {
+                // angle = 0.0f, so just return one input.
+                return a;
+            }
+            else if (cosHalfAngle < 0.0f)
+            {
+                b.xyz = -b.xyz;
+                b.w = -b.w;
+                cosHalfAngle = -cosHalfAngle;
+            }
+
+            float blendA;
+            float blendB;
+            if (cosHalfAngle < 0.99f)
+            {
+                // do proper slerp for big angles
+                float halfAngle = (float)System.Math.Acos(cosHalfAngle);
+                float sinHalfAngle = (float)System.Math.Sin(halfAngle);
+                float oneOverSinHalfAngle = 1.0f / sinHalfAngle;
+                blendA = (float)System.Math.Sin(halfAngle * (1.0f - t)) * oneOverSinHalfAngle;
+                blendB = (float)System.Math.Sin(halfAngle * t) * oneOverSinHalfAngle;
+            }
+            else
+            {
+                // do lerp if angle is really small.
+                blendA = 1.0f - t;
+                blendB = t;
+            }
+
+            Quaternion result = new Quaternion(blendA * a.xyz + blendB * b.xyz, blendA * a.w + blendB * b.w);
+            if (result.LengthSquared > 0.0f)
+                return Normalize(result);
+            else
+                return identity;
+        }
+
+        // from http://stackoverflow.com/questions/12088610/conversion-between-euler-quaternion-like-in-unity3d-engine
+        private static Vector3 ToEulerRad(Quaternion rotation)
+        {
+            float sqw = rotation.w * rotation.w;
+            float sqx = rotation.x * rotation.x;
+            float sqy = rotation.y * rotation.y;
+            float sqz = rotation.z * rotation.z;
+            float unit = sqx + sqy + sqz + sqw; // if normalised is one, otherwise is correction factor
+            float test = rotation.x * rotation.w - rotation.y * rotation.z;
+            Vector3 v;
+
+            if (test > 0.4995f * unit)
+            { // singularity at north pole
+                v.y = 2f * Mathf.Atan2(rotation.y, rotation.x);
+                v.x = Mathf.PI / 2;
+                v.z = 0;
+                return NormalizeAngles(v * Mathf.Rad2Deg);
+            }
+            if (test < -0.4995f * unit)
+            { // singularity at south pole
+                v.y = -2f * Mathf.Atan2(rotation.y, rotation.x);
+                v.x = -Mathf.PI / 2;
+                v.z = 0;
+                return NormalizeAngles(v * Mathf.Rad2Deg);
+            }
+            Quaternion q = new Quaternion(rotation.w, rotation.z, rotation.x, rotation.y);
+            v.y = (float)System.Math.Atan2(2f * q.x * q.w + 2f * q.y * q.z, 1 - 2f * (q.z * q.z + q.w * q.w));     // Yaw
+            v.x = (float)System.Math.Asin(2f * (q.x * q.z - q.w * q.y));                             // Pitch
+            v.z = (float)System.Math.Atan2(2f * q.x * q.y + 2f * q.z * q.w, 1 - 2f * (q.y * q.y + q.z * q.z));      // Roll
+            return NormalizeAngles(v * Mathf.Rad2Deg);
+        }
+
+        private static Vector3 NormalizeAngles(Vector3 angles)
+        {
+            angles.x = NormalizeAngle(angles.x);
+            angles.y = NormalizeAngle(angles.y);
+            angles.z = NormalizeAngle(angles.z);
+            return angles;
+        }
+
+        private static float NormalizeAngle(float angle)
+        {
+            while (angle > 360)
+                angle -= 360;
+            while (angle < 0)
+                angle += 360;
+            return angle;
+        }
+
+        /// <summary>
+        /// Scale the given quaternion to unit length
+        /// </summary>
+        /// <param name="q">The quaternion to normalize</param>
+        /// <returns>The normalized quaternion</returns>
+        public static Quaternion Normalize(Quaternion q)
+        {
+            Quaternion result;
+            Normalize(ref q, out result);
+            return result;
+        }
+        /// <summary>
+        /// Scale the given quaternion to unit length
+        /// </summary>
+        /// <param name="q">The quaternion to normalize</param>
+        /// <param name="result">The normalized quaternion</param>
+        public static void Normalize(ref Quaternion q, out Quaternion result)
+        {
+            float scale = 1.0f / q.Length;
+            result = new Quaternion(q.xyz * scale, q.w * scale);
         }
 
         /// <summary>

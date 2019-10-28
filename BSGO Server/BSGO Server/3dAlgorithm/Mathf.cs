@@ -13,6 +13,10 @@ namespace BSGO_Server._3dAlgorithm
         /// </summary>
         public static readonly float Epsilon = (!MathfInternal.IsFlushToZeroEnabled) ? MathfInternal.FloatMinDenormal : MathfInternal.FloatMinNormal;
 
+        /// <summary>
+        ///   <para>Radians-to-degrees conversion constant (RO).</para>
+        /// </summary>
+        public const float Rad2Deg = 57.29578f;
 
         /// <summary>
         ///   <para>Returns the sine of angle /f/ in radians.</para>

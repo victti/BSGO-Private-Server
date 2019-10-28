@@ -273,6 +273,27 @@ namespace BSGO_Server._3dAlgorithm
         }
 
         /// <summary>
+        ///   <para>Multiplies every component of this vector by the same component of /scale/.</para>
+        /// </summary>
+        /// <param name="scale"></param>
+        public void Scale(Vector3 scale)
+        {
+            x *= scale.x;
+            y *= scale.y;
+            z *= scale.z;
+        }
+
+        /// <summary>
+        ///   <para>Multiplies two vectors component-wise.</para>
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        public static Vector3 Scale(Vector3 a, Vector3 b)
+        {
+            return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
+        }
+
+        /// <summary>
         ///   <para>Returns the angle in degrees between /from/ and /to/.</para>
         /// </summary>
         /// <param name="from">The angle extends round from this vector.</param>
@@ -280,6 +301,36 @@ namespace BSGO_Server._3dAlgorithm
         public static float Angle(Vector3 from, Vector3 to)
         {
             return MathF.Acos(Math.Clamp(Dot(from.normalized, to.normalized), -1f, 1f)) * 57.29578f;
+        }
+
+        /// <summary>
+        ///   <para>Returns a vector that is made from the smallest components of two vectors.</para>
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        public static Vector3 Min(Vector3 lhs, Vector3 rhs)
+        {
+            return new Vector3(Mathf.Min(lhs.x, rhs.x), Mathf.Min(lhs.y, rhs.y), Mathf.Min(lhs.z, rhs.z));
+        }
+
+        /// <summary>
+        ///   <para>Returns a vector that is made from the largest components of two vectors.</para>
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        public static Vector3 Max(Vector3 lhs, Vector3 rhs)
+        {
+            return new Vector3(Mathf.Max(lhs.x, rhs.x), Mathf.Max(lhs.y, rhs.y), Mathf.Max(lhs.z, rhs.z));
+        }
+
+        /// <summary>
+        ///   <para>Cross Product of two vectors.</para>
+        /// </summary>
+        /// <param name="lhs"></param>
+        /// <param name="rhs"></param>
+        public static Vector3 Cross(Vector3 lhs, Vector3 rhs)
+        {
+            return new Vector3(lhs.y * rhs.z - lhs.z * rhs.y, lhs.z * rhs.x - lhs.x * rhs.z, lhs.x * rhs.y - lhs.y * rhs.x);
         }
 
         public static float Magnitude(Vector3 a)

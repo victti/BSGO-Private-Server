@@ -1,4 +1,4 @@
-﻿using System.Numerics;
+﻿using BSGO_Server._3dAlgorithm;
 
 namespace BSGO_Server
 {
@@ -6,7 +6,7 @@ namespace BSGO_Server
     {
         public uint Id { get; set; }
 
-        public Vector2 Position { get; set; }
+        public System.Numerics.Vector2 Position { get; set; }
 
         public byte GUIIndex { get; set; }
 
@@ -26,7 +26,7 @@ namespace BSGO_Server
 
         public bool CanCylonJumpBeacon { get; set; }
 
-        public MapStarDesc(uint id, Vector2 position, byte gUIIndex, Faction starFaction, int colonialThreatLevel, int cylonThreatLevel, uint sectorGUID, bool canColonialOutpost, bool canCylonOutpost, bool canColonialJumpBeacon, bool canCylonJumpBeacon)
+        public MapStarDesc(uint id, System.Numerics.Vector2 position, byte gUIIndex, Faction starFaction, int colonialThreatLevel, int cylonThreatLevel, uint sectorGUID, bool canColonialOutpost, bool canCylonOutpost, bool canColonialJumpBeacon, bool canCylonJumpBeacon)
         {
             Id = id;
             Position = position;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BSGO_Server
 {
@@ -57,30 +58,36 @@ namespace BSGO_Server
 
         protected void SendMessageToUser(int index, BgoProtocolWriter bw)
         {
-            if (enabled)
+            Parallel.Invoke(() =>
             {
-                Server.SendDataToClient(index, bw);
-                DebugMessage(bw);
-            }
-            else
-            {
-                Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to \"{0}\" for disabled protocol \"{1}\"", index, protocolID));
-            }
-            bw.Dispose();
+                if (enabled)
+                {
+                    Server.SendDataToClient(index, bw);
+                    DebugMessage(bw);
+                }
+                else
+                {
+                    Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to \"{0}\" for disabled protocol \"{1}\"", index, protocolID));
+                }
+                bw.Dispose();
+            });
         }
 
         protected void SendMessageToSectorButUser(int index, BgoProtocolWriter bw)
         {
-            if (enabled)
+            Parallel.Invoke(() =>
             {
-                Server.SendDataToSectorButClient(index, bw);
-                DebugMessage(bw);
-            }
-            else
-            {
-                Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to \"{0}\" for disabled protocol \"{1}\"", index, protocolID));
-            }
-            bw.Dispose();
+                if (enabled)
+                {
+                    Server.SendDataToSectorButClient(index, bw);
+                    DebugMessage(bw);
+                }
+                else
+                {
+                    Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to \"{0}\" for disabled protocol \"{1}\"", index, protocolID));
+                }
+                bw.Dispose();
+            });
         }
 
         /// <summary>
@@ -90,16 +97,19 @@ namespace BSGO_Server
         /// <param name="bw"></param>
         protected void SendMessageToSector(int index, BgoProtocolWriter bw)
         {
-            if (enabled)
+            Parallel.Invoke(() =>
             {
-                Server.SendDataToSector(Server.GetClientByIndex(index).Character.sectorId, bw);
-                DebugMessage(bw);
-            }
-            else
-            {
-                Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to the Sector \"{0}\" for disabled protocol \"{1}\"", Server.GetSectorById(Server.GetClientByIndex(index).Character.sectorId).Name, protocolID));
-            }
-            bw.Dispose();
+                if (enabled)
+                {
+                    Server.SendDataToSector(Server.GetClientByIndex(index).Character.sectorId, bw);
+                    DebugMessage(bw);
+                }
+                else
+                {
+                    Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to the Sector \"{0}\" for disabled protocol \"{1}\"", Server.GetSectorById(Server.GetClientByIndex(index).Character.sectorId).Name, protocolID));
+                }
+                bw.Dispose();
+            });
         }
 
         protected void SendMessageToEveryone(BgoProtocolWriter bw)
