@@ -58,5 +58,5 @@
 ### Credits
 - aeroson (For the implementation of UnityEngine.Quaternion).
 - bubisnew.
-- Mementomori.
+- Mementomori (aka FLOREK BGO).
 
