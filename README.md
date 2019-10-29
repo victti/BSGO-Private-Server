@@ -15,8 +15,9 @@
   - Select a faction.
   - Customize the male Colonial character.
   - Load into the game.
+  - Move around Alpha Ceti.
 - What comes next:
-  - Movement?
+  - Movement? (WIP)
   - Shop?
   - Show the correct ship slots?
   - Skills?
@@ -30,10 +31,8 @@
   - There are no missions, skills, shop items etc.
   - There's a placeholder on the ranking system.
   - Chat doesn't work.
-  - Server isn't aware of player positions/eulers.
+  - Server is aware of player positions/eulers but between the server and client there are some differences (causes lag on the client).
   - Player 1 sees when Player 2 joins, but Player 2 doesn't see Player 1.
-  - Not always you can join the game, crashes on Tick 0 and no Players.
-  - Not always Player 2 can join the game for Player 1, Cards and Position doesn't work.
   
 ### Usage
 
