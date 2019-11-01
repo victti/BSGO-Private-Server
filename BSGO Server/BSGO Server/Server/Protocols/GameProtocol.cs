@@ -146,6 +146,9 @@ namespace BSGO_Server
                 case Request.WASD:
                     Client wasdClient = Server.GetClientByIndex(index);
                     wasdClient.Character.qweasd.Bitmask = br.ReadByte();
+
+                    wasdClient.Character.ManeuverController.AddManeuver(new TurnManeuver(ManeuverType.Turn, 0, wasdClient.Character.qweasd, wasdClient.Character.MovementOptions));
+                    
                     SyncMove(index, SpaceEntityType.Player, (uint)index);
                     break;
                 default:
@@ -160,9 +163,10 @@ namespace BSGO_Server
 
             buffer.Write((ushort)Reply.SyncMove);
             buffer.Write((uint)spaceEntityType + objectId);
-            buffer.Write(Server.GetSectorById(Server.GetClientByIndex(index).Character.sectorId).Tick-1); // tick
+            buffer.Write(Server.GetSectorById(Server.GetClientByIndex(index).Character.sectorId).Tick.Current - 1); // tick
 
             Server.GetClientByIndex(index).Character.MovementFrame.Write(buffer);
+            //Server.GetClientByIndex(index).Character.ManeuverController.GetTickFrame(Server.GetSectorById(Server.GetClientByIndex(index).Character.sectorId).Tick.Current).Write(buffer);
 
             buffer.Write((byte)8);
             buffer.Write(1);
@@ -266,9 +270,12 @@ namespace BSGO_Server
             BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.TimeOrigin);
 
-            buffer.Write((long)Server.GetSectorById(Server.GetClientByIndex(index).Character.sectorId).CreatedTime.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
+            long timeOrigin = (long)Server.GetSectorById(Server.GetClientByIndex(index).Character.sectorId).CreatedTime.Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+            buffer.Write(timeOrigin);
 
             SendMessageToUser(index, buffer);
+
+            Server.GetClientByIndex(index).Character.timeOrigin = timeOrigin;
         }
 
         public void SpawnOutpost(int connectionId, uint objectId)

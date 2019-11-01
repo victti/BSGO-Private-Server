@@ -47,8 +47,13 @@ namespace BSGO_Server
         {
             BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)1);
-            buffer.Write((ulong)DateTime.UtcNow.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds);
+            long currentServerTimeMillis = (long)DateTime.UtcNow.ToUniversalTime().Subtract(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds;
+            buffer.Write((ulong)currentServerTimeMillis);
             SendMessageToUser(index,buffer);
+
+            Client curr = Server.GetClientByIndex(index);
+            curr.TimeSync.ReceiveSync();
+            curr.TimeSync.ClientReply(currentServerTimeMillis);
         }
     }
 }

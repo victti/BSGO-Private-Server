@@ -107,7 +107,7 @@ namespace BSGO_Server
             WorldCard mk7WorldCard = new WorldCard(22131177, CardView.World, "HumanT1Merit", 0, 0, new SpotDesc[0], "", 0, 0, true, true, true);
             ShipLightCard mk7ShipLightCard = new ShipLightCard(22131177, CardView.ShipLight, 100, 1, new ShipRole[1] { ShipRole.Assault }, ShipRoleDeprecated.Fighter);
 
-            MovementCard movementCard = new MovementCard(22131177, CardView.Movement);
+            MovementCard movementCard = new MovementCard(22131177, CardView.Movement, 6.5f, 360f, 40f, 2f, 2f, 2f);
 
             AddCard(movementCard);
 
@@ -211,7 +211,7 @@ namespace BSGO_Server
             WorldCard mk7WorldCard2 = new WorldCard(22131178, CardView.World, "HumanT1Merit", 0, 0, new SpotDesc[0], "", 0, 0, true, true, true);
             ShipLightCard mk7ShipLightCard2 = new ShipLightCard(22131178, CardView.ShipLight, 100, 1, new ShipRole[1] { ShipRole.Assault }, ShipRoleDeprecated.Fighter);
 
-            MovementCard movementCard2 = new MovementCard(22131178, CardView.Movement);
+            MovementCard movementCard2 = new MovementCard(22131178, CardView.Movement, 0.1f, 360f, 80f, 2f, 2f, 2f);
 
             AddCard(movementCard2);
 

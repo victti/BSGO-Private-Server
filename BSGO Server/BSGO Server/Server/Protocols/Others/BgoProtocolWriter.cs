@@ -77,6 +77,11 @@ namespace BSGO_Server
             Write(value.w);
         }
 
+        public void Write(IProtocolWrite desc)
+        {
+            desc.Write(this);
+        }
+
         public byte[] GetBuffer()
         {
             byte[] buffer = memoryStream.GetBuffer();

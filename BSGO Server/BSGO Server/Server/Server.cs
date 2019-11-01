@@ -72,6 +72,12 @@ namespace BSGO_Server
             }
         }
 
+        //Async
+        private static void SendToClientAsync(Client client, BgoProtocolWriter message)
+        {
+            client.socket.BeginSend(message.GetBuffer(), 0, message.GetLength(), SocketFlags.None, new AsyncCallback(SendCallback), client.socket);
+        }
+
         private static void SendCallback(IAsyncResult ar)
         {
             try
@@ -88,6 +94,12 @@ namespace BSGO_Server
             }
         }
 
+        //Sync
+        private static void SendToClient(Client client, BgoProtocolWriter message)
+        {
+            client.socket.Send(message.GetBuffer(), 0, message.GetLength(), SocketFlags.None);
+        }
+
         /// <summary>
         /// Sends a message to one specific client by his index.
         /// </summary>
@@ -95,11 +107,13 @@ namespace BSGO_Server
         /// <param name="message"></param>
         public static void SendDataToClient(int index, BgoProtocolWriter message)
         {
-            foreach (Client client in _clients)
+            Client[] clients = _clients;
+            foreach (Client client in clients)
             {
                 if (client.socket != null && !client.closing && client.index == index)
                 {
-                    client.socket.BeginSend(message.GetBuffer(), 0, message.GetLength(), SocketFlags.None, new AsyncCallback(SendCallback), client.socket);
+                    //SendToClientAsync(client, message);
+                    SendToClient(client, message);
                 }
             }
         }
@@ -112,11 +126,13 @@ namespace BSGO_Server
         public static void SendDataToSectorButClient(int index, BgoProtocolWriter message)
         {
             uint sectorid = GetClientByIndex(index).Character.sectorId;
-            foreach (Client client in _clients)
+            Client[] clients = _clients;
+            foreach (Client client in clients)
             {
                 if (client.socket != null && !client.closing && client.index != index && client.Character != null && client.Character.sectorId == sectorid)
                 {
-                    client.socket.BeginSend(message.GetBuffer(), 0, message.GetLength(), SocketFlags.None, new AsyncCallback(SendCallback), client.socket);
+                    //SendToClientAsync(client, message);
+                    SendToClient(client, message);
                 }
             }
         }
@@ -128,11 +144,13 @@ namespace BSGO_Server
         /// <param name="message"></param>
         public static void SendDataToSector(uint index, BgoProtocolWriter message)
         {
-            foreach (Client client in _clients)
+            Client[] clients = _clients;
+            foreach (Client client in clients)
             {
                 if (client.socket != null && !client.closing && client.Character != null && client.Character.sectorId == index)
                 {
-                    client.socket.BeginSend(message.GetBuffer(), 0, message.GetLength(), SocketFlags.None, new AsyncCallback(SendCallback), client.socket);
+                    //SendToClientAsync(client, message);
+                    SendToClient(client, message);
                 }
             }
         }

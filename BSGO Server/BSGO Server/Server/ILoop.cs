@@ -41,18 +41,13 @@ namespace BSGO_Server
                 {
                     var now = CurrentTimeMillis;
 
-
                     float deltaTime = (float)(now - last) * 0.001f;
-
-                    //Console.WriteLine("delta time: " + deltaTime);
-
 
                     OnUpdated?.Invoke(deltaTime);
 
                     Thread.Sleep(interval);
 
                     last = now;
-
                 }
             });
         }

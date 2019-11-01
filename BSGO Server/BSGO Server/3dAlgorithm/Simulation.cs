@@ -466,7 +466,6 @@ namespace BSGO_Server._3dAlgorithm
             if (options.gear != Gear.RCS)
             {
                 Vector3 direction = prevFrame.euler3.direction;
-                direction.z *= -1;
                 float num = Vector3.Dot(direction, linearSpeed);
                 Vector3 b = direction * num;
                 Vector3 vector = linearSpeed - b;

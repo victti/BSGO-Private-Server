@@ -28,12 +28,16 @@ namespace BSGO_Server
         public Dictionary<AvatarItem, string> items { get; set; } = new Dictionary<AvatarItem, string>();
         public uint WorldCardGUID { get; set; } = 22131177;
 
+        public long timeOrigin;
+
         public MovementOptions MovementOptions = new MovementOptions();
         public MovementFrame MovementFrame { get; set; } = new MovementFrame(new Vector3(), new Euler3(), new Vector3(), new Vector3(), new Euler3());
         public uint sectorId { get; set; } = 0;
         public QWEASD qweasd { get; set; } = new QWEASD();
         public byte shipMode { get; set; }
         public float shipSpeed { get; set; }
+
+        public ManeuverController ManeuverController;
 
         public Character(int index)
         {

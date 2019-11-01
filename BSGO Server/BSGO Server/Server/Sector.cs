@@ -14,16 +14,15 @@ namespace BSGO_Server
         public uint sectorGuid { get; private set; }
         public string Name { get; private set; }
         public DateTime CreatedTime { get; private set; }
-        public Loop loop = new Loop();
-        public int Tick
-        {
+        public double SectorTime 
+        { 
             get
             {
-                double time = DateTime.UtcNow.ToUniversalTime().Subtract(CreatedTime).TotalSeconds;
-                return (int)Math.Floor(time * 10.0);
-            }
+                return DateTime.UtcNow.ToUniversalTime().Subtract(CreatedTime).TotalSeconds;
+            } 
         }
-        private int PrevTick;
+        public Loop loop = new Loop();
+        public Tick Tick = new Tick(0);
         public List<Client> clients = new List<Client>();
 
         public Sector(string Name, uint sectorId, uint sectorGuid, Color ambientColor, Color fogColor, Color dustColor, BackgroundDesc backgroundDesc, BackgroundDesc starsDesc, BackgroundDesc starsMult, BackgroundDesc starsVariance, MovingNebulaDesc[] movingNebulas, LightDesc[] lightDescs, SunDesc[] sunDescs, JGlobalFog jGlobalFog, JCameraFx jCameraFx)
@@ -32,7 +31,8 @@ namespace BSGO_Server
             this.sectorGuid = sectorGuid;
             this.Name = Name;
             CreatedTime = DateTime.UtcNow.ToUniversalTime();
-            loop.OnUpdated = teste;
+            Tick.Reset(SectorTime);
+            loop.OnUpdated = Update;
             loop.Initialize();
 
             SectorCard sector = new SectorCard(sectorGuid, CardView.Sector, 1000, 1000, 1000, sectorGuid, ambientColor, fogColor, 12, dustColor, 12, backgroundDesc, starsDesc, starsMult, starsVariance, movingNebulas, lightDescs, sunDescs, jGlobalFog, jCameraFx, new string[0]);
@@ -44,30 +44,39 @@ namespace BSGO_Server
             Catalogue.AddCard(sectorReg);
         }
 
-        private void teste(float dt)
-        {
-            Parallel.Invoke(() =>
-            {
-                if (Tick != PrevTick)
-                {
-                    //Parallel.ForEach(clients, (client) =>
-                    //{
-                    //    client.Character.MovementFrame = Simulation.WASD(client.Character.MovementFrame, client.Character.qweasd.Pitch, client.Character.qweasd.Yaw, client.Character.qweasd.Roll, client.Character.MovementOptions);
-                    //});
-                    foreach(Client client in clients)
-                    {
-                        client.Character.MovementFrame = Simulation.WASD(client.Character.MovementFrame, client.Character.qweasd.Pitch, client.Character.qweasd.Yaw, client.Character.qweasd.Roll, client.Character.MovementOptions);
+        public void Update(float dt)
+        {                                                
+            Tick.Update(SectorTime);
 
-                    }
-                    PrevTick = Tick;
+            Tick tick = Tick.Last + 1;
+
+            while (tick <= Tick.Current)
+            {
+                foreach (Client value in clients)
+                {
+                    if (value.Character.ManeuverController != null)
+                        value.Character.ManeuverController.Advance(tick);
                 }
-            });
+                foreach (Client value in clients)
+                {
+                    if (value.Character.ManeuverController != null)
+                        value.Character.ManeuverController.PostAdvance();
+                }
+                tick = ++tick;
+            }
+
+            foreach (Client client in clients)
+            {
+                if (client.Character.ManeuverController != null)
+                    client.Character.ManeuverController.Move(SectorTime);
+            }
         }
 
         public void JoinSector(Client client)
         {
             clients.Add(client);
-
+            client.Character.ManeuverController = new ManeuverController(client.index, (MovementCard)Catalogue.FetchCard(client.Character.WorldCardGUID, CardView.Movement));
+            client.Character.ManeuverController.AddManeuver(new TurnManeuver(ManeuverType.Turn, 0, new QWEASD(0), client.Character.MovementOptions));
             //foreach(Client c in clients)
             //{
             int index = client.index;

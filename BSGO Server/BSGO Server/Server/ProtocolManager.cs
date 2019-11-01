@@ -70,6 +70,27 @@ namespace BSGO_Server
             }
         }
 
+        public static void HandleNetworkInformation(int index, BgoProtocolReader buffer)
+        {
+            byte b = buffer.ReadByte();
+            Log.Add(LogSeverity.INFO, Log.LogDir.In, string.Format("Protocol ID: {0} ({1})", b, (Protocol.ProtocolID)b));
+            try
+            {
+                GetProtocol((Protocol.ProtocolID)b).ParseMessage(index, buffer);
+            }
+            catch (Exception ex)
+            {
+                string text = "Couldn't handle message for " + (Protocol.ProtocolID)b + " Protocol (msgType:" + buffer.ReadUInt16() + "). ";
+                if (GetProtocol((Protocol.ProtocolID)b) == null)
+                {
+                    text = text + b + " Protocol is not (any more) registered. ";
+                }
+                text = text + "\nCaught Exception: " + ex.ToString();
+                Log.Add(LogSeverity.ERROR, text);
+            }
+            buffer.Dispose();
+        }
+
         public static Protocol GetProtocol(Protocol.ProtocolID protoID)
         {
             if (!protocols.ContainsKey(protoID))
