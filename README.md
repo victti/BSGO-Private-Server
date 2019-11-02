@@ -25,14 +25,11 @@
   - Dock/Undock?
   - Jump to another Sector?
 - Known bugs:
-  - Can't load the Cylon customization.
-  - Can't load the female Colonial customization.
   - There's no tutorial scene.
   - There are no missions, skills, shop items etc.
   - There's a placeholder on the ranking system.
   - Chat doesn't work.
   - Server is aware of player positions/eulers but between the server and client there are some differences (causes lag on the client).
-  - Player 1 sees when Player 2 joins, but Player 2 doesn't see Player 1.
   
 ### Usage
 
