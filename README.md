@@ -34,7 +34,7 @@
 ### Usage
 
 #### Requeriments
-- Visual Studio (2019 is recommended). There is no build for the server yet.
+- Visual Studio 2019 (In order to use .NET Core 3.0). There is no build for the server yet.
 - MongoDB (https://www.mongodb.com/download-center/community).
 - Battlestar Galactica Online files.
   
