@@ -8,6 +8,11 @@
 ##### This server is for learning more about C# and Networking. I am not responsible for other people's Forks.
 ###### Feel free to open Issues or do Pull requests.
 
+## About
+Battlestar Galactica Online Private Server is a server revival of a Massive Multiplayer Online game known as Battlestar Galactica Online that was created by BigPoint. This is an emulation of the original server, that tries to bring back the original essence of the game. It is written in C# (.NET Core 3.0) and uses MongoDB to save the player data. It still is in its initial stages so bugs and missing protocols are expected when using it.
+
+Feel free to join the project discord server at: https://discord.gg/y5aBsfs
+
 ## Features
 - Supported version:
   - Latest released by BigPoint. I'm not sure if it works for other versions.
