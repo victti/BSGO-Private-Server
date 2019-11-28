@@ -24,14 +24,19 @@ Feel free to join the project discord server at: https://discord.gg/y5aBsfs
   - Choose which settings you want and have them saved when you restart the game.
   - Dock and Undock.
 - What comes next:
-  - Movement (WIP)
-  - Shop?
-  - Skills?
-  - Jump to another Sector?
+  - Nothing as I won't really by working on this anymore.
 - Known bugs:
-  - There's no tutorial scene.
-  - There are no missions, skills, shop items etc.
-  - There's a placeholder on the ranking system.
+  - There are no collisions (expected).
+  - There's no tutorial scene (expected).
+  - There are no missions, skills, shop items etc (expected).
+  - There's a placeholder on the ranking system (expected).
+  - All ships have 15s FTL time (expected).
+  - After a FTL jump or join the game, you are visible for about ~1 sec and then changes into invisible.
+  - Cylon/Colonial OP doesn't keep spanwed on the sector after you jump/dock but the OP icon is on the Veil Map (expected).
+  - Not all ships are playable (expected as their coding isn't finished).
+  - There is a problem with the ShipShop where you can't click on other ships.
+  - Squads are broken (expected).
+  - Chat doesn't work (expected).
   
 ## Usage
 
