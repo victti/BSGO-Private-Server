@@ -8,36 +8,35 @@
 ##### This server is for learning more about C# and Networking. I am not responsible for other people's Forks.
 ###### Feel free to open Issues or do Pull requests.
 
-### Features
+## About
+Battlestar Galactica Online Private Server is a server revival of a Massive Multiplayer Online game known as Battlestar Galactica Online that was created by BigPoint. This is an emulation of the original server, that tries to bring back the original essence of the game. It is written in C# (.NET Core 3.0) and uses MongoDB to save the player data. It still is in its initial stages so bugs and missing protocols are expected when using it.
+
+Feel free to join the project discord server at: https://discord.gg/y5aBsfs
+
+## Features
 - Supported version:
   - Latest released by BigPoint. I'm not sure if it works for other versions.
 - What's working:
   - Select a faction.
-  - Customize the male Colonial character.
+  - Customize your character.
   - Load into the game.
   - Move around Alpha Ceti.
+  - Choose which settings you want and have them saved when you restart the game.
+  - Dock and Undock.
 - What comes next:
-  - Movement? (WIP)
+  - Movement (WIP)
   - Shop?
-  - Show the correct ship slots?
   - Skills?
-  - Multiplayer?
-  - Dock/Undock?
   - Jump to another Sector?
 - Known bugs:
-  - Can't load the Cylon customization.
-  - Can't load the female Colonial customization.
   - There's no tutorial scene.
   - There are no missions, skills, shop items etc.
   - There's a placeholder on the ranking system.
-  - Chat doesn't work.
-  - Server is aware of player positions/eulers but between the server and client there are some differences (causes lag on the client).
-  - Player 1 sees when Player 2 joins, but Player 2 doesn't see Player 1.
   
-### Usage
+## Usage
 
 #### Requeriments
-- Visual Studio (2019 is recommended). There is no build for the server yet.
+- Visual Studio 2019 (In order to use .NET Core 3.0). There is no build for the server yet.
 - MongoDB (https://www.mongodb.com/download-center/community).
 - Battlestar Galactica Online files.
   
@@ -51,10 +50,11 @@
 #### Then you should be able to do the following without repeating the previous steps:
 - Open a cmd and run the Mongo Daemon:
 > mongod
-- Run the server, open a cmd in your BSGO/client/live folder and run:
+- Compile and run the server using Visual Studio 2019.
+- Open a CMD in your BSGO/client/live folder and run:
 > bsgo.exe +projectID 547 +userID 5085935 +sessionID c7faac2379e35f6404eced5f484210ba +trackingID 6cc3a6e78a753f29ccabaa0f79b7041b +gameServer 127.0.0.1 +cdn C:\Program Files (x86)\BSGO/client/live/ +language en +session b1b23d2fa2769bd59d4c1b67554599b88381afd653b156aa54cb689969ab4fb7 +version 3b27980a3b7dd77e597872106ca98000 
 
-### Credits
+## Credits
 - aeroson (For the implementation of UnityEngine.Quaternion).
 - bubisnew.
 - Mementomori (aka FLOREK BGO).
