@@ -10,6 +10,8 @@ namespace BSGO_Server
 
         private const double syncInterval = 10.0;
 
+        private int cIndex;
+
         private double serverDelta;
 
         private double[] timeDeltas = new double[3];
@@ -44,8 +46,9 @@ namespace BSGO_Server
             }
         }
 
-        public TimeSync()
+        public TimeSync(int index)
         {
+            cIndex = index;
             clientTime = DateTime.Now;
         }
 
@@ -85,6 +88,8 @@ namespace BSGO_Server
                     nextSyncTimer = ClientTime + 10.0;
                     nextSyncTimerActive = true;
                     shift = GetAverageDelta(latencies) + 0.1;
+                    //if (Server.GetClientByIndex(cIndex).Character != null && Server.GetClientByIndex(cIndex).Character.ManeuverController != null)
+                        //GameProtocol.GetProtocol().SyncMove(cIndex, SpaceEntityType.Player, (uint)cIndex);
                 }
             }
         }

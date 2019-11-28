@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BSGO_Server._3dAlgorithm;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -135,6 +136,10 @@ namespace BSGO_Server
             return ReadUInt16();
         }
 
+        public Euler3 ReadEuler()
+        {
+            return new Euler3(ReadSingle(), ReadSingle(), ReadSingle());
+        }
 
         public DateTime ReadDateTime()
         {

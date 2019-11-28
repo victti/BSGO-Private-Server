@@ -52,10 +52,37 @@ namespace BSGO_Server
                 case Request.Info:
                     uint playerId = br.ReadUInt32();
                     uint flags = br.ReadUInt32();
+                    Console.WriteLine("Info: PlayerId {0} flags {1}", playerId, flags);
+
+                    SendName(index, playerId);
+                    SendFaction(index, playerId);
+                    SendPlayerAvatar(index, playerId);
+                    SendPlayerLevel(index, playerId);
+                    SendPlayerStatus(index, playerId, true);
+                    CatalogueProtocol.GetProtocol().SendCard(index, CardView.GUI, (uint)Server.GetClientByPlayerId(playerId.ToString()).index);
+
+                    switch (flags)
+                    {
+                        default:
+                            Log.Add(LogSeverity.ERROR, "Unknown flag " + flags + " on Subscribe Info");
+                            break;
+                    }
                     break;
                 case Request.Subscribe:
                     uint playerId2 = br.ReadUInt32();
                     uint flags2 = br.ReadUInt32();
+                    Console.WriteLine("Subscribe: PlayerId {0} flags {1}", playerId2, flags2);
+
+                    switch (flags2)
+                    {
+                        default:
+                            Log.Add(LogSeverity.ERROR, "Unknown flag " + flags2 + " on Subscribe Info");
+                            break;
+                    }
+                    break;
+                case Request.SubscribeStats:
+                    uint playerId3 = br.ReadUInt32();
+                    Console.WriteLine("SubscribeStats: PlayerId {0}", playerId3);
                     break;
                 default:
                     Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
@@ -69,7 +96,7 @@ namespace BSGO_Server
 
             buffer.Write((ushort)Reply.PlayerName);
             buffer.Write(playerId);
-            buffer.Write("teste");
+            buffer.Write(Server.GetClientByPlayerId(playerId.ToString()).Character.name);
 
             SendMessageToUser(index, buffer);
         }
@@ -80,18 +107,50 @@ namespace BSGO_Server
 
             buffer.Write((ushort)Reply.PlayerFaction);
             buffer.Write(playerId);
-            buffer.Write((byte)Faction.Colonial);
+            buffer.Write((byte)Server.GetClientByPlayerId(playerId.ToString()).Character.Faction);
 
             SendMessageToUser(index, buffer);
         }
 
-        public void SendPlayerStatus(int index, uint playerId)
+        public void SendPlayerAvatar(int index, uint playerId)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+
+            buffer.Write((ushort)Reply.PlayerFaction);
+            buffer.Write(playerId);
+
+            Dictionary<AvatarItem, string> items = Server.GetClientByPlayerId(playerId.ToString()).Character.items;
+
+            buffer.Write((ushort)items.Count);
+            foreach (KeyValuePair<AvatarItem, string> item in items)
+            {
+                buffer.Write((byte)item.Key);
+                buffer.Write(item.Value);
+            }
+            buffer.Write((ushort)0);
+            buffer.Write((byte)0);
+
+            SendMessageToUser(index, buffer);
+        }
+
+        public void SendPlayerLevel(int index, uint playerId)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+
+            buffer.Write((ushort)Reply.PlayerLevel);
+            buffer.Write(playerId);
+            buffer.Write((byte)1);
+
+            SendMessageToUser(index, buffer);
+        }
+
+        public void SendPlayerStatus(int index, uint playerId, bool online)
         {
             BgoProtocolWriter buffer = NewMessage();
 
             buffer.Write((ushort)Reply.PlayerStatus);
             buffer.Write(playerId);
-            buffer.Write(true);
+            buffer.Write(online);
 
             SendMessageToUser(index, buffer);
         }

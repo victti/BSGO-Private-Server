@@ -37,6 +37,11 @@ namespace BSGO_Server
 
             switch ((Request)msgType)
             {
+                case Request.Echo:
+                    BgoProtocolWriter buffer = NewMessage();
+                    buffer.Write((ushort)Reply.Echo);
+                    SendMessageToUser(index, buffer);
+                    break;
                 case Request.Init:
                     SendInit(index);
                     break;
@@ -48,22 +53,31 @@ namespace BSGO_Server
                     uint playerId = br.ReadUInt32();
                     string playerName = br.ReadString();
                     string sessionCode = br.ReadString();
-
                     switch (connectType) {
                         case ConnectType.Web:
                             if (Database.Database.CheckSessionCodeExistance(sessionCode))
                             {
                                 playerId = Convert.ToUInt32(Database.Database.GetUserBySession(sessionCode).PlayerId);
                                 Server.GetClientByIndex(index).playerId = playerId;
-                                Server.GetClientByIndex(index).Character = new Character(index);
-                                SendPlayer(index);
-
-                                if (Database.Database.CheckCharacterExistanceById(playerId.ToString())) {
-
-                                }
+                                InitLogin(index, playerId, playerName, sessionCode);
                             }
                             else
+                            {
                                 SendError(index, (byte)LoginError.WrongSession);
+                                break;
+                            }
+                            break;
+                        case ConnectType.DebugPlayerId:
+                            if (Database.Database.CheckPlayerIdExistance(playerId))
+                            {
+                                Server.GetClientByIndex(index).playerId = playerId;
+                                InitLogin(index, playerId, playerName, sessionCode);
+                            }
+                            else
+                            {
+                                SendError(index, (byte)LoginError.WrongPlayerId);
+                                break;
+                            }
                             break;
                         default:
                             Log.Add(LogSeverity.ERROR, "Unknown Connection Type " + connectType + " on Login Protocol");
@@ -74,6 +88,51 @@ namespace BSGO_Server
                 default:
                     Log.Add(LogSeverity.ERROR, string.Format("Unknown msgType \"{0}\" on {1}Protocol.", (Request)msgType, protocolID));
                     break;
+            }
+        }
+
+        private void InitLogin(int index, uint playerId, string playerName, string sessionCode)
+        {
+            Server.GetClientByIndex(index).Character = new Character(index);
+            SendPlayer(index);
+
+            if (Database.Database.CheckCharacterExistanceById(playerId.ToString()))
+            {
+                CatalogueProtocol.GetProtocol().SendCard(index, CardView.GUI, 130920111u);
+                CatalogueProtocol.GetProtocol().SendCard(index, CardView.GUI, 264733124u);
+                CatalogueProtocol.GetProtocol().SendCard(index, CardView.GUI, 215278030u);
+                CatalogueProtocol.GetProtocol().SendCard(index, CardView.GUI, 207047790u);
+                CatalogueProtocol.GetProtocol().SendCard(index, CardView.GUI, 130762195u);
+
+                PlayerProtocol.GetProtocol().SendPlayerId(index);
+                PlayerProtocol.GetProtocol().SendName(index);
+                PlayerProtocol.GetProtocol().SendAvatar(index);
+                PlayerProtocol.GetProtocol().SendFaction(index);
+                if (Server.GetClientByIndex(index).Character.Faction == Faction.Colonial)
+                {
+                    PlayerProtocol.GetProtocol().SendPlayerShips(index, 11, 22131180u);
+                    PlayerProtocol.GetProtocol().SendPlayerShips(index, 17, 22131178u);
+                    PlayerProtocol.GetProtocol().SendPlayerShips(index, 14, 22131196u);
+                }
+                else if (Server.GetClientByIndex(index).Character.Faction == Faction.Cylon)
+                {
+                    PlayerProtocol.GetProtocol().SendCylonDuties(index); // I only have Cylon duties
+                    PlayerProtocol.GetProtocol().SendPlayerShips(index, 11, 22131208u);
+                    PlayerProtocol.GetProtocol().SendPlayerShips(index, 17, 22131210u);
+                    PlayerProtocol.GetProtocol().SendPlayerShips(index, 14, 22131226u);
+                }
+                PlayerProtocol.GetProtocol().SetActivePlayerShip(index, 11);
+
+                PlayerProtocol.GetProtocol().SendItems(index);
+
+                Database.Entities.Users user = Database.Database.GetUserById(Server.GetClientByIndex(index).playerId.ToString());
+                SettingProtocol.ReadSettingsFromDatabase(index, user.settings);
+                if (user.controlKeys != null)
+                    SettingProtocol.ReadControlKeysFromDatabase(index, user.controlKeys);
+                SettingProtocol.GetProtocol().SendSettings(index);
+                if (Server.GetClientByIndex(index).Character.controlKeys.Count > 0)
+                    SettingProtocol.GetProtocol().SendKeys(index);
+                CommunityProtocol.GetProtocol().SendChatSessionId(index);
             }
         }
 

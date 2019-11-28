@@ -38,7 +38,7 @@ namespace BSGO_Server._3dAlgorithm
         {
             get
             {
-                Maneuver lastManeuverAtTick = GetLastManeuverAtTick(Server.GetSectorById(Server.GetClientByIndex(clientIndex).Character.sectorId).Tick.Current);
+                Maneuver lastManeuverAtTick = GetLastManeuverAtTick(Server.GetSectorById(Server.GetClientByIndex(clientIndex).Character.PlayerShip.sectorId).Tick.Current);
                 return (lastManeuverAtTick != null) ? lastManeuverAtTick.GetGear() : Gear.Regular;
             }
         }
@@ -47,7 +47,7 @@ namespace BSGO_Server._3dAlgorithm
         {
             get
             {
-                Maneuver lastManeuverAtTick = GetLastManeuverAtTick(Server.GetSectorById(Server.GetClientByIndex(clientIndex).Character.sectorId).Tick.Current);
+                Maneuver lastManeuverAtTick = GetLastManeuverAtTick(Server.GetSectorById(Server.GetClientByIndex(clientIndex).Character.PlayerShip.sectorId).Tick.Current);
                 return (lastManeuverAtTick != null) ? lastManeuverAtTick.GetMarchSpeed() : 0f;
             }
         }
@@ -71,7 +71,7 @@ namespace BSGO_Server._3dAlgorithm
         public ManeuverController(int clientIndex, MovementCard card)
         {
             frames = new MovementFrame[5];
-            oldTick = Server.GetSectorById(Server.GetClientByIndex(clientIndex).Character.sectorId).Tick.Current - 3;
+            oldTick = Server.GetSectorById(Server.GetClientByIndex(clientIndex).Character.PlayerShip.sectorId).Tick.Current - 3;
             this.clientIndex = clientIndex;
             this.card = card;
         }
@@ -232,7 +232,7 @@ namespace BSGO_Server._3dAlgorithm
 
         public MovementFrame GetNextTickFrame()
         {
-            return GetTickFrame(Server.GetSectorById(Server.GetClientByIndex(clientIndex).Character.sectorId).Tick.Next);
+            return GetTickFrame(Server.GetSectorById(Server.GetClientByIndex(clientIndex).Character.PlayerShip.sectorId).Tick.Next);
         }
 
         private bool NewManeuverEliminatesExistingManeuver(Maneuver existingManeuver, Maneuver newManeuver)
@@ -309,7 +309,7 @@ namespace BSGO_Server._3dAlgorithm
             }
             //spaceObject.Position = position;
             //spaceObject.Rotation = rotation;
-            Server.GetClientByIndex(clientIndex).Character.MovementFrame = frame;
+            Server.GetClientByIndex(clientIndex).Character.PlayerShip.MovementFrame = frame;
             return true;
         }
     }

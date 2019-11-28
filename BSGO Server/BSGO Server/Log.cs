@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace BSGO_Server
 {
@@ -11,67 +12,63 @@ namespace BSGO_Server
         }
         public static void Add(LogSeverity Severity, LogDir logDir, string text)
         {
-            string finalText = "";
-
-            switch (Severity)
+            Task.Factory.StartNew(() =>
             {
-                case LogSeverity.SERVERINFO:
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    finalText += "[SERVER INFO]";
-                    break;
-                case LogSeverity.INFO:
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    finalText += "[INFO]";
-                    break;
-                case LogSeverity.WARNING:
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    finalText += "[WARN]";
-                    break;
-                case LogSeverity.ERROR:
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    finalText += "[ERR]";
-                    break;
-            }
+                string finalText = "";
 
-            finalText += "[" + DateTime.Now + "]";
-            finalText += "[" + logDir +"] ";
+                switch (Severity)
+                {
+                    case LogSeverity.SERVERINFO:
+                        finalText += "[SERVER INFO]";
+                        break;
+                    case LogSeverity.INFO:
+                        finalText += "[INFO]";
+                        break;
+                    case LogSeverity.WARNING:
+                        finalText += "[WARN]";
+                        break;
+                    case LogSeverity.ERROR:
+                        finalText += "[ERR]";
+                        break;
+                }
 
-            finalText += text;
+                finalText += "[" + DateTime.Now + "]";
+                finalText += "[" + logDir + "] ";
 
-            Console.WriteLine(finalText);
-            Console.ForegroundColor = ConsoleColor.White;
+                finalText += text;
+
+                Console.WriteLine(finalText);
+            });
         }
 
         public static void Add(LogSeverity Severity, string text)
         {
-            string finalText = "";
-
-            switch (Severity)
+            Task.Factory.StartNew(() =>
             {
-                case LogSeverity.SERVERINFO:
-                    Console.ForegroundColor = ConsoleColor.DarkGreen;
-                    finalText += "[SERVER INFO]";
-                    break;
-                case LogSeverity.INFO:
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    finalText += "[INFO]";
-                    break;
-                case LogSeverity.WARNING:
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    finalText += "[WARN]";
-                    break;
-                case LogSeverity.ERROR:
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    finalText += "[ERR]";
-                    break;
-            }
+                string finalText = "";
 
-            finalText += "[" + DateTime.Now + "] ";
+                switch (Severity)
+                {
+                    case LogSeverity.SERVERINFO:
+                        finalText += "[SERVER INFO]";
+                        break;
+                    case LogSeverity.INFO:
+                        finalText += "[INFO]";
+                        break;
+                    case LogSeverity.WARNING:
+                        finalText += "[WARN]";
+                        break;
+                    case LogSeverity.ERROR:
+                        finalText += "[ERR]";
+                        break;
+                }
 
-            finalText += text;
+                finalText += "[" + DateTime.Now + "] ";
 
-            Console.WriteLine(finalText);
-            Console.ForegroundColor = ConsoleColor.White;
+                finalText += text;
+
+                Console.WriteLine(finalText);
+            });
         }
     }
 }

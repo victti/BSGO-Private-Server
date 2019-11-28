@@ -93,12 +93,31 @@ namespace BSGO_Server
         {
             if (enabled)
             {
-                Server.SendDataToSector(Server.GetClientByIndex(index).Character.sectorId, bw);
+                Server.SendDataToSector(Server.GetClientByIndex(index).Character.PlayerShip.sectorId, bw);
                 DebugMessage(bw);
             }
             else
             {
-                Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to the Sector \"{0}\" for disabled protocol \"{1}\"", Server.GetSectorById(Server.GetClientByIndex(index).Character.sectorId).Name, protocolID));
+                Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to the Sector \"{0}\" for disabled protocol \"{1}\"", Server.GetSectorById(Server.GetClientByIndex(index).Character.PlayerShip.sectorId).Name, protocolID));
+            }
+            bw.Dispose();
+        }
+
+        /// <summary>
+        /// Sends the message to the sector by using the sector id
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="bw"></param>
+        protected void SendMessageToSector(uint index, BgoProtocolWriter bw)
+        {
+            if (enabled)
+            {
+                Server.SendDataToSector(index, bw);
+                DebugMessage(bw);
+            }
+            else
+            {
+                Log.Add(LogSeverity.ERROR, string.Format("Trying to send message to the Sector \"{0}\" for disabled protocol \"{1}\"", Server.GetSectorById(index).Name, protocolID));
             }
             bw.Dispose();
         }

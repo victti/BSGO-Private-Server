@@ -20,7 +20,7 @@ namespace BSGO_Server
 
         public void Write(BgoProtocolWriter w)
         {
-            w.Write(items.Count);
+            w.Write((ushort)items.Count);
 
             foreach(KeyValuePair<ShipConsumableCard, float> item in items)
             {

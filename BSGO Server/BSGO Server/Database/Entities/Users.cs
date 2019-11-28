@@ -19,6 +19,12 @@ namespace BSGO_Server.Database.Entities
         [BsonRequired]
         public string SessionCode { get; set; }
 
+        [BsonElement("settings")]
+        public IDictionary<string, string> settings { get; set; }
+
+        [BsonElement("controlKeys")]
+        public List<string> controlKeys { get; set; }
+
         // Should have more later
     }
 }

@@ -35,73 +35,97 @@ namespace BSGO_Server
             loop.OnUpdated = Update;
             loop.Initialize();
 
-            SectorCard sector = new SectorCard(sectorGuid, CardView.Sector, 1000, 1000, 1000, sectorGuid, ambientColor, fogColor, 12, dustColor, 12, backgroundDesc, starsDesc, starsMult, starsVariance, movingNebulas, lightDescs, sunDescs, jGlobalFog, jCameraFx, new string[0]);
+            SectorCard sector = new SectorCard(sectorGuid, CardView.Sector, 25000, 25000, 25000, sectorGuid, ambientColor, fogColor, 12, dustColor, 12, backgroundDesc, starsDesc, starsMult, starsVariance, movingNebulas, lightDescs, sunDescs, jGlobalFog, jCameraFx, new string[0]);
             GUICard sectorGUI = new GUICard(sectorGuid, CardView.GUI, serverSectorName, 0, "", 0, "", "", "", new string[0]);
             RegulationCard sectorReg = new RegulationCard(sectorGuid, CardView.Regulation, new ConsumableEffectType[0], new Dictionary<uint, HashSet<ShipAbilitySide>>(), new Dictionary<uint, HashSet<ShipAbilityTarget>>(), TargetBracketMode.Default, true);
+            RoomCard sectorRoom = new RoomCard(sectorGuid, CardView.Room);
 
             Catalogue.AddCard(sector);
             Catalogue.AddCard(sectorGUI);
             Catalogue.AddCard(sectorReg);
+            Catalogue.AddCard(sectorRoom);
         }
 
         public void Update(float dt)
-        {                                                
+        {
             Tick.Update(SectorTime);
 
             Tick tick = Tick.Last + 1;
 
-            while (tick <= Tick.Current)
+            List<Client> _clients = clients;
+            if (Tick.IsNewTick())
             {
-                foreach (Client value in clients)
+                while (tick <= Tick.Current)
                 {
-                    if (value.Character.ManeuverController != null)
-                        value.Character.ManeuverController.Advance(tick);
+                    foreach (Client value in _clients)
+                    {
+                        if (value.Character.PlayerShip.ManeuverController != null)
+                            value.Character.PlayerShip.ManeuverController.Advance(tick);
+                    }
+                    foreach (Client value in _clients)
+                    {
+                        if (value.Character.PlayerShip.ManeuverController != null)
+                            value.Character.PlayerShip.ManeuverController.PostAdvance();
+                    }
+                    tick = ++tick;
                 }
-                foreach (Client value in clients)
-                {
-                    if (value.Character.ManeuverController != null)
-                        value.Character.ManeuverController.PostAdvance();
-                }
-                tick = ++tick;
             }
 
-            foreach (Client client in clients)
+            foreach (Client value in _clients)
             {
-                if (client.Character.ManeuverController != null)
-                    client.Character.ManeuverController.Move(SectorTime);
+                if (value.Character.PlayerShip.ManeuverController != null)
+                    value.Character.PlayerShip.ManeuverController.Move(SectorTime);
             }
         }
 
         public void JoinSector(Client client)
         {
             clients.Add(client);
-            client.Character.ManeuverController = new ManeuverController(client.index, (MovementCard)Catalogue.FetchCard(client.Character.WorldCardGUID, CardView.Movement));
-            client.Character.ManeuverController.AddManeuver(new TurnManeuver(ManeuverType.Turn, 0, new QWEASD(0), client.Character.MovementOptions));
-            //foreach(Client c in clients)
-            //{
+            client.Character.PlayerShip.currentShipStats = ((ShipCard)Catalogue.FetchCard(client.Character.PlayerShip.WorldGuid, CardView.Ship)).Stats;
+            client.Character.PlayerShip.ManeuverController = new ManeuverController(client.index, (MovementCard)Catalogue.FetchCard(client.Character.PlayerShip.WorldGuid, CardView.Movement));
+            client.Character.PlayerShip.ManeuverController.AddManeuver(new RestManeuver(ManeuverType.Rest, Tick.Current.value, new Vector3(0,0,0), new Euler3(0,0,0)));
+
             int index = client.index;
             GameProtocol.GetProtocol().SetTimeOrigin(index);
-            GameProtocol.GetProtocol().SendWhoIsPlayer(index, SpaceEntityType.Player, (uint)index, (uint)index, Server.GetClientByIndex(index).Character.WorldCardGUID);
-            GameProtocol.GetProtocol().SyncMove(index, SpaceEntityType.Player, (uint)index, client.Character.MovementFrame.position);
-            //}
+            GameProtocol.GetProtocol().SendWhoIsPlayerToSector(index, SpaceEntityType.Player, Server.GetObjectId(index), (uint)index, Server.GetClientByIndex(index).Character.PlayerShip.WorldGuid);
+
+            List <Client> _clients = clients;
+            Parallel.ForEach(_clients, (c) =>
+            {
+                if (c.index != index)
+                {
+                    GameProtocol.GetProtocol().SendWhoIsPlayerToPlayer(index, c.index, SpaceEntityType.Player, Server.GetObjectId(c.index), (uint)c.index, Server.GetClientByIndex(c.index).Character.PlayerShip.WorldGuid);
+                }
+            });
         }
 
-        public void LeaveSector(Client client)
+        public void LeaveSector(Client client, RemovingCause removingCause)
         {
             clients.Remove(client);
+
+            switch (removingCause)
+            {
+                case RemovingCause.JustRemoved:
+                case RemovingCause.Dock:
+                case RemovingCause.JumpOut:
+                    GameProtocol.GetProtocol().SendObjectLeft(client.index, 1, new SpaceEntityType[1] { SpaceEntityType.Player }, new uint[1] { Server.GetObjectId(client.index) }, new RemovingCause[1] { removingCause });
+                    break;
+                default:
+                    Log.Add(LogSeverity.ERROR, "Uknown removal cause on Leave Sector of the client " + client.Character.name);
+                    break;
+            }
+        }
+
+        public void SetOutpost(Faction faction, int Points)
+        {
+            GameProtocol.GetProtocol().SpawnOutpost(sectorId, faction);
         }
 
         public string serverSectorName
         {
             get
             {
-                switch (Name)
-                {
-                    case "Alpha Ceti":
-                        return "sector0";
-                    default:
-                        return "sector1982";
-                }
+                return "sector" + sectorId;
             }
         }
     }

@@ -15,18 +15,21 @@ namespace BSGO_Server
 
             protocols = new Dictionary<Protocol.ProtocolID, Protocol>();
             RegisterProtocol(new Protocol[] {
-                new LoginProtocol(),
-                new SyncProtocol(),
-                new SceneProtocol(),
-                new SettingProtocol(),
-                new CatalogueProtocol(),
-                new GameProtocol(),
-                new PlayerProtocol(),
-                new ShopProtocol(),
-                new CommunityProtocol(),
-                new FeedbackProtocol(),
-                new StoryProtocol(),
-                new SubscribeProtocol()
+                new LoginProtocol(), //
+                new SyncProtocol(), //
+                new SceneProtocol(), //
+                new SettingProtocol(), //
+                new CatalogueProtocol(), //
+                new GameProtocol(), //
+                new PlayerProtocol(), //
+                new ShopProtocol(), //
+                new CommunityProtocol(), //
+                new FeedbackProtocol(), //
+                new StoryProtocol(), //
+                new SubscribeProtocol(), //
+                new RoomProtocol(), //
+                new UniverseProtocol(), //
+                new DebugProtocol(), //
             });
 
             Log.Add(LogSeverity.SERVERINFO, "Finished Initializing the Protocols");

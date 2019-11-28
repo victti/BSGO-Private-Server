@@ -33,6 +33,10 @@ namespace BSGO_Server.Database.Entities
         [BsonRequired]
         public Dictionary<string, string> AvatarItems { get; set; }
 
+        [BsonElement("sectorid")]
+        [BsonRequired]
+        public int SectorId { get; set; }
+
         [BsonElement("cubits")]
         [BsonRequired]
         public string Cubits { get; set; }

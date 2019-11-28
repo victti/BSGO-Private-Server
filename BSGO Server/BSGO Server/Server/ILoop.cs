@@ -31,7 +31,7 @@ namespace BSGO_Server
 
         public Task Initialize(double rate = 64d)
         {
-            return Task.Factory.StartNew(() =>
+            return Task.Factory.StartNew(async () =>
             {
                 var last = CurrentTimeMillis;
 
@@ -44,8 +44,12 @@ namespace BSGO_Server
                     float deltaTime = (float)(now - last) * 0.001f;
 
                     OnUpdated?.Invoke(deltaTime);
+                                       
+                    // use this for async
+                    await Task.Delay(interval);
 
-                    Thread.Sleep(interval);
+                    // comment this to use async
+                    //Thread.Sleep(interval);
 
                     last = now;
                 }

@@ -73,7 +73,8 @@ namespace BSGO_Server
                     buffer.Write(false); // No idea since the game doesn't use this.
                     break;
                 case GameLocation.Room:
-
+                    buffer.Write(Server.GetSectorById(Server.GetClientByIndex(index).Character.PlayerShip.sectorId).sectorGuid);
+                    buffer.Write(Server.GetClientByIndex(index).Character.PlayerShip.sectorId);
                     break;
                 case GameLocation.Space:
                 case GameLocation.Story:
@@ -81,21 +82,8 @@ namespace BSGO_Server
                 case GameLocation.Tournament:
                 case GameLocation.Tutorial:
                 case GameLocation.Teaser:
-                    // I'm not sure where to send these. I feel like sending every time the user enters the
-                    // Space is wrong.
-
-                    PlayerProtocol.GetProtocol().SendPlayerId(index);
-                    PlayerProtocol.GetProtocol().SendName(index);
-                    PlayerProtocol.GetProtocol().SendAvatar(index);
-                    PlayerProtocol.GetProtocol().SendFaction(index);
-                    PlayerProtocol.GetProtocol().SendPlayerShips(index, 100, (uint)22131177);
-
-                    PlayerProtocol.GetProtocol().SetActivePlayerShip(index, 100);
-
-                    // I don't know which values to give so I'm just giving the numbers in order. E.g:
-                    // ColonialBonusGUID was 3027 and CylonBonusGUID was 3127. So here we have 1327 and 1427 :) lol
-                    buffer.Write(Server.GetClientByIndex(index).Character.sectorId); // sector id
-                    buffer.Write(Server.GetSectorById(Server.GetClientByIndex(index).Character.sectorId).sectorGuid); // cardGuid2
+                    buffer.Write(Server.GetClientByIndex(index).Character.PlayerShip.sectorId); // sector id
+                    buffer.Write(Server.GetSectorById(Server.GetClientByIndex(index).Character.PlayerShip.sectorId).sectorGuid); // cardGuid2
                     break;
             }
 
@@ -106,7 +94,6 @@ namespace BSGO_Server
         {
             switch (Server.GetClientByIndex(index).Character.GameLocation)
             {
-                // I'm not sure about this one but I did it similar to the server showed on the video on my channel.
                 case GameLocation.Space:
                 case GameLocation.Story:
                 case GameLocation.BattleSpace:

@@ -55,11 +55,37 @@ namespace BSGO_Server
             BgoProtocolWriter buffer = NewMessage();
             buffer.Write((ushort)Reply.Card);
 
-            Card card = Catalogue.FetchCard(cardGuid, (CardView)cardView);
+            Card card = Catalogue.FetchCard(index, cardGuid, (CardView)cardView);
             if (card != null)
             {
                 card.Write(buffer);
                 SendMessageToUser(index, buffer);
+            }
+        }
+
+        public void SendCard(int index, CardView cardView, uint cardGuid)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+            buffer.Write((ushort)Reply.Card);
+
+            Card card = Catalogue.FetchCard(cardGuid, cardView);
+            if (card != null)
+            {
+                card.Write(buffer);
+                SendMessageToUser(index, buffer);
+            }
+        }
+
+        public void SendCardToSector(int index, CardView cardView, uint cardGuid)
+        {
+            BgoProtocolWriter buffer = NewMessage();
+            buffer.Write((ushort)Reply.Card);
+
+            Card card = Catalogue.FetchCard(cardGuid, cardView);
+            if (card != null)
+            {
+                card.Write(buffer);
+                SendMessageToSector(index, buffer);
             }
         }
     }
