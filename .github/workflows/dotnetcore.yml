@@ -16,15 +16,9 @@ jobs:
         dotnet-version: 3.0.101
     - name: Build with dotnet
       run: dotnet build "./BSGO Server" --configuration Release
-    - name: GH Release
-      uses: softprops/action-gh-release@v0.1.0
+    - name: Release
+      uses: fnkr/github-action-ghr@v1.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        body: |
-          Changes in this Release
-          - This is a test
-        files: |
-          /home/runner/work/BSGO-Private-Server/BSGO-Private-Server/BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/BSGO Server.dll
+        GHR_PATH: /home/runner/work/BSGO-Private-Server/BSGO-Private-Server/BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/
+        GHR_COMPRESS: zip
