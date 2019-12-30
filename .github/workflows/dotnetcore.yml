@@ -28,4 +28,4 @@ jobs:
           Changes in this Release
           - This is a test
         files: |
-          "./BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/BSGO Server.dll"
+          /home/runner/work/BSGO-Private-Server/BSGO-Private-Server/BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/BSGO Server.dll
