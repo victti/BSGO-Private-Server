@@ -20,6 +20,6 @@ jobs:
       uses: TheDoctor0/zip-release@v0.2.1
       with:
         filename: 'release.zip'
-        path: "/home/runner/work/BSGO-Private-Server/BSGO-Private-Server/BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/"
+        path: '"/home/runner/work/BSGO-Private-Server/BSGO-Private-Server/BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/"'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
