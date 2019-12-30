@@ -15,7 +15,7 @@ jobs:
       with:
         dotnet-version: 3.0.101
     - name: Build with dotnet
-      run: dotnet build --configuration Release
+      run: dotnet build "./BSGO Server" --configuration Release
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
