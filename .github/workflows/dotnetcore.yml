@@ -16,7 +16,7 @@ jobs:
         dotnet-version: 3.0.101
     - name: Build with dotnet
       run: dotnet build "./BSGO Server" --configuration Release
-    - name: Release
+    - name: GH Release
       uses: softprops/action-gh-release@v0.1.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
