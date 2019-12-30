@@ -20,5 +20,5 @@ jobs:
       uses: fnkr/github-action-ghr@v1.2
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-        GHR_PATH: /home/runner/work/BSGO-Private-Server/BSGO-Private-Server/BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/
+        GHR_PATH: /home/runner/work/BSGO-Private-Server/BSGO-Private-Server/BSGO Server/BSGO Server/bin/Release/netcoreapp3.0
         GHR_COMPRESS: zip
