@@ -16,10 +16,11 @@ jobs:
         dotnet-version: 3.0.101
     - name: Build with dotnet
       run: dotnet build "./BSGO Server" --configuration Release
+    - name: Zip Build
+      run: zip -r release.zip ./BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/
     - name: Release
-      uses: TheDoctor0/zip-release@v0.2.1
-      with:
-        filename: 'release.zip'
-        path: '"/home/runner/work/BSGO-Private-Server/BSGO-Private-Server/BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/"'
+      uses: fnkr/github-action-ghr@v1.2
       env:
+        GHR_PATH: /home/runner/work/BSGO-Private-Server/BSGO-Private-Server/release.zip
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        
