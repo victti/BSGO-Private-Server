@@ -41,9 +41,10 @@ Wanna get almost daily updates and talk about the game with some people? Join me
 ## Usage
 
 #### Requeriments
-- Visual Studio 2019 (In order to use .NET Core 3.0). There is no build for the server yet.
-- MongoDB (https://www.mongodb.com/download-center/community).
-- Battlestar Galactica Online files.
+- Visual Studio 2019. (Optional)
+- .NET Core 3.0+. (Required)
+- MongoDB (https://www.mongodb.com/download-center/community). (Required)
+- Battlestar Galactica Online files. (Required)
   
 ### How to use
 #### First Time
@@ -55,7 +56,18 @@ Wanna get almost daily updates and talk about the game with some people? Join me
 #### Then you should be able to do the following without repeating the previous steps:
 - Open a cmd and run the Mongo Daemon:
 > mongod
+
+### Since the implementation of Github Actions, you can either choose compile the server or just download a release from the Releases page
+
+#### Compiling the server
 - Compile and run the server using Visual Studio 2019.
+
+#### Using the release
+- Extract the server files
+- Open a CMD and run the following command on the same folder you extracted the files:
+> dotnet BSGO\ Server.dll
+
+#### Openning the game
 - Open a CMD in your BSGO/client/live folder and run:
 > bsgo.exe +projectID 547 +userID 5085935 +sessionID c7faac2379e35f6404eced5f484210ba +trackingID 6cc3a6e78a753f29ccabaa0f79b7041b +gameServer 127.0.0.1 +cdn C:\Program Files (x86)\BSGO/client/live/ +language en +session b1b23d2fa2769bd59d4c1b67554599b88381afd653b156aa54cb689969ab4fb7 +version 3b27980a3b7dd77e597872106ca98000 
 
