@@ -17,7 +17,7 @@ jobs:
     - name: Build with dotnet
       run: dotnet build "./BSGO Server" --configuration Release
     - name: Zip Build
-      run: zip -r release.zip "./BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/"
+      run: zip -r -D release.zip "./BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/"
     - name: Release
       uses: fnkr/github-action-ghr@v1.2
       env:
