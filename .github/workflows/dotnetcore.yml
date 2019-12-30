@@ -28,14 +28,14 @@ jobs:
           Changes in this Release
           - This is a test
         files: |
-          /BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/BSGO Server.deps.json
-          /BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/BSGO Server.dll
-          /BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/BSGO Server.exe
-          /BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/BSGO Server.pdb
-          /BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/BSGO Server.runtimeconfig.dev.json
-          /BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/BSGO Server.runtimeconfig.json
-          /BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/DnsClient.dll
-          /BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/MongoDB.Bson.dll
-          /BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/MongoDB.Driver.Core.dll
-          /BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/MongoDB.Driver.dll
-          /BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/SharpCompress.dll
+          ./BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/BSGO Server.deps.json
+          ./BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/BSGO Server.dll
+          ./BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/BSGO Server.exe
+          ./BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/BSGO Server.pdb
+          ./BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/BSGO Server.runtimeconfig.dev.json
+          ./BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/BSGO Server.runtimeconfig.json
+          ./BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/DnsClient.dll
+          ./BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/MongoDB.Bson.dll
+          ./BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/MongoDB.Driver.Core.dll
+          ./BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/MongoDB.Driver.dll
+          ./BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/SharpCompress.dll
