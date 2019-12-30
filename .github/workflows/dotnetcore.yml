@@ -27,5 +27,15 @@ jobs:
         body: |
           Changes in this Release
           - This is a test
-        draft: false
-        prerelease: false
+        files: |
+          BSGO Server.deps.json
+          BSGO Server.dll
+          BSGO Server.exe
+          BSGO Server.pdb
+          BSGO Server.runtimeconfig.dev.json
+          BSGO Server.runtimeconfig.json
+          DnsClient.dll
+          MongoDB.Bson.dll
+          MongoDB.Driver.Core.dll
+          MongoDB.Driver.dll
+          SharpCompress.dll
