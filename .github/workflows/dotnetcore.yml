@@ -1,0 +1,26 @@
+name: .NET Core
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.0.101
+    - name: Build with dotnet
+      run: dotnet build "./BSGO Server" --configuration Release
+    - name: Zip Build
+      run: cd "./BSGO Server/BSGO Server/bin/Release/netcoreapp3.0/"; zip -r -D release.zip .
+    - name: Release
+      uses: fnkr/github-action-ghr@v1.2
+      env:
+        GHR_PATH: /home/runner/work/BSGO-Private-Server/BSGO-Private-Server/release.zip
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        
