@@ -55,7 +55,10 @@ Wanna get almost daily updates and talk about the game with some people? Join me
 
 #### Then you should be able to do the following without repeating the previous steps:
 - Open a cmd and run the Mongo Daemon:
+##### x64 // 64 bits
 > mongod
+##### x86 // 32 bits (--args are only required for the first time)
+> mongod --storageEngine=mmapv1 --dbpath C:\data\db
 
 ### Since the implementation of Github Actions, you can either choose compile the server or just download a release from the Releases page
 
